@@ -41,18 +41,23 @@
     </div>
   </header>
 
-  <!-- Journey HUD / Section Scrubber -->
-  <aside class="journey-hud" aria-label="Journey Progress">
+  <!-- Journey HUD / 10-Shot Camera Scrubber -->
+  <aside class="journey-hud" aria-label="Camera Journey Map">
     <div class="hud-track">
       <div id="hud-indicator" class="hud-indicator"></div>
     </div>
     <div class="hud-content-col">
       <ul class="hud-stages">
-        <li data-target="0.05" class="hud-node active"><span class="node-num">01</span><span class="node-name">THE STAGE</span></li>
-        <li data-target="0.25" class="hud-node"><span class="node-num">02</span><span class="node-name">STORIES BEGIN</span></li>
-        <li data-target="0.50" class="hud-node"><span class="node-num">03</span><span class="node-name">THE JOURNEY</span></li>
-        <li data-target="0.75" class="hud-node"><span class="node-num">04</span><span class="node-name">THE CLIMAX</span></li>
-        <li data-target="0.95" class="hud-node"><span class="node-num">05</span><span class="node-name">BANDS RISE</span></li>
+        <li data-target="0.00" class="hud-node active"><span class="node-num">01</span><span class="node-name">CROWD</span></li>
+        <li data-target="0.11" class="hud-node"><span class="node-num">02</span><span class="node-name">VOCALIST</span></li>
+        <li data-target="0.22" class="hud-node"><span class="node-num">03</span><span class="node-name">GUITARIST</span></li>
+        <li data-target="0.33" class="hud-node"><span class="node-num">04</span><span class="node-name">DRUMMER</span></li>
+        <li data-target="0.44" class="hud-node"><span class="node-num">05</span><span class="node-name">BASSIST</span></li>
+        <li data-target="0.56" class="hud-node"><span class="node-num">06</span><span class="node-name">KEYBOARDIST</span></li>
+        <li data-target="0.67" class="hud-node"><span class="node-num">07</span><span class="node-name">FULL BAND</span></li>
+        <li data-target="0.78" class="hud-node"><span class="node-num">08</span><span class="node-name">STAGE REVEAL</span></li>
+        <li data-target="0.89" class="hud-node"><span class="node-num">09</span><span class="node-name">BANNER</span></li>
+        <li data-target="1.00" class="hud-node"><span class="node-num">10</span><span class="node-name">RITHMOS LOCK</span></li>
       </ul>
       <div class="hud-coords">
         <span class="coord-label">CAM Z:</span>
@@ -61,11 +66,11 @@
     </div>
   </aside>
 
-  <!-- Dynamic Typography & Overlay UI Container -->
+  <!-- Dynamic Typography & Cinematic Overlay UI Container -->
   <main class="story-overlay" id="story-overlay">
     
-    <!-- Section 1 Typography -->
-    <section class="story-scene scene-1" id="scene-1">
+    <!-- SHOT 01: Crowd & Opening Statement -->
+    <section class="shot-layer shot-01" id="shot-01">
       <div class="typo-container text-center">
         <div class="typo-line word-every" id="s1-word-1">EVERY BAND</div>
         <div class="typo-line word-has" id="s1-word-2">HAS A</div>
@@ -73,73 +78,68 @@
       </div>
       <div class="scroll-hint" id="s1-scroll-hint">
         <span class="mouse-icon"></span>
-        <span class="hint-text">SCROLL TO ENTER</span>
+        <span class="hint-text">SCROLL TO ENTER CONCERT</span>
       </div>
     </section>
 
-    <!-- Section 2 Typography -->
-    <section class="story-scene scene-2" id="scene-2">
-      <div class="rehearsal-card" id="s2-card-1">
-        <span class="scene-sub">PROLOGUE // THE ROOTS</span>
-        <h2 class="raw-title">EVERY BAND HAS A STORY.</h2>
-        <p class="raw-question">BUT WHERE DO THOSE STORIES BEGIN?</p>
-      </div>
-      
-      <div class="rehearsal-card s2-quote" id="s2-card-2">
-        <div class="bold-highlight">GREAT BANDS DON'T START ON BIG STAGES.</div>
-        <div class="accent-stamp">THEY START HERE.</div>
-      </div>
-    </section>
+    <!-- SHOTS 02-06: Performer Focus Badges (Floating non-intrusively in corners) -->
+    <div class="performer-hud-tag" id="tag-vocalist">
+      <span class="tag-index">SHOT 02 // VOCALIST</span>
+      <h3 class="tag-title">THE VOICE</h3>
+      <p class="tag-sub">Raw hunger at the center mic</p>
+    </div>
 
-    <!-- Section 3 Typography -->
-    <section class="story-scene scene-3" id="scene-3">
-      <div class="evolution-stream" id="s3-stream">
-        <div class="evolution-milestones">
-          <span class="milestone m1">REHEARSAL</span>
-          <span class="arrow">→</span>
-          <span class="milestone m2">SMALL ROOM</span>
-          <span class="arrow">→</span>
-          <span class="milestone m3">CLUB</span>
-          <span class="arrow">→</span>
-          <span class="milestone m4">LOCAL STAGE</span>
-          <span class="arrow">→</span>
-          <span class="milestone m5">BIGGER STAGE</span>
-        </div>
+    <div class="performer-hud-tag" id="tag-guitarist">
+      <span class="tag-index">SHOT 03 // GUITARIST</span>
+      <h3 class="tag-title">THE RIFF</h3>
+      <p class="tag-sub">Overdriven energy & lead harmonics</p>
+    </div>
 
-        <div class="kinetic-verbs" id="s3-verbs">
-          <span class="k-verb v-play">PLAY.</span>
-          <span class="k-verb v-learn">LEARN.</span>
-          <span class="k-verb v-perform">PERFORM.</span>
-          <span class="k-verb v-grow">GROW.</span>
-        </div>
+    <div class="performer-hud-tag" id="tag-drummer">
+      <span class="tag-index">SHOT 04 // DRUMMER</span>
+      <h3 class="tag-title">THE PULSE</h3>
+      <p class="tag-sub">Acoustic thunder from the back riser</p>
+    </div>
 
-        <div class="evolution-statement" id="s3-statement">
-          <h2>EVERY STAGE CHANGES THEM.</h2>
-        </div>
+    <div class="performer-hud-tag" id="tag-bassist">
+      <span class="tag-index">SHOT 05 // BASSIST</span>
+      <h3 class="tag-title">THE GROOVE</h3>
+      <p class="tag-sub">Low-end backbone of the sound</p>
+    </div>
+
+    <div class="performer-hud-tag" id="tag-keyboardist">
+      <span class="tag-index">SHOT 06 // KEYBOARDIST</span>
+      <h3 class="tag-title">THE HARMONY</h3>
+      <p class="tag-sub">Atmospheric layers and synth textures</p>
+    </div>
+
+    <!-- SHOT 07: Full Band Pull Back -->
+    <section class="shot-layer shot-07" id="shot-07">
+      <div class="pullback-statement">
+        <span class="pullback-index">SHOT 07 // FULL BAND REVEAL</span>
+        <h2 class="pullback-title">EVERY STORY NEEDS A STAGE.</h2>
+        <p class="pullback-sub">Five distinct voices. One unified live force.</p>
       </div>
     </section>
 
-    <!-- Section 4 Typography -->
-    <section class="story-scene scene-4" id="scene-4">
-      <div class="climax-typo-stage" id="s4-stage">
-        <div class="s4-word w-every" id="s4-w1">EVERY</div>
-        <div class="s4-word w-story" id="s4-w2">STORY</div>
-        <div class="s4-word w-needs" id="s4-w3">NEEDS</div>
-        <div class="s4-word w-a" id="s4-w4">A</div>
-        <div class="s4-word w-stage" id="s4-w5">STAGE.</div>
+    <!-- SHOT 08: Stage Arena Reveal -->
+    <section class="shot-layer shot-08" id="shot-08">
+      <div class="arena-statement">
+        <span class="arena-index">SHOT 08 // STAGE REVEAL</span>
+        <h2 class="arena-title">BORN IN HYDERABAD.</h2>
+        <p class="arena-sub">BUILT FOR THE SOUND THAT DEMANDS TO BE HEARD.</p>
       </div>
     </section>
 
-    <!-- Section 5 Payoff & Final Conversion -->
-    <section class="story-scene scene-5" id="scene-5">
+    <!-- SHOT 09-10: RITHMOS Banner Payoff & Conversion -->
+    <section class="shot-layer shot-10" id="shot-10">
       <div class="payoff-content" id="s5-content">
-        <!-- The logo is rendered in WebGL at center stage, this is the typography and CTA overlay -->
         <div class="payoff-spacer"></div>
         
         <div class="tagline-group">
           <h1 class="visually-hidden">RITHMOS — WHERE BANDS RISE</h1>
           <p class="manifesto-lead">A STAGE FOR THE NEXT GREAT LIVE BAND.</p>
-          <p class="manifesto-sub">Born in the underground jam-pads of Hyderabad. Built for the sound that demands to be heard.</p>
+          <p class="manifesto-sub">Born in the underground jam-pads of Hyderabad. Live rock energy, real bands, real music.</p>
         </div>
 
         <div class="cta-actions">
@@ -150,7 +150,7 @@
           </button>
           
           <button id="main-explore-btn" class="secondary-btn">
-            <span class="btn-text">EXPLORE RITHMOS</span>
+            <span class="btn-text">EXPLORE ROADMAP</span>
             <span class="btn-icon">→</span>
           </button>
         </div>
@@ -168,7 +168,7 @@
           <div class="stat-divider"></div>
           <div class="stat-item">
             <span class="stat-value">HYDERABAD</span>
-            <span class="stat-label">Host City Venue</span>
+            <span class="stat-label">Live Concert Arena</span>
           </div>
         </div>
       </div>

@@ -44,7 +44,8 @@ export class Waveform {
       opacity: 0,
       linewidth: 3,
       blending: THREE.AdditiveBlending,
-      depthTest: false
+      depthTest: true,
+      depthWrite: false
     });
 
     this.line = new THREE.Line(this.geometry, this.material);
@@ -57,7 +58,8 @@ export class Waveform {
       opacity: 0,
       linewidth: 6,
       blending: THREE.AdditiveBlending,
-      depthTest: false
+      depthTest: true,
+      depthWrite: false
     });
     this.glowLine = new THREE.Line(this.geometry, glowMat);
     this.glowLine.scale.set(1.02, 1.2, 1.02);
@@ -115,8 +117,8 @@ export class Waveform {
       targetOpacity = 0.92;
       // Frequency forms discrete harmonic peaks matching logo crest
       amp = THREE.MathUtils.lerp(1.5, 0.35, Math.min(p * 1.5, 1.0));
-      targetY = THREE.MathUtils.lerp(1.0, 4.7, Math.min(p, 1.0)); // aligns above RITHMOS text!
-      targetZ = -1.95;
+      targetY = THREE.MathUtils.lerp(1.0, 4.2, Math.min(p, 1.0)); // crowns the RITHMOS banner
+      targetZ = THREE.MathUtils.lerp(-5.0, -18.0, p);
     }
 
     this.material.opacity = targetOpacity;

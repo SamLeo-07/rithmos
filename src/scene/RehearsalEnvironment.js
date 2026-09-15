@@ -191,70 +191,7 @@ export class RehearsalEnvironment {
   }
 
   update(time, scrollProgress) {
-    // Rehearsal space is active primarily from Section 2 (0.20) to Section 4 opening (0.68)
-    if (scrollProgress < 0.18 || scrollProgress > 0.72) {
-      this.group.visible = false;
-      return;
-    }
-
-    this.group.visible = true;
-
-    // SECTION 2: 0.20 -> 0.40 (Rehearsal space emerges, intimate and raw)
-    if (scrollProgress >= 0.18 && scrollProgress < 0.40) {
-      const enterP = Math.min((scrollProgress - 0.18) / 0.10, 1.0);
-      this.wallMat.opacity = enterP * 0.7;
-      this.cableMat.opacity = enterP * 0.75;
-      this.lightBulb.material.opacity = enterP * 0.95;
-      this.coneMat.opacity = enterP * 0.35 + Math.sin(time * 3.0) * 0.05;
-
-      // Base rehearsal wall spacing
-      this.leftWall.position.x = -7.5;
-      this.rightWall.position.x = 7.5;
-      this.leftWall.scale.set(1, 1, 1);
-      this.rightWall.scale.set(1, 1, 1);
-
-      this.doorMat.opacity = 0;
-      this.doorOutlineMat.opacity = 0;
-    }
-    // SECTION 3: 0.40 -> 0.68 (The Journey: walls stretch, cables become lights, doorway opens)
-    else if (scrollProgress >= 0.40 && scrollProgress <= 0.72) {
-      const p = (scrollProgress - 0.40) / 0.28;
-
-      // Walls stretch outward into club space
-      const stretchX = 7.5 + p * 8.0;
-      this.leftWall.position.x = -stretchX;
-      this.rightWall.position.x = stretchX;
-      this.leftWall.scale.set(1 + p * 0.8, 1 + p * 0.4, 1 + p * 0.5);
-      this.rightWall.scale.set(1 + p * 0.8, 1 + p * 0.4, 1 + p * 0.5);
-
-      // Hanging light swings and expands
-      this.lightBulb.position.y = 7.0 + p * 1.5;
-      this.lightBeamGroup.position.copy(this.lightBulb.position);
-      this.lightBeamGroup.scale.set(1 + p * 1.5, 1 + p * 0.8, 1 + p * 1.5);
-      this.coneMat.opacity = 0.35 + p * 0.3;
-
-      // Cables elevate into stage truss positions
-      this.cableMat.opacity = Math.max(0, 0.75 - p * 0.5);
-
-      // Doorway portal becomes intense as camera nears end of Section 3
-      if (p > 0.45) {
-        const doorP = (p - 0.45) / 0.55;
-        this.doorMat.opacity = doorP * 0.85;
-        this.doorOutlineMat.opacity = doorP * 0.95;
-        this.doorPortal.scale.set(1 + doorP * 2.5, 1 + doorP * 2.0, 1);
-        this.doorOutline.scale.copy(this.doorPortal.scale);
-      } else {
-        this.doorMat.opacity = 0;
-        this.doorOutlineMat.opacity = 0;
-      }
-
-      // Walls fade out into the grand arena breakthrough
-      if (p > 0.85) {
-        const fadeOut = 1.0 - (p - 0.85) / 0.15;
-        this.wallMat.opacity = fadeOut * 0.7;
-      } else {
-        this.wallMat.opacity = 0.7;
-      }
-    }
+    // Continuous live concert stage remains active; rehearsal room hidden
+    this.group.visible = false;
   }
 }

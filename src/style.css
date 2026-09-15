@@ -47,7 +47,7 @@ html, body {
 /* Tall Scroll Track to Drive Smooth Camera Progress */
 .scroll-track {
   width: 100%;
-  height: 700vh;
+  height: 850vh;
   pointer-events: none;
   position: relative;
   visibility: hidden;
@@ -212,7 +212,7 @@ body::after {
 
 .hud-track {
   width: 2px;
-  height: 180px;
+  height: 260px;
   background: rgba(255, 255, 255, 0.1);
   position: relative;
   border-radius: 1px;
@@ -223,7 +223,7 @@ body::after {
   top: 0;
   left: -2px;
   width: 6px;
-  height: 24px;
+  height: 20px;
   border-radius: 3px;
   background: var(--color-red-primary);
   box-shadow: 0 0 12px var(--color-red-primary);
@@ -233,23 +233,23 @@ body::after {
 .hud-content-col {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
 }
 
 .hud-stages {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 9px;
 }
 
 .hud-node {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 0.7rem;
+  gap: 7px;
+  font-size: 0.64rem;
   font-weight: 600;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.14em;
   color: rgba(255, 255, 255, 0.35);
   cursor: pointer;
   transition: all 0.3s ease;
@@ -297,7 +297,7 @@ body::after {
   align-items: center;
 }
 
-.story-scene {
+.story-scene, .shot-layer {
   position: absolute;
   inset: 0;
   display: flex;
@@ -311,13 +311,13 @@ body::after {
   pointer-events: none;
 }
 
-.story-scene.active {
+.story-scene.active, .shot-layer.active {
   opacity: 1;
   visibility: visible;
 }
 
-/* SECTION 1 TYPOGRAPHY */
-.scene-1 .typo-container {
+/* SHOT 01: CROWD & HERO OPENING */
+.shot-01 .typo-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -326,7 +326,7 @@ body::after {
   user-select: none;
 }
 
-.scene-1 .typo-line {
+.shot-01 .typo-line {
   font-family: var(--font-display);
   font-size: clamp(3.5rem, 9vw, 9.5rem);
   line-height: 0.88;
@@ -339,7 +339,7 @@ body::after {
   transition: transform 0.6s var(--ease-cinematic), opacity 0.6s ease;
 }
 
-.scene-1 .word-story {
+.shot-01 .word-story {
   color: #ff1a35;
   text-shadow: 0 0 40px var(--color-red-primary), 0 0 80px rgba(255, 17, 45, 0.7);
   transition: transform 0.3s ease, font-size 0.3s ease;
@@ -394,174 +394,127 @@ body::after {
   color: rgba(255, 255, 255, 0.7);
 }
 
-/* SECTION 2 REHEARSAL SPACE */
-.scene-2 {
-  align-items: flex-start;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.rehearsal-card {
-  background: rgba(10, 8, 12, 0.65);
-  backdrop-filter: blur(12px);
+/* SHOTS 02-06: PERFORMER HUD TAGS (Floating corner badges) */
+.performer-hud-tag {
+  position: fixed;
+  bottom: 48px;
+  right: 56px;
+  background: rgba(10, 8, 12, 0.78);
+  backdrop-filter: blur(14px);
   border-left: 3px solid var(--color-red-primary);
-  padding: 24px 32px;
-  max-width: 600px;
-  margin-bottom: 24px;
+  padding: 16px 24px;
+  border-radius: 4px;
   opacity: 0;
-  transform: translateX(-40px);
-  transition: all 0.6s var(--ease-cinematic);
+  transform: translateY(20px);
+  transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  z-index: 25;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 17, 45, 0.2);
 }
 
-.scene-sub {
-  display: inline-block;
-  font-size: 0.7rem;
-  letter-spacing: 0.2em;
-  font-weight: 700;
-  color: var(--color-red-primary);
-  margin-bottom: 8px;
+.performer-hud-tag.active {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-.raw-title {
+.tag-index {
+  display: block;
   font-family: var(--font-heading);
-  font-size: clamp(1.6rem, 3.2vw, 2.8rem);
+  font-size: 0.65rem;
   font-weight: 700;
-  line-height: 1.15;
+  letter-spacing: 0.2em;
+  color: var(--color-red-primary);
+  margin-bottom: 4px;
+}
+
+.tag-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3.2vw, 2.6rem);
   letter-spacing: 0.05em;
   color: #fff;
-  margin-bottom: 8px;
+  line-height: 1;
+  margin-bottom: 4px;
 }
 
-.raw-question {
-  font-size: clamp(1rem, 2vw, 1.4rem);
-  font-weight: 500;
+.tag-sub {
+  font-size: 0.8rem;
   color: var(--color-text-muted);
   letter-spacing: 0.05em;
 }
 
-.s2-quote {
-  margin-left: auto;
-  border-left: none;
-  border-right: 3px solid #fff;
-  text-align: right;
-  transform: translateX(40px);
+/* SHOT 07: FULL BAND PULLBACK */
+.shot-07 {
+  justify-content: center;
 }
 
-.bold-highlight {
-  font-family: var(--font-heading);
-  font-size: clamp(1.2rem, 2.5vw, 2.2rem);
-  font-weight: 700;
-  color: #fff;
-  line-height: 1.2;
-}
-
-.accent-stamp {
-  font-family: var(--font-display);
-  font-size: clamp(2rem, 4.5vw, 4rem);
-  color: var(--color-red-primary);
-  letter-spacing: 0.08em;
-  text-shadow: 0 0 24px var(--color-red-glow);
-  margin-top: 6px;
-}
-
-/* SECTION 3 THE JOURNEY */
-.scene-3 {
+.pullback-statement {
   text-align: center;
+  max-width: 960px;
 }
 
-.evolution-stream {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 36px;
-  width: 100%;
-}
-
-.evolution-milestones {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
+.pullback-index {
+  display: block;
   font-family: var(--font-heading);
-  font-size: clamp(0.75rem, 1.5vw, 1.1rem);
-  letter-spacing: 0.15em;
-  color: rgba(255, 255, 255, 0.4);
-}
-
-.milestone.active {
-  color: #fff;
-  text-shadow: 0 0 12px var(--color-red-primary);
-}
-
-.arrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
   color: var(--color-red-primary);
+  margin-bottom: 12px;
 }
 
-.kinetic-verbs {
-  display: flex;
-  justify-content: center;
-  gap: clamp(14px, 3.5vw, 40px);
-  max-width: 90vw;
-  margin: 0 auto;
-}
-
-.k-verb {
+.pullback-title {
   font-family: var(--font-display);
-  font-size: clamp(2rem, 5.2vw, 5.5rem);
-  color: rgba(255, 255, 255, 0.15);
-  letter-spacing: 0.05em;
-  transition: all 0.35s ease;
-}
-
-.k-verb.active {
+  font-size: clamp(2.5rem, 6.5vw, 5.5rem);
+  line-height: 0.95;
+  letter-spacing: 0.04em;
   color: #fff;
-  text-shadow: 0 0 35px var(--color-red-primary), 0 0 70px rgba(255, 17, 45, 0.8);
-  transform: scale(1.12);
+  text-shadow: 0 0 35px rgba(0, 0, 0, 0.95), 0 0 70px rgba(255, 17, 45, 0.5);
+  margin-bottom: 12px;
 }
 
-.evolution-statement h2 {
-  font-family: var(--font-heading);
-  font-size: clamp(1.2rem, 2.6vw, 2.4rem);
+.pullback-sub {
+  font-size: clamp(0.9rem, 1.6vw, 1.25rem);
   letter-spacing: 0.15em;
-  color: #fff;
-  text-shadow: 0 0 20px rgba(0,0,0,0.8);
-}
-
-/* SECTION 4 CLIMAX INTERACTIVE WORDS */
-.scene-4 {
-  perspective: 1000px;
-}
-
-.climax-typo-stage {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.s4-word {
-  position: absolute;
-  font-family: var(--font-display);
-  font-size: clamp(3rem, 10vw, 11rem);
-  line-height: 0.9;
-  letter-spacing: 0.05em;
-  color: #fff;
+  color: rgba(255, 255, 255, 0.75);
   text-transform: uppercase;
-  text-shadow: 0 0 40px rgba(0, 0, 0, 0.95);
-  transform-style: preserve-3d;
-  will-change: transform, opacity;
 }
 
-.w-stage {
+/* SHOT 08: STAGE ARENA REVEAL */
+.shot-08 {
+  justify-content: center;
+}
+
+.arena-statement {
+  text-align: center;
+  max-width: 860px;
+}
+
+.arena-index {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
   color: var(--color-red-primary);
-  text-shadow: 0 0 50px var(--color-red-primary), 0 0 100px rgba(255, 17, 45, 0.8);
+  margin-bottom: 12px;
 }
 
-/* SECTION 5 PAYOFF */
-.scene-5 {
+.arena-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 5.8vw, 5rem);
+  letter-spacing: 0.04em;
+  color: #fff;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.arena-sub {
+  font-size: clamp(0.85rem, 1.4vw, 1.15rem);
+  letter-spacing: 0.2em;
+  color: var(--color-red-primary);
+  font-weight: 600;
+}
+
+/* SHOT 10: RITHMOS FINAL LOCK & PAYOFF */
+.shot-10 {
   justify-content: flex-end;
   padding-bottom: 70px;
   pointer-events: none;
@@ -579,7 +532,7 @@ body::after {
 }
 
 .payoff-spacer {
-  height: clamp(260px, 40vh, 400px);
+  height: clamp(300px, 44vh, 430px);
 }
 
 .tagline-group {
@@ -587,6 +540,12 @@ body::after {
   flex-direction: column;
   align-items: center;
   gap: 8px;
+  background: rgba(10, 8, 12, 0.7);
+  padding: 12px 28px;
+  border-radius: 24px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
 }
 
 .manifesto-lead {
@@ -939,5 +898,44 @@ body::after {
   }
   .payoff-spacer {
     height: 160px;
+  }
+}
+
+@media (max-width: 600px) {
+  .top-nav {
+    padding: 12px 16px;
+  }
+  .brand-badge {
+    display: none;
+  }
+  .nav-actions {
+    gap: 8px;
+  }
+  .audio-toggle-btn {
+    padding: 6px 10px;
+    font-size: 0.65rem;
+  }
+  .audio-label {
+    display: none;
+  }
+  .nav-cta-btn {
+    padding: 7px 12px;
+    font-size: 0.68rem;
+  }
+  .performer-hud-tag {
+    bottom: 24px;
+    right: 16px;
+    left: 16px;
+  }
+  .payoff-spacer {
+    height: 120px;
+  }
+  .cta-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  .primary-btn, .secondary-btn {
+    width: 100%;
+    justify-content: center;
   }
 }

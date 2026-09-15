@@ -49,7 +49,8 @@ class RithmosApp {
       this.layerCompositor,
       this.rehearsalEnv,
       this.waveform,
-      this.particles
+      this.particles,
+      this.lenis
     );
   }
 
