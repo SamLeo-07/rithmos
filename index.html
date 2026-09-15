@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>RITHMOS — WHERE BANDS RISE | Live Band Competition Hyderabad</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpolygon points='16,2 30,10 26,28 6,28 2,10' fill='%23ff112d'/%3E%3Cpath d='M8 16 L12 11 L16 21 L20 13 L24 16' stroke='%23ffffff' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;600;700&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/style.css">
+</head>
+<body>
+  <!-- Fixed 3D WebGL Canvas Layer -->
+  <canvas id="webgl-canvas"></canvas>
+
+  <!-- Virtual Scroll Height Track for Continuous Camera Control -->
+  <div id="scroll-track" class="scroll-track"></div>
+
+  <!-- Persistent Top Header -->
+  <header class="top-nav">
+    <div class="nav-brand">
+      <span class="brand-text">RITHMOS</span>
+      <span class="brand-badge">HYD // 2026</span>
+    </div>
+    
+    <div class="nav-actions">
+      <button id="audio-toggle" class="audio-toggle-btn" aria-label="Toggle concert sound">
+        <span class="audio-bars">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </span>
+        <span class="audio-label">SOUND FX</span>
+      </button>
+      
+      <button id="nav-register-btn" class="nav-cta-btn">
+        <span>REGISTER BAND</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Journey HUD / Section Scrubber -->
+  <aside class="journey-hud" aria-label="Journey Progress">
+    <div class="hud-track">
+      <div id="hud-indicator" class="hud-indicator"></div>
+    </div>
+    <div class="hud-content-col">
+      <ul class="hud-stages">
+        <li data-target="0.05" class="hud-node active"><span class="node-num">01</span><span class="node-name">THE STAGE</span></li>
+        <li data-target="0.25" class="hud-node"><span class="node-num">02</span><span class="node-name">STORIES BEGIN</span></li>
+        <li data-target="0.50" class="hud-node"><span class="node-num">03</span><span class="node-name">THE JOURNEY</span></li>
+        <li data-target="0.75" class="hud-node"><span class="node-num">04</span><span class="node-name">THE CLIMAX</span></li>
+        <li data-target="0.95" class="hud-node"><span class="node-num">05</span><span class="node-name">BANDS RISE</span></li>
+      </ul>
+      <div class="hud-coords">
+        <span class="coord-label">CAM Z:</span>
+        <span id="hud-cam-z" class="coord-val">+16.0</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Dynamic Typography & Overlay UI Container -->
+  <main class="story-overlay" id="story-overlay">
+    
+    <!-- Section 1 Typography -->
+    <section class="story-scene scene-1" id="scene-1">
+      <div class="typo-container text-center">
+        <div class="typo-line word-every" id="s1-word-1">EVERY BAND</div>
+        <div class="typo-line word-has" id="s1-word-2">HAS A</div>
+        <div class="typo-line word-story" id="s1-word-3">STORY.</div>
+      </div>
+      <div class="scroll-hint" id="s1-scroll-hint">
+        <span class="mouse-icon"></span>
+        <span class="hint-text">SCROLL TO ENTER</span>
+      </div>
+    </section>
+
+    <!-- Section 2 Typography -->
+    <section class="story-scene scene-2" id="scene-2">
+      <div class="rehearsal-card" id="s2-card-1">
+        <span class="scene-sub">PROLOGUE // THE ROOTS</span>
+        <h2 class="raw-title">EVERY BAND HAS A STORY.</h2>
+        <p class="raw-question">BUT WHERE DO THOSE STORIES BEGIN?</p>
+      </div>
+      
+      <div class="rehearsal-card s2-quote" id="s2-card-2">
+        <div class="bold-highlight">GREAT BANDS DON'T START ON BIG STAGES.</div>
+        <div class="accent-stamp">THEY START HERE.</div>
+      </div>
+    </section>
+
+    <!-- Section 3 Typography -->
+    <section class="story-scene scene-3" id="scene-3">
+      <div class="evolution-stream" id="s3-stream">
+        <div class="evolution-milestones">
+          <span class="milestone m1">REHEARSAL</span>
+          <span class="arrow">→</span>
+          <span class="milestone m2">SMALL ROOM</span>
+          <span class="arrow">→</span>
+          <span class="milestone m3">CLUB</span>
+          <span class="arrow">→</span>
+          <span class="milestone m4">LOCAL STAGE</span>
+          <span class="arrow">→</span>
+          <span class="milestone m5">BIGGER STAGE</span>
+        </div>
+
+        <div class="kinetic-verbs" id="s3-verbs">
+          <span class="k-verb v-play">PLAY.</span>
+          <span class="k-verb v-learn">LEARN.</span>
+          <span class="k-verb v-perform">PERFORM.</span>
+          <span class="k-verb v-grow">GROW.</span>
+        </div>
+
+        <div class="evolution-statement" id="s3-statement">
+          <h2>EVERY STAGE CHANGES THEM.</h2>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4 Typography -->
+    <section class="story-scene scene-4" id="scene-4">
+      <div class="climax-typo-stage" id="s4-stage">
+        <div class="s4-word w-every" id="s4-w1">EVERY</div>
+        <div class="s4-word w-story" id="s4-w2">STORY</div>
+        <div class="s4-word w-needs" id="s4-w3">NEEDS</div>
+        <div class="s4-word w-a" id="s4-w4">A</div>
+        <div class="s4-word w-stage" id="s4-w5">STAGE.</div>
+      </div>
+    </section>
+
+    <!-- Section 5 Payoff & Final Conversion -->
+    <section class="story-scene scene-5" id="scene-5">
+      <div class="payoff-content" id="s5-content">
+        <!-- The logo is rendered in WebGL at center stage, this is the typography and CTA overlay -->
+        <div class="payoff-spacer"></div>
+        
+        <div class="tagline-group">
+          <h1 class="visually-hidden">RITHMOS — WHERE BANDS RISE</h1>
+          <p class="manifesto-lead">A STAGE FOR THE NEXT GREAT LIVE BAND.</p>
+          <p class="manifesto-sub">Born in the underground jam-pads of Hyderabad. Built for the sound that demands to be heard.</p>
+        </div>
+
+        <div class="cta-actions">
+          <button id="main-register-btn" class="primary-btn pulse-glow">
+            <span class="btn-glow"></span>
+            <span class="btn-text">REGISTER YOUR BAND</span>
+            <span class="btn-icon">⚡</span>
+          </button>
+          
+          <button id="main-explore-btn" class="secondary-btn">
+            <span class="btn-text">EXPLORE RITHMOS</span>
+            <span class="btn-icon">→</span>
+          </button>
+        </div>
+
+        <div class="quick-stats-strip">
+          <div class="stat-item">
+            <span class="stat-value">50+</span>
+            <span class="stat-label">Bands Competing</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-value">₹5,00,000</span>
+            <span class="stat-label">Prize Pool & Gear</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-value">HYDERABAD</span>
+            <span class="stat-label">Host City Venue</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Interactive Registration Modal -->
+  <div id="register-modal" class="modal-backdrop" aria-hidden="true">
+    <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <button class="modal-close-btn" id="modal-close" aria-label="Close modal">&times;</button>
+      
+      <div class="modal-header">
+        <span class="modal-tag">HYDERABAD 2026 // AUDITIONS OPEN</span>
+        <h3 id="modal-title">REGISTER YOUR BAND</h3>
+        <p>Take the leap from your jam-pad to the grand live stage.</p>
+      </div>
+
+      <form id="registration-form" class="reg-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="band-name">Band Name *</label>
+            <input type="text" id="band-name" name="bandName" required placeholder="e.g. Hyderabad Blues Syndicate">
+          </div>
+          <div class="form-group">
+            <label for="band-genre">Genre *</label>
+            <select id="band-genre" name="genre" required>
+              <option value="" disabled selected>Select Primary Genre</option>
+              <option value="Rock / Hard Rock">Rock / Hard Rock</option>
+              <option value="Progressive / Metal">Progressive / Metal</option>
+              <option value="Indie / Alternative">Indie / Alternative</option>
+              <option value="Fusion / Carnatic Rock">Fusion / Carnatic Rock</option>
+              <option value="Blues / Funk">Blues / Funk</option>
+              <option value="Other">Other Live Format</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="member-count">Band Members Count *</label>
+            <input type="number" id="member-count" name="memberCount" min="2" max="10" value="4" required>
+          </div>
+          <div class="form-group">
+            <label for="city-region">Region in Hyderabad *</label>
+            <input type="text" id="city-region" name="region" required placeholder="e.g. Banjara Hills / Secunderabad">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="contact-name">Lead Contact / Band Rep *</label>
+            <input type="text" id="contact-name" name="contactName" required placeholder="Full Name">
+          </div>
+          <div class="form-group">
+            <label for="contact-phone">Phone / WhatsApp *</label>
+            <input type="tel" id="contact-phone" name="phone" required placeholder="+91 98765 43210">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="demo-link">Demo Link (YouTube / Spotify / Drive / Instagram)</label>
+          <input type="url" id="demo-link" name="demoLink" placeholder="https://youtube.com/watch?v=...">
+        </div>
+
+        <div class="form-group">
+          <label for="band-bio">Your Band Story in One Line</label>
+          <input type="text" id="band-bio" name="bio" placeholder="How did you come together and what makes you live?">
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="primary-btn submit-btn">
+            <span>SUBMIT APPLICATION</span>
+            <span>⚡</span>
+          </button>
+        </div>
+        
+        <div id="form-success-msg" class="success-alert" style="display:none;">
+          <span>✓ APPLICATION RECEIVED! WELCOME TO RITHMOS. WE WILL REACH OUT FOR AUDITIONS.</span>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Interactive Explore Modal / Drawer -->
+  <div id="explore-modal" class="modal-backdrop" aria-hidden="true">
+    <div class="modal-box explore-box" role="dialog" aria-modal="true" aria-labelledby="explore-title">
+      <button class="modal-close-btn" id="explore-close" aria-label="Close">&times;</button>
+      
+      <div class="modal-header">
+        <span class="modal-tag">COMPETITION BLUEPRINT</span>
+        <h3 id="explore-title">THE RITHMOS ROADMAP</h3>
+        <p>From underground Hyderabad jamming to the festival spotlight.</p>
+      </div>
+
+      <div class="roadmap-grid">
+        <div class="roadmap-card">
+          <span class="card-step">STAGE 01</span>
+          <h4>DEMO AUDITIONS</h4>
+          <p>Submit your live jam tape or rehearsal recording. Online curation by seasoned Hyderabad rock musicians.</p>
+        </div>
+        
+        <div class="roadmap-card">
+          <span class="card-step">STAGE 02</span>
+          <h4>CLUB SHOWDOWNS</h4>
+          <p>Top 24 bands compete live across top Hyderabad clubs and venues (Gachibowli, Jubilee Hills).</p>
+        </div>
+
+        <div class="roadmap-card">
+          <span class="card-step">STAGE 03</span>
+          <h4>THE SEMIFINALS</h4>
+          <p>Live jury scoring on original composition, stage presence, musicianship, and crowd resonance.</p>
+        </div>
+
+        <div class="roadmap-card highlight">
+          <span class="card-step">STAGE 04</span>
+          <h4>GRAND STAGE CLIMAX</h4>
+          <p>Top 6 bands perform on the arena festival stage with multi-camera live broadcast, ₹5 Lakh prize pool, and studio recording deal.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
