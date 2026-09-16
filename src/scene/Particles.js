@@ -3,7 +3,7 @@ import * as THREE from 'three';
 export class ParticleSystem {
   constructor(scene) {
     this.scene = scene;
-    this.count = 900;
+    this.count = 320; // Tasteful, non-overwhelming ember count
     this.initParticles();
   }
 
@@ -57,11 +57,11 @@ export class ParticleSystem {
     const sparkTexture = new THREE.CanvasTexture(canvas);
 
     this.material = new THREE.PointsMaterial({
-      size: 1.4,
+      size: 1.2,
       map: sparkTexture,
       vertexColors: true,
       transparent: true,
-      opacity: 0.8,
+      opacity: 0.65,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
       depthTest: true
@@ -72,12 +72,17 @@ export class ParticleSystem {
   }
 
   update(time, scrollProgress, scrollVelocity = 0) {
-    const pos = this.geometry.attributes.position.array;
-    const speedMultiplier = 1.0 + Math.abs(scrollVelocity) * 15.0;
+    // Fade out particles completely at the end so they do not clutter the banner & payoff
+    if (scrollProgress >= 0.76) {
+      const fadeP = Math.min(1.0, (scrollProgress - 0.76) / 0.08);
+      this.material.opacity = Math.max(0, 0.65 * (1.0 - fadeP));
+    } else {
+      this.material.opacity = 0.65;
+    }
+    this.points.visible = this.material.opacity > 0.005;
 
-    // In Section 4 & 5, particles swarm inward or swirl
-    const isVortex = scrollProgress > 0.75;
-    const vortexStrength = (scrollProgress - 0.75) / 0.25;
+    const pos = this.geometry.attributes.position.array;
+    const speedMultiplier = 1.0 + Math.abs(scrollVelocity) * 12.0;
 
     for (let i = 0; i < this.count; i++) {
       let vx = this.velocities[i * 3] * speedMultiplier;
@@ -86,16 +91,6 @@ export class ParticleSystem {
 
       // Add gentle sine turbulence
       vx += Math.sin(time * 2.0 + pos[i * 3 + 1] * 0.5) * 0.015;
-
-      if (isVortex) {
-        // Vortex pull toward center (0, 0, -5)
-        const dx = 0 - pos[i * 3];
-        const dy = 0 - pos[i * 3 + 1];
-        const dist = Math.sqrt(dx * dx + dy * dy) + 0.1;
-        const pull = vortexStrength * 0.08;
-        vx += (dx / dist) * pull - (dy / dist) * pull * 0.8;
-        vy += (dy / dist) * pull + (dx / dist) * pull * 0.8;
-      }
 
       pos[i * 3] += vx;
       pos[i * 3 + 1] += vy;

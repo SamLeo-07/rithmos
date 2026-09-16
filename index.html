@@ -51,8 +51,8 @@
         <li data-target="0.00" class="hud-node active"><span class="node-num">01</span><span class="node-name">CROWD</span></li>
         <li data-target="0.11" class="hud-node"><span class="node-num">02</span><span class="node-name">VOCALIST</span></li>
         <li data-target="0.22" class="hud-node"><span class="node-num">03</span><span class="node-name">GUITARIST</span></li>
-        <li data-target="0.33" class="hud-node"><span class="node-num">04</span><span class="node-name">DRUMMER</span></li>
-        <li data-target="0.44" class="hud-node"><span class="node-num">05</span><span class="node-name">BASSIST</span></li>
+        <li data-target="0.33" class="hud-node"><span class="node-num">04</span><span class="node-name">BASSIST</span></li>
+        <li data-target="0.44" class="hud-node"><span class="node-num">05</span><span class="node-name">DRUMMER</span></li>
         <li data-target="0.56" class="hud-node"><span class="node-num">06</span><span class="node-name">KEYBOARDIST</span></li>
         <li data-target="0.67" class="hud-node"><span class="node-num">07</span><span class="node-name">FULL BAND</span></li>
         <li data-target="0.78" class="hud-node"><span class="node-num">08</span><span class="node-name">STAGE REVEAL</span></li>
@@ -61,7 +61,7 @@
       </ul>
       <div class="hud-coords">
         <span class="coord-label">CAM Z:</span>
-        <span id="hud-cam-z" class="coord-val">+16.0</span>
+        <span id="hud-cam-z" class="coord-val">+25.0</span>
       </div>
     </div>
   </aside>
@@ -82,42 +82,84 @@
       </div>
     </section>
 
-    <!-- SHOTS 02-06: Performer Focus Badges (Floating non-intrusively in corners) -->
-    <div class="performer-hud-tag" id="tag-vocalist">
-      <span class="tag-index">SHOT 02 // VOCALIST</span>
-      <h3 class="tag-title">THE VOICE</h3>
-      <p class="tag-sub">Raw hunger at the center mic</p>
+    <!-- SHOTS 02-06: Storyboard Kinetic Typography (Floating parallel to performer silhouettes) -->
+    <div class="storyboard-performer-typo side-right" id="tag-vocalist">
+      <div class="typo-kicker">
+        <span class="shot-id">02</span>
+        <span class="kicker-slash">//</span>
+        <span class="role-tag">VOCALIST</span>
+      </div>
+      <h2 class="storyboard-headline">
+        <span class="line-white">HAS A</span>
+        <span class="line-accent">STORY.</span>
+      </h2>
+      <p class="storyboard-sub">Raw hunger at the center mic</p>
     </div>
 
-    <div class="performer-hud-tag" id="tag-guitarist">
-      <span class="tag-index">SHOT 03 // GUITARIST</span>
-      <h3 class="tag-title">THE RIFF</h3>
-      <p class="tag-sub">Overdriven energy & lead harmonics</p>
+    <div class="storyboard-performer-typo side-right" id="tag-guitarist">
+      <div class="typo-kicker">
+        <span class="shot-id">03</span>
+        <span class="kicker-slash">//</span>
+        <span class="role-tag">GUITARIST</span>
+      </div>
+      <h2 class="storyboard-headline">
+        <span class="line-white">GUITAR</span>
+        <span class="line-white">DRIVES</span>
+        <span class="line-accent">DREAMS.</span>
+      </h2>
+      <p class="storyboard-sub">Overdriven energy & lead harmonics</p>
     </div>
 
-    <div class="performer-hud-tag" id="tag-drummer">
-      <span class="tag-index">SHOT 04 // DRUMMER</span>
-      <h3 class="tag-title">THE PULSE</h3>
-      <p class="tag-sub">Acoustic thunder from the back riser</p>
+    <div class="storyboard-performer-typo side-right" id="tag-bassist">
+      <div class="typo-kicker">
+        <span class="shot-id">04</span>
+        <span class="kicker-slash">//</span>
+        <span class="role-tag">BASSIST</span>
+      </div>
+      <h2 class="storyboard-headline">
+        <span class="line-white">BASS</span>
+        <span class="line-white">BUILDS</span>
+        <span class="line-accent">DEPTH.</span>
+      </h2>
+      <p class="storyboard-sub">Subterranean frequencies anchoring the stage</p>
     </div>
 
-    <div class="performer-hud-tag" id="tag-bassist">
-      <span class="tag-index">SHOT 05 // BASSIST</span>
-      <h3 class="tag-title">THE GROOVE</h3>
-      <p class="tag-sub">Low-end backbone of the sound</p>
+    <div class="storyboard-performer-typo side-right" id="tag-drummer">
+      <div class="typo-kicker">
+        <span class="shot-id">05</span>
+        <span class="kicker-slash">//</span>
+        <span class="role-tag">DRUMMER</span>
+      </div>
+      <h2 class="storyboard-headline">
+        <span class="line-white">DRUMS</span>
+        <span class="line-white">POWER</span>
+        <span class="line-accent">PEOPLE.</span>
+      </h2>
+      <p class="storyboard-sub">Acoustic thunder from the elevated back riser</p>
     </div>
 
-    <div class="performer-hud-tag" id="tag-keyboardist">
-      <span class="tag-index">SHOT 06 // KEYBOARDIST</span>
-      <h3 class="tag-title">THE HARMONY</h3>
-      <p class="tag-sub">Atmospheric layers and synth textures</p>
+    <div class="storyboard-performer-typo side-left" id="tag-keyboardist">
+      <div class="typo-kicker">
+        <span class="shot-id">06</span>
+        <span class="kicker-slash">//</span>
+        <span class="role-tag">KEYBOARDIST</span>
+      </div>
+      <h2 class="storyboard-headline">
+        <span class="line-white">KEYS</span>
+        <span class="line-white">SHAPE</span>
+        <span class="line-accent">ATMOSPHERE.</span>
+      </h2>
+      <p class="storyboard-sub">Analog textures expanding the sonic scale</p>
     </div>
 
     <!-- SHOT 07: Full Band Pull Back -->
     <section class="shot-layer shot-07" id="shot-07">
       <div class="pullback-statement">
-        <span class="pullback-index">SHOT 07 // FULL BAND REVEAL</span>
-        <h2 class="pullback-title">EVERY STORY NEEDS A STAGE.</h2>
+        <span class="pullback-index">// 07 FULL BAND REVEAL</span>
+        <h2 class="pullback-title">
+          <span class="line-white">TOGETHER</span>
+          <span class="line-accent">THEY CREATE MORE.</span>
+        </h2>
         <p class="pullback-sub">Five distinct voices. One unified live force.</p>
       </div>
     </section>

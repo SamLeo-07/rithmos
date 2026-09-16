@@ -103,26 +103,27 @@ export class Waveform {
       freq = 5.0 + p * 4.0;
       targetY = -1.0 + p * 2.0;
       targetZ = THREE.MathUtils.lerp(1, -3, p);
-    } else if (scrollProgress >= 0.65 && scrollProgress < 0.85) {
-      // Section 4: wraps behind and around kinetic words
-      const p = (scrollProgress - 0.65) / 0.20;
-      targetOpacity = 0.95;
-      amp = 2.0 + Math.sin(time * 10.0) * 0.8;
-      freq = 8.0;
-      targetY = Math.sin(p * Math.PI) * 2.5;
-      targetZ = THREE.MathUtils.lerp(-2, -5, p);
+    } else if (scrollProgress >= 0.65 && scrollProgress < 0.76) {
+      // Wraps behind the full band reveal
+      const p = (scrollProgress - 0.65) / 0.11;
+      targetOpacity = 0.85 * (1.0 - p * 0.3);
+      amp = 1.4 + Math.sin(time * 6.0) * 0.4;
+      freq = 7.0;
+      targetY = -1.2 + Math.sin(p * Math.PI) * 1.5;
+      targetZ = THREE.MathUtils.lerp(-4, -8, p);
     } else {
-      // Section 5: stabilizes into the RITHMOS logo crown
-      const p = (scrollProgress - 0.85) / 0.15;
-      targetOpacity = 0.92;
-      // Frequency forms discrete harmonic peaks matching logo crest
-      amp = THREE.MathUtils.lerp(1.5, 0.35, Math.min(p * 1.5, 1.0));
-      targetY = THREE.MathUtils.lerp(1.0, 4.2, Math.min(p, 1.0)); // crowns the RITHMOS banner
-      targetZ = THREE.MathUtils.lerp(-5.0, -18.0, p);
+      // Completely remove waveform at the end so it does not clutter the banner & payoff
+      const p = Math.min(1.0, (scrollProgress - 0.76) / 0.08);
+      targetOpacity = Math.max(0, 0.6 * (1.0 - p));
+      amp = 0.5 * (1.0 - p);
+      targetY = -2.0;
+      targetZ = -12.0;
     }
 
     this.material.opacity = targetOpacity;
     this.glowLine.material.opacity = targetOpacity * 0.65;
+    this.line.visible = targetOpacity > 0.005;
+    this.glowLine.visible = targetOpacity > 0.005;
 
     // Synthesize waveform audio-style points
     for (let i = 0; i < this.numPoints; i++) {

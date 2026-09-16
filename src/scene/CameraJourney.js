@@ -9,31 +9,32 @@ export class CameraJourney {
     this.pt = particles;
     this.lenis = lenis;
 
-    // 10-Shot Camera Position Spline (Physical trajectory through concert space)
+    // 10-Shot Camera Position Spline (Physical trajectory through wide concert space)
+    // Expansive stadium framing distances (10-12 units from performers) with wide lateral travel
     this.camPoints = [
-      new THREE.Vector3(0.0, -4.5, 16.0),   // 01 START (CROWD)
-      new THREE.Vector3(0.0, -2.2, 2.5),    // 02 VOCALIST (Center front)
-      new THREE.Vector3(-4.8, -2.5, -2.5),  // 03 GUITARIST (Sweep stage right)
-      new THREE.Vector3(0.0, 0.6, -7.0),    // 04 DRUMMER (Rise to drum riser)
-      new THREE.Vector3(-5.5, -1.8, -6.5),  // 05 BASSIST (Sweep left to bassist)
-      new THREE.Vector3(4.8, -1.8, -4.5),   // 06 KEYBOARDIST (Sweep stage left)
-      new THREE.Vector3(0.0, 2.2, 9.5),     // 07 PULL BACK (FULL BAND)
-      new THREE.Vector3(0.0, 6.5, 17.0),    // 08 STAGE REVEAL (Arena wide)
-      new THREE.Vector3(0.0, 2.8, -1.5),    // 09 MOVE TO BANNER (Push to LED)
-      new THREE.Vector3(0.0, 3.8, -7.0)     // 10 RITHMOS (FINAL LOCK)
+      new THREE.Vector3(0.0, -0.8, 28.0),   // 01 START (CROWD - wide arena entrance)
+      new THREE.Vector3(1.6, -1.5, 7.5),    // 02 VOCALIST (Center mic focus, vocalist on left)
+      new THREE.Vector3(-3.2, -1.5, 4.5),   // 03 GUITARIST (Lateral sweep stage right, guitarist on left)
+      new THREE.Vector3(-13.5, -1.2, -1.0), // 04 BASSIST (Deep stage right sweep, bassist on left, clear of guitarist)
+      new THREE.Vector3(-2.0, 1.2, -4.0),   // 05 DRUMMER (Elevated angle, drummer framed on left)
+      new THREE.Vector3(7.0, -1.5, 2.0),    // 06 KEYBOARDIST (Lateral sweep to stage left, keys on right)
+      new THREE.Vector3(0.0, 1.8, 16.0),    // 07 PULL BACK (FULL BAND across wide stadium stage)
+      new THREE.Vector3(0.0, 8.5, 23.0),    // 08 STAGE REVEAL (High crane arena architecture reveal)
+      new THREE.Vector3(0.0, 3.5, 1.0),     // 09 MOVE TO BANNER (Push to giant LED screen)
+      new THREE.Vector3(0.0, 4.0, -5.0)     // 10 RITHMOS (FINAL LOCK on stage banner)
     ];
 
     // 10-Shot Camera Look-at Target Spline
     this.targetPoints = [
-      new THREE.Vector3(0.0, -2.5, 0.0),    // 01 Crowd looks forward to stage
-      new THREE.Vector3(0.0, -2.0, -3.2),   // 02 Vocalist center mic
-      new THREE.Vector3(-7.2, -2.4, -6.5),  // 03 Guitarist shredding
-      new THREE.Vector3(0.0, -0.2, -13.0),  // 04 Drummer on kit riser
-      new THREE.Vector3(-8.2, -2.0, -11.0), // 05 Bassist power groove
-      new THREE.Vector3(7.6, -2.2, -8.5),   // 06 Keyboardist synths
-      new THREE.Vector3(0.0, -2.0, -9.0),   // 07 Full band center stage
-      new THREE.Vector3(0.0, -1.0, -14.0),  // 08 Wide stage & truss
-      new THREE.Vector3(0.0, 3.8, -18.2),   // 09 Approach giant banner
+      new THREE.Vector3(0.0, -1.0, -6.0),   // 01 Crowd looks ahead to grand stage
+      new THREE.Vector3(-0.6, -1.5, -2.5),  // 02 Vocalist center mic (offset for text)
+      new THREE.Vector3(-7.2, -1.5, -5.0),  // 03 Guitarist with spotlight
+      new THREE.Vector3(-17.5, -1.6, -13.0),// 04 Bassist power groove
+      new THREE.Vector3(1.8, -0.6, -14.0),  // 05 Drummer on kit riser
+      new THREE.Vector3(14.5, -1.5, -8.5),  // 06 Keyboardist synths
+      new THREE.Vector3(0.0, -1.5, -10.0),  // 07 Full band center stage
+      new THREE.Vector3(0.0, -0.5, -14.0),  // 08 Wide stage & arena truss
+      new THREE.Vector3(0.0, 4.0, -18.2),   // 09 Approach giant banner
       new THREE.Vector3(0.0, 4.0, -18.2)    // 10 Center lock on RITHMOS logo
     ];
 
@@ -88,8 +89,8 @@ export class CameraJourney {
       { p: 0.00, fov: 52 },
       { p: 0.11, fov: 42 },
       { p: 0.22, fov: 40 },
-      { p: 0.33, fov: 46 },
-      { p: 0.44, fov: 42 },
+      { p: 0.33, fov: 42 },
+      { p: 0.44, fov: 46 },
       { p: 0.56, fov: 42 },
       { p: 0.67, fov: 58 },
       { p: 0.78, fov: 62 },
@@ -213,16 +214,16 @@ export class CameraJourney {
       else this.tags.guitarist.classList.remove('active');
     }
 
-    // Shot 04 Drummer (0.29 -> 0.39)
-    if (this.tags.drummer) {
-      if (p >= 0.29 && p <= 0.39) this.tags.drummer.classList.add('active');
-      else this.tags.drummer.classList.remove('active');
+    // Shot 04 Bassist (0.29 -> 0.39)
+    if (this.tags.bassist) {
+      if (p >= 0.29 && p <= 0.39) this.tags.bassist.classList.add('active');
+      else this.tags.bassist.classList.remove('active');
     }
 
-    // Shot 05 Bassist (0.40 -> 0.50)
-    if (this.tags.bassist) {
-      if (p >= 0.40 && p <= 0.50) this.tags.bassist.classList.add('active');
-      else this.tags.bassist.classList.remove('active');
+    // Shot 05 Drummer (0.40 -> 0.50)
+    if (this.tags.drummer) {
+      if (p >= 0.40 && p <= 0.50) this.tags.drummer.classList.add('active');
+      else this.tags.drummer.classList.remove('active');
     }
 
     // Shot 06 Keyboardist (0.51 -> 0.61)
