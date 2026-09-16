@@ -14,15 +14,22 @@
   <!-- Fixed 3D WebGL Canvas Layer -->
   <canvas id="webgl-canvas"></canvas>
 
-  <!-- Virtual Scroll Height Track for Continuous Camera Control -->
-  <div id="scroll-track" class="scroll-track"></div>
-
   <!-- Persistent Top Header -->
   <header class="top-nav">
     <div class="nav-brand">
-      <span class="brand-text">RITHMOS</span>
-      <span class="brand-badge">HYD // 2026</span>
+      <a href="#hero-stage" class="brand-link">
+        <span class="brand-text">RITHMOS</span>
+        <span class="brand-badge">HYD // 2026</span>
+      </a>
     </div>
+
+    <nav class="nav-menu" id="nav-menu" aria-label="Main Navigation">
+      <a href="#hero-stage" class="nav-link active">Home</a>
+      <a href="#the-idea" class="nav-link">The Idea</a>
+      <a href="#about-rithmos" class="nav-link">About</a>
+      <a href="#the-competition" class="nav-link">Competition</a>
+      <a href="#participate" class="nav-link">Participate</a>
+    </nav>
     
     <div class="nav-actions">
       <button id="audio-toggle" class="audio-toggle-btn" aria-label="Toggle concert sound">
@@ -41,7 +48,7 @@
     </div>
   </header>
 
-  <!-- Journey HUD / 10-Shot Camera Scrubber -->
+  <!-- Journey HUD / 12-Shot Camera Scrubber -->
   <aside class="journey-hud" aria-label="Camera Journey Map">
     <div class="hud-track">
       <div id="hud-indicator" class="hud-indicator"></div>
@@ -68,14 +75,19 @@
     </div>
   </aside>
 
+  <!-- Virtual Scroll Track for 3D Hero Camera Journey -->
+  <section id="hero-stage" class="hero-stage-container">
+    <div id="scroll-track" class="scroll-track"></div>
+  </section>
+
   <!-- Dynamic Typography & Cinematic Overlay UI Container -->
-  <main class="story-overlay" id="story-overlay">
+  <aside class="story-overlay" id="story-overlay" aria-label="Hero Scene Overlay">
     
     <!-- SHOT 01: Crowd & Opening Statement -->
     <section class="shot-layer shot-01" id="shot-01">
       <div class="typo-container text-center">
-        <div class="typo-line word-every" id="s1-word-1">EVERY BAND</div>
-        <div class="typo-line word-story headline-brush" id="s1-word-2">HAS A STORY.</div>
+        <div class="typo-line word-every" id="s1-word-1">EVERY STORY</div>
+        <div class="typo-line word-story headline-brush" id="s1-word-2">NEEDS A STAGE.</div>
       </div>
       <div class="scroll-hint" id="s1-scroll-hint">
         <span class="mouse-icon"></span>
@@ -83,26 +95,27 @@
       </div>
     </section>
 
-    <!-- SHOTS 02-10: Handled seamlessly via 3D text billboards sticking directly to performers in WebGL -->
+    <!-- SHOTS 02-10: Handled via 3D text billboards sticking directly to performers in WebGL -->
 
     <!-- SHOT 11: Stage Arena Reveal -->
     <section class="shot-layer shot-08" id="shot-08">
       <div class="arena-statement">
         <span class="arena-index">SHOT 11 // STAGE REVEAL</span>
-        <h2 class="arena-title">BORN IN HYDERABAD.</h2>
-        <p class="arena-sub">BUILT FOR THE SOUND THAT DEMANDS TO BE HEARD.</p>
+        <h2 class="arena-title">SAME STAGE. DIFFERENT STORIES.</h2>
+        <p class="arena-sub">ONE RITHMOS. BORN IN HYDERABAD.</p>
       </div>
     </section>
 
-    <!-- SHOT 09-10: RITHMOS Banner Payoff & Conversion -->
+    <!-- SHOT 12: RITHMOS Banner Payoff & Conversion -->
     <section class="shot-layer shot-10" id="shot-10">
       <div class="payoff-content" id="s5-content">
         <div class="payoff-spacer"></div>
         
         <div class="tagline-group">
-          <h1 class="visually-hidden">RITHMOS — WHERE BANDS RISE</h1>
-          <p class="manifesto-lead">A STAGE FOR THE NEXT GREAT LIVE BAND.</p>
-          <p class="manifesto-sub">Born in the underground jam-pads of Hyderabad. Live rock energy, real bands, real music.</p>
+          <span class="hero-brand-kicker">WHERE BANDS RISE</span>
+          <h1 class="hero-headline">RITHMOS</h1>
+          <p class="manifesto-lead">A new live band competition born in Hyderabad.</p>
+          <p class="manifesto-sub">Where great bands compete, audiences connect, stories unfold — and one band rises to become the first RITHMOS Champion.</p>
         </div>
 
         <div class="cta-actions">
@@ -112,10 +125,10 @@
             <span class="btn-icon">⚡</span>
           </button>
           
-          <button id="main-explore-btn" class="secondary-btn">
+          <a href="#the-idea" id="main-explore-btn" class="secondary-btn explore-scroll-btn">
             <span class="btn-text">EXPLORE RITHMOS</span>
-            <span class="btn-icon">→</span>
-          </button>
+            <span class="btn-icon">↓</span>
+          </a>
         </div>
 
         <div class="quick-stats-strip">
@@ -136,9 +149,340 @@
         </div>
       </div>
     </section>
+  </aside>
+
+  <!-- =======================================================================
+       MAIN LANDING PAGE CONTENT FLOW (Below 3D Hero)
+       Strictly adhering to Client Requirements Blueprint
+       ======================================================================= -->
+  <main class="landing-content-flow" id="landing-content-flow">
+    
+    <!-- SECTION 2 — THE IDEA: THE STAGE IS SET (Blueprint Page 3 & 4) -->
+    <section class="landing-section section-the-idea" id="the-idea">
+      <div class="section-container">
+        <div class="section-header">
+          <span class="section-badge">SECTION 02 // THE IDEA</span>
+          <h2 class="section-title headline-distressed">THE STAGE IS SET.</h2>
+          <div class="section-title-glow"></div>
+        </div>
+
+        <div class="idea-narrative-box">
+          <p class="idea-lead-text">
+            There are bands playing in garages, rehearsal rooms, colleges, clubs and small stages across the country. Some are already brilliant. Some are waiting to be discovered. Some just need one stage to change everything.
+          </p>
+          <div class="idea-callout-glow">
+            <h3 class="idea-callout-text headline-brush">RITHMOS is that stage.</h3>
+          </div>
+          <p class="idea-sub-text">
+            A competitive live music platform created to discover, celebrate and elevate bands — beginning in Hyderabad and built with a vision to grow beyond.
+          </p>
+        </div>
+
+        <!-- Visual Progression: REHEARSAL ROOM -> CLUB STAGE -> RITHMOS STAGE -> CHAMPION -->
+        <div class="progression-wrapper">
+          <h4 class="progression-header">THE BAND JOURNEY TO THE ARENA</h4>
+          <div class="progression-grid">
+            <div class="progression-card">
+              <div class="prog-step-badge">01</div>
+              <div class="prog-icon">🚪</div>
+              <h5 class="prog-title">REHEARSAL ROOM</h5>
+              <p class="prog-desc">Garage jam pads, raw riffs, late night grit, and hungry musicians crafting their signature sound.</p>
+              <div class="prog-connector">→</div>
+            </div>
+
+            <div class="progression-card">
+              <div class="prog-step-badge">02</div>
+              <div class="prog-icon">🎸</div>
+              <h5 class="prog-title">CLUB STAGE</h5>
+              <p class="prog-desc">Sweaty club stages, intimate venue energy, and initial audience traction across Hyderabad's live music hubs.</p>
+              <div class="prog-connector">→</div>
+            </div>
+
+            <div class="progression-card highlight-stage">
+              <div class="prog-step-badge">03</div>
+              <div class="prog-icon">⚡</div>
+              <h5 class="prog-title">RITHMOS STAGE</h5>
+              <p class="prog-desc">Stadium sound systems, multi-camera live broadcast, arena lighting trusses, and thousands screaming every chorus.</p>
+              <div class="prog-connector">→</div>
+            </div>
+
+            <div class="progression-card highlight-champion">
+              <div class="prog-step-badge gold">04</div>
+              <div class="prog-icon">🏆</div>
+              <h5 class="prog-title">CHAMPION</h5>
+              <p class="prog-desc">₹5,00,000 prize pool, studio production contract, festival circuit bookings, and nationwide rock acclaim.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3 — ABOUT RITHMOS (Blueprint Page 4 & 5) -->
+    <section class="landing-section section-about" id="about-rithmos">
+      <div class="section-container">
+        <div class="section-header">
+          <span class="section-badge">SECTION 03 // ABOUT RITHMOS</span>
+          <h2 class="section-subtitle">WHY RITHMOS?</h2>
+          <h3 class="section-quote headline-brush">"Because great music deserves a stage."</h3>
+        </div>
+
+        <p class="about-lead">
+          RITHMOS is not a corporate profile or a sponsorship deck converted into web pages. It is a living music property — energetic, aspirational, youthful, and emotional.
+        </p>
+
+        <div class="pillars-grid">
+          <div class="pillar-card">
+            <span class="pillar-index">01</span>
+            <h4 class="pillar-title">THE VISION</h4>
+            <p class="pillar-body">
+              To create a platform where bands can be discovered, heard, celebrated and given an opportunity to rise.
+            </p>
+          </div>
+
+          <div class="pillar-card">
+            <span class="pillar-index">02</span>
+            <h4 class="pillar-title">THE BEGINNING</h4>
+            <p class="pillar-body">
+              Hyderabad is where the first chapter begins. Rooted in the rich rock culture of Deccan jams, college auditoriums, and legendary independent music scenes.
+            </p>
+          </div>
+
+          <div class="pillar-card">
+            <span class="pillar-index">03</span>
+            <h4 class="pillar-title">THE AMBITION</h4>
+            <p class="pillar-body">
+              What starts in Hyderabad has the potential to become a pan-India live music property that redefines how live bands are launched and remembered.
+            </p>
+          </div>
+        </div>
+
+        <div class="manifesto-banner">
+          <div class="manifesto-border-glow"></div>
+          <p class="manifesto-quote">
+            "We don't just want to find the next great band. We want to give them a stage people remember."
+          </p>
+          <span class="manifesto-sign">— RITHMOS FOUNDING PRINCIPLE</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4 — THE COMPETITION (Blueprint Architecture) -->
+    <section class="landing-section section-competition" id="the-competition">
+      <div class="section-container">
+        <div class="section-header text-center">
+          <span class="section-badge">SECTION 04 // THE ROADMAP</span>
+          <h2 class="section-title headline-distressed">THE ROAD TO THE ARENA</h2>
+          <p class="section-desc">Four rigorous stages to separate bedroom jam sessions from arena headliners.</p>
+        </div>
+
+        <div class="competition-timeline">
+          <div class="timeline-step">
+            <div class="step-marker">
+              <span class="marker-dot"></span>
+              <span class="step-num">STAGE 01</span>
+            </div>
+            <div class="step-content">
+              <h4 class="step-title">DEMO AUDITIONS</h4>
+              <p class="step-desc">
+                Submit raw rehearsal room video or audio tapes. Curated online by seasoned Hyderabad rock musicians and sound engineers.
+              </p>
+              <div class="step-meta">
+                <span class="meta-tag">ONLINE SUBMISSION</span>
+                <span class="meta-tag">OPEN TO ALL GENRES</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-step">
+            <div class="step-marker">
+              <span class="marker-dot"></span>
+              <span class="step-num">STAGE 02</span>
+            </div>
+            <div class="step-content">
+              <h4 class="step-title">CLUB SHOWDOWNS</h4>
+              <p class="step-desc">
+                Top 24 curated bands clash head-to-head in premier live music clubs across Hyderabad (Jubilee Hills, Gachibowli, Begumpet).
+              </p>
+              <div class="step-meta">
+                <span class="meta-tag">LIVE AUDIENCE</span>
+                <span class="meta-tag">24 BANDS COMPETING</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-step">
+            <div class="step-marker">
+              <span class="marker-dot"></span>
+              <span class="step-num">STAGE 03</span>
+            </div>
+            <div class="step-content">
+              <h4 class="step-title">THE SEMIFINALS</h4>
+              <p class="step-desc">
+                Rigorous jury scoring evaluated on original songwriting, tight stage presence, instrumental mastery, and authentic crowd resonance.
+              </p>
+              <div class="step-meta">
+                <span class="meta-tag">JURY EVALUATION</span>
+                <span class="meta-tag">TOP 12 BANDS</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-step highlight-step">
+            <div class="step-marker">
+              <span class="marker-dot pulse"></span>
+              <span class="step-num gold">STAGE 04</span>
+            </div>
+            <div class="step-content">
+              <h4 class="step-title">GRAND ARENA FINALE</h4>
+              <p class="step-desc">
+                Top 6 finalists perform on the massive RITHMOS stadium festival stage with full arena production, ₹5,00,000 prize pool, studio record deal, and crown the First RITHMOS Champion.
+              </p>
+              <div class="step-meta">
+                <span class="meta-tag highlight">STADIUM ARENA</span>
+                <span class="meta-tag highlight">₹5,00,000 PRIZE</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5 — PARTICIPATE & CONNECT (Blueprint Page 2) -->
+    <section class="landing-section section-participate" id="participate">
+      <div class="section-container">
+        <div class="section-header text-center">
+          <span class="section-badge">SECTION 05 // PARTICIPATE</span>
+          <h2 class="section-title headline-distressed">CHOOSE YOUR PATHWAY</h2>
+          <p class="section-desc">Whether you play the guitar, scream from the front row, or back the culture — RITHMOS is your stage.</p>
+        </div>
+
+        <div class="audiences-grid">
+          <!-- Track 1: Bands -->
+          <div class="audience-card card-bands">
+            <div class="card-glow"></div>
+            <div class="audience-badge">FOR BANDS</div>
+            <h3 class="audience-title">REGISTER YOUR BAND</h3>
+            <p class="audience-body">
+              Take the leap from your garage jam-pad to the grand stadium stage. Auditions are officially open for Hyderabad 2026.
+            </p>
+            <ul class="audience-perks">
+              <li>✓ Compete for ₹5,00,000 Prize Pool</li>
+              <li>✓ Professional Studio Recording Deal</li>
+              <li>✓ Arena Multi-Camera Live Broadcast</li>
+            </ul>
+            <button class="primary-btn open-band-modal-btn">
+              <span class="btn-text">REGISTER NOW</span>
+              <span class="btn-icon">⚡</span>
+            </button>
+          </div>
+
+          <!-- Track 2: Audience -->
+          <div class="audience-card card-audience">
+            <div class="card-glow"></div>
+            <div class="audience-badge">FOR MUSIC FANS</div>
+            <h3 class="audience-title">WATCH / GET UPDATES</h3>
+            <p class="audience-body">
+              Be in the crowd where history is made. Get instant notifications for live gig rounds, arena tickets, and exclusive band backstage tapes.
+            </p>
+            <ul class="audience-perks">
+              <li>✓ Early Access to Club & Arena Tickets</li>
+              <li>✓ Vote for Crowd Choice Awards</li>
+              <li>✓ Behind-the-Scenes Jam Pad Tapes</li>
+            </ul>
+            <button class="secondary-btn open-fan-modal-btn">
+              <span class="btn-text">JOIN THE MOVEMENT</span>
+              <span class="btn-icon">→</span>
+            </button>
+          </div>
+
+          <!-- Track 3: Brands -->
+          <div class="audience-card card-brands">
+            <div class="card-glow"></div>
+            <div class="audience-badge">FOR BRANDS & SPONSORS</div>
+            <h3 class="audience-title">PARTNER WITH RITHMOS</h3>
+            <p class="audience-body">
+              Align your brand with authentic live youth music culture. Title partnerships, gear showcases, digital reach, and live arena integration.
+            </p>
+            <ul class="audience-perks">
+              <li>✓ Headline Stage & Category Exclusivity</li>
+              <li>✓ On-Ground Youth Cultural Experience</li>
+              <li>✓ 360° Digital & Livestream Integration</li>
+            </ul>
+            <button class="secondary-btn open-partner-modal-btn">
+              <span class="btn-text">BECOME A PARTNER</span>
+              <span class="btn-icon">🤝</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 6 — MASTER FOOTER (Blueprint Page 3) -->
+    <footer class="master-footer" id="site-footer">
+      <div class="footer-container">
+        <div class="footer-main-row">
+          <div class="footer-brand-col">
+            <div class="footer-logo">
+              <span class="footer-brand-title">RITHMOS</span>
+              <span class="footer-brand-tag">WHERE BANDS RISE</span>
+            </div>
+            <p class="footer-tagline headline-brush">
+              Every Band Has a Story. Every Story Needs a Stage.
+            </p>
+            <p class="footer-location">
+              HYDERABAD CHAPTER // 2026
+            </p>
+          </div>
+
+          <div class="footer-nav-col">
+            <h5 class="footer-col-title">SITE ARCHITECTURE</h5>
+            <ul class="footer-links">
+              <li><a href="#hero-stage">Home</a></li>
+              <li><a href="#the-idea">The Idea</a></li>
+              <li><a href="#about-rithmos">About RITHMOS</a></li>
+              <li><a href="#the-competition">The Competition</a></li>
+              <li><a href="#participate">Participate</a></li>
+              <li><a href="#" class="open-partner-modal-btn">Partners</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-nav-col">
+            <h5 class="footer-col-title">COMMUNITY & CONTENT</h5>
+            <ul class="footer-links">
+              <li><a href="#participate">Band Stories</a></li>
+              <li><a href="#the-competition">Live Results</a></li>
+              <li><a href="#hero-stage">Concert Videos</a></li>
+              <li><a href="#" class="open-fan-modal-btn">Gig Updates</a></li>
+              <li><a href="#" class="open-fan-modal-btn">FAQs</a></li>
+              <li><a href="#hero-stage">RITHMOS Archive</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-contact-col">
+            <h5 class="footer-col-title">STAY IN THE PIT</h5>
+            <p class="footer-contact-desc">Get the latest band drops, ticket dates, and live tour schedules delivered to your inbox.</p>
+            <form class="footer-newsletter-form" onsubmit="event.preventDefault(); alert('Subscribed to RITHMOS live drops!');">
+              <input type="email" placeholder="Enter your email" required class="newsletter-input">
+              <button type="submit" class="newsletter-submit-btn">JOIN ⚡</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="footer-bottom-row">
+          <p class="copyright-text">
+            © 2026 RITHMOS LIVE PROPERTY. BORN IN HYDERABAD. ALL RIGHTS RESERVED.
+          </p>
+          <div class="footer-social-links">
+            <span class="social-tag">INSTAGRAM</span>
+            <span class="social-tag">YOUTUBE</span>
+            <span class="social-tag">SPOTIFY</span>
+          </div>
+        </div>
+      </div>
+    </footer>
   </main>
 
-  <!-- Interactive Registration Modal -->
+  <!-- Interactive Registration Modal (For Bands) -->
   <div id="register-modal" class="modal-backdrop" aria-hidden="true">
     <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modal-title">
       <button class="modal-close-btn" id="modal-close" aria-label="Close modal">&times;</button>
@@ -251,6 +595,116 @@
           <p>Top 6 bands perform on the arena festival stage with multi-camera live broadcast, ₹5 Lakh prize pool, and studio recording deal.</p>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- Interactive Fan / Updates Modal (For Audience) -->
+  <div id="fan-modal" class="modal-backdrop" aria-hidden="true">
+    <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="fan-title">
+      <button class="modal-close-btn" id="fan-close" aria-label="Close modal">&times;</button>
+      
+      <div class="modal-header">
+        <span class="modal-tag">LIVE AUDIENCE // GIG DROPS</span>
+        <h3 id="fan-title">JOIN THE RITHMOS PIT</h3>
+        <p>Get instant WhatsApp / Email alerts for live club rounds and arena ticket drops.</p>
+      </div>
+
+      <form id="fan-form" class="reg-form" onsubmit="event.preventDefault(); document.getElementById('fan-success-msg').style.display='block';">
+        <div class="form-group">
+          <label for="fan-name">Your Name *</label>
+          <input type="text" id="fan-name" required placeholder="Full Name">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fan-phone">WhatsApp Number *</label>
+            <input type="tel" id="fan-phone" required placeholder="+91 98765 43210">
+          </div>
+          <div class="form-group">
+            <label for="fan-city">City Area</label>
+            <input type="text" id="fan-city" placeholder="e.g. Hyderabad / Bangalore / Global">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="fan-fav-genre">Favorite Live Sound</label>
+          <select id="fan-fav-genre">
+            <option value="Hard Rock / Metal">Hard Rock / Metal</option>
+            <option value="Indie / Carnatic Fusion">Indie / Carnatic Fusion</option>
+            <option value="Blues / Progressive">Blues / Progressive</option>
+            <option value="All Live Bands">All Live Music</option>
+          </select>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="primary-btn submit-btn">
+            <span>GET GIG ALERTS</span>
+            <span>⚡</span>
+          </button>
+        </div>
+
+        <div id="fan-success-msg" class="success-alert" style="display:none;">
+          <span>✓ YOU'RE IN THE PIT! WE'LL SEND GIG DROPS & TICKETS TO YOUR NUMBER.</span>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Interactive Brand / Partner Modal -->
+  <div id="partner-modal" class="modal-backdrop" aria-hidden="true">
+    <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="partner-title">
+      <button class="modal-close-btn" id="partner-close" aria-label="Close modal">&times;</button>
+      
+      <div class="modal-header">
+        <span class="modal-tag">COMMERCIAL PARTNERSHIP</span>
+        <h3 id="partner-title">PARTNER WITH RITHMOS</h3>
+        <p>Connect your brand with the raw energy of live youth rock culture.</p>
+      </div>
+
+      <form id="partner-form" class="reg-form" onsubmit="event.preventDefault(); document.getElementById('partner-success-msg').style.display='block';">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="brand-name">Brand / Organization *</label>
+            <input type="text" id="brand-name" required placeholder="e.g. Fender / Red Bull / Audio Pro">
+          </div>
+          <div class="form-group">
+            <label for="partner-rep">Representative Name *</label>
+            <input type="text" id="partner-rep" required placeholder="Full Name">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="partner-email">Official Email *</label>
+            <input type="email" id="partner-email" required placeholder="name@brand.com">
+          </div>
+          <div class="form-group">
+            <label for="partner-type">Partnership Interest</label>
+            <select id="partner-type">
+              <option value="Title / Headline Partner">Title / Headline Partner</option>
+              <option value="Stage & Gear Partner">Stage & Gear Partner</option>
+              <option value="Beverage & Experience">Beverage & Experience</option>
+              <option value="Digital & Livestream">Digital & Livestream</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="partner-notes">Brief Brand Objective</label>
+          <input type="text" id="partner-notes" placeholder="Tell us how you would like to collaborate...">
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="primary-btn submit-btn">
+            <span>REQUEST PARTNERSHIP DECK</span>
+            <span>🤝</span>
+          </button>
+        </div>
+
+        <div id="partner-success-msg" class="success-alert" style="display:none;">
+          <span>✓ REQUEST RECEIVED! OUR PARTNERSHIP TEAM WILL REACH OUT WITHIN 24 HOURS.</span>
+        </div>
+      </form>
     </div>
   </div>
 

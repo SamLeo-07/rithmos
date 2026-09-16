@@ -2,9 +2,13 @@ export class ModalManager {
   constructor(lenis) {
     this.lenis = lenis;
 
-    // Elements
+    // Modals
     this.registerModal = document.getElementById('register-modal');
+    this.fanModal = document.getElementById('fan-modal');
+    this.partnerModal = document.getElementById('partner-modal');
     this.exploreModal = document.getElementById('explore-modal');
+
+    // Forms
     this.regForm = document.getElementById('registration-form');
     this.successMsg = document.getElementById('form-success-msg');
 
@@ -12,29 +16,46 @@ export class ModalManager {
   }
 
   initEventListeners() {
-    // Open Register Modal
-    const regTriggers = [
-      document.getElementById('nav-register-btn'),
-      document.getElementById('main-register-btn')
-    ];
-    regTriggers.forEach(btn => {
-      if (btn) btn.addEventListener('click', () => this.openModal(this.registerModal));
+    // 1. Open Register Modal (For Bands)
+    document.querySelectorAll('#nav-register-btn, #main-register-btn, .open-band-modal-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.openModal(this.registerModal);
+      });
     });
 
     // Close Register Modal
     const regClose = document.getElementById('modal-close');
     if (regClose) regClose.addEventListener('click', () => this.closeModal(this.registerModal));
 
-    // Open Explore Modal
-    const exploreBtn = document.getElementById('main-explore-btn');
-    if (exploreBtn) exploreBtn.addEventListener('click', () => this.openModal(this.exploreModal));
+    // 2. Open Fan / Audience Modal
+    document.querySelectorAll('.open-fan-modal-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.openModal(this.fanModal);
+      });
+    });
 
-    // Close Explore Modal
+    const fanClose = document.getElementById('fan-close');
+    if (fanClose) fanClose.addEventListener('click', () => this.closeModal(this.fanModal));
+
+    // 3. Open Partner / Brand Modal
+    document.querySelectorAll('.open-partner-modal-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.openModal(this.partnerModal);
+      });
+    });
+
+    const partnerClose = document.getElementById('partner-close');
+    if (partnerClose) partnerClose.addEventListener('click', () => this.closeModal(this.partnerModal));
+
+    // Close Explore Modal if open
     const exploreClose = document.getElementById('explore-close');
     if (exploreClose) exploreClose.addEventListener('click', () => this.closeModal(this.exploreModal));
 
     // Close on backdrop click
-    [this.registerModal, this.exploreModal].forEach(modal => {
+    [this.registerModal, this.fanModal, this.partnerModal, this.exploreModal].forEach(modal => {
       if (modal) {
         modal.addEventListener('click', (e) => {
           if (e.target === modal) this.closeModal(modal);
@@ -46,11 +67,13 @@ export class ModalManager {
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         this.closeModal(this.registerModal);
+        this.closeModal(this.fanModal);
+        this.closeModal(this.partnerModal);
         this.closeModal(this.exploreModal);
       }
     });
 
-    // Form submission
+    // Form submission for Band Registration
     if (this.regForm) {
       this.regForm.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -65,20 +88,6 @@ export class ModalManager {
       });
     }
 
-    // HUD stage navigation click
-    const hudNodes = document.querySelectorAll('.hud-node');
-    hudNodes.forEach(node => {
-      node.addEventListener('click', () => {
-        const target = parseFloat(node.getAttribute('data-target'));
-        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-        const scrollY = target * maxScroll;
-        if (this.lenis) {
-          this.lenis.scrollTo(scrollY, { duration: 1.6 });
-        } else {
-          window.scrollTo({ top: scrollY, behavior: 'smooth' });
-        }
-      });
-    });
   }
 
   openModal(modal) {

@@ -360,14 +360,14 @@ export class LayerCompositor {
   }
 
   initTextBillboards() {
-    // 1. Vocalist Billboard (Shot 03: "HAS A STORY.")
+    // 1. Vocalist Billboard (Shot 03: "EVERY BAND HAS A STORY.")
     // Floats in 3D air to the left of the vocalist
     this.textBillboards.vocalist = this.createTextBillboard(
       [
-        { text: 'HAS A', brush: false, size: 86 },
-        { text: 'STORY.', brush: true, size: 102 }
+        { text: 'EVERY BAND', brush: false, size: 84 },
+        { text: 'HAS A STORY.', brush: true, size: 98 }
       ],
-      3.2, 1.8, 'left'
+      3.8, 2.0, 'left'
     );
     this.textBillboards.vocalist.mesh.position.set(-1.8, 0.2, -2.2);
     this.textBillboards.vocalist.activeRange = [0.12, 0.16, 0.23, 0.27];

@@ -31,10 +31,94 @@ class RithmosApp {
     this.scrollProgress = 0;
     this.scrollVelocity = 0;
 
+    const heroStage = document.getElementById('hero-stage');
+    const hud = document.querySelector('.journey-hud');
+    const shot10 = document.getElementById('shot-10');
+
     this.lenis.on('scroll', (e) => {
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      this.scrollProgress = maxScroll > 0 ? e.scroll / maxScroll : 0;
+      // 3D Hero journey scroll progress clamped strictly to hero stage height
+      const heroHeight = heroStage ? Math.max(heroStage.offsetHeight - window.innerHeight, 1) : 5500;
+      this.scrollProgress = Math.min(1, Math.max(0, e.scroll / heroHeight));
       this.scrollVelocity = e.velocity || 0;
+
+      // Hide left camera journey HUD when user scrolls past 3D hero stage into landing sections
+      if (hud) {
+        if (e.scroll > heroHeight + 80) {
+          hud.classList.add('hidden');
+        } else {
+          hud.classList.remove('hidden');
+        }
+      }
+
+      // Smoothly fade out Shot 12 hero payoff once user enters editorial sections
+      if (shot10) {
+        if (e.scroll > heroHeight + 120) {
+          shot10.style.opacity = '0';
+          shot10.style.pointerEvents = 'none';
+        } else if (this.scrollProgress >= 0.93) {
+          shot10.style.opacity = '1';
+          shot10.style.pointerEvents = 'auto';
+        }
+      }
+
+      // Track active section for top navigation menu
+      this.updateActiveNav(e.scroll);
+    });
+
+    this.initAnchorLinks();
+  }
+
+  initAnchorLinks() {
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener('click', (e) => {
+        const targetId = anchor.getAttribute('href');
+        if (!targetId || targetId === '#') return;
+        const targetEl = document.querySelector(targetId);
+        if (targetEl) {
+          e.preventDefault();
+          this.lenis.scrollTo(targetEl, {
+            offset: targetId === '#hero-stage' ? 0 : -30,
+            duration: 1.5,
+          });
+        }
+      });
+    });
+  }
+
+  updateActiveNav(scrollY) {
+    const navLinks = document.querySelectorAll('.nav-link');
+    const sections = [
+      { id: 'hero-stage', el: document.getElementById('hero-stage') },
+      { id: 'the-idea', el: document.getElementById('the-idea') },
+      { id: 'about-rithmos', el: document.getElementById('about-rithmos') },
+      { id: 'the-competition', el: document.getElementById('the-competition') },
+      { id: 'participate', el: document.getElementById('participate') }
+    ];
+
+    let currentSectionId = 'hero-stage';
+    const triggerOffset = window.innerHeight * 0.35;
+
+    sections.forEach(({ id, el }) => {
+      if (el) {
+        let top = 0;
+        let curr = el;
+        while (curr) {
+          top += curr.offsetTop || 0;
+          curr = curr.offsetParent;
+        }
+        if (scrollY >= top - triggerOffset) {
+          currentSectionId = id;
+        }
+      }
+    });
+
+    navLinks.forEach((link) => {
+      const href = link.getAttribute('href');
+      if (href === `#${currentSectionId}`) {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
+      }
     });
   }
 

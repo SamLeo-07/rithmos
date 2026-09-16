@@ -71,11 +71,13 @@ export class CameraJourney {
     this.hudNodes.forEach(node => {
       node.addEventListener('click', () => {
         const target = parseFloat(node.getAttribute('data-target'));
-        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        const heroStage = document.getElementById('hero-stage');
+        const heroHeight = heroStage ? Math.max(heroStage.offsetHeight - window.innerHeight, 1) : 5500;
+        const scrollY = target * heroHeight;
         if (this.lenis) {
-          this.lenis.scrollTo(target * maxScroll, { duration: 1.6 });
+          this.lenis.scrollTo(scrollY, { duration: 1.6 });
         } else {
-          window.scrollTo({ top: target * maxScroll, behavior: 'smooth' });
+          window.scrollTo({ top: scrollY, behavior: 'smooth' });
         }
       });
     });
