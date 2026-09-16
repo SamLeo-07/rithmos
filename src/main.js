@@ -89,10 +89,13 @@ class RithmosApp {
     const navLinks = document.querySelectorAll('.nav-link');
     const sections = [
       { id: 'hero-stage', el: document.getElementById('hero-stage') },
-      { id: 'the-idea', el: document.getElementById('the-idea') },
-      { id: 'about-rithmos', el: document.getElementById('about-rithmos') },
+      { id: 'how-it-works', el: document.getElementById('how-it-works') },
+      { id: 'why-enter', el: document.getElementById('why-enter') },
       { id: 'the-competition', el: document.getElementById('the-competition') },
-      { id: 'participate', el: document.getElementById('participate') }
+      { id: 'for-bands', el: document.getElementById('for-bands') },
+      { id: 'the-big-stage', el: document.getElementById('the-big-stage') },
+      { id: 'whats-next', el: document.getElementById('whats-next') },
+      { id: 'site-footer', el: document.getElementById('site-footer') }
     ];
 
     let currentSectionId = 'hero-stage';

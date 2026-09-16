@@ -7,28 +7,29 @@
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpolygon points='16,2 30,10 26,28 6,28 2,10' fill='%23ff112d'/%3E%3Cpath d='M8 16 L12 11 L16 21 L20 13 L24 16' stroke='%23ffffff' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Permanent+Marker&family=Space+Grotesk:wght@500;700&family=Syncopate:wght@700&family=Teko:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Inter:wght@400;500;600;700;800;900&family=Permanent+Marker&family=Space+Grotesk:wght@500;700&family=Syncopate:wght@700&family=Teko:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/src/style.css">
 </head>
 <body>
   <!-- Fixed 3D WebGL Canvas Layer -->
   <canvas id="webgl-canvas"></canvas>
 
-  <!-- Persistent Top Header -->
+  <!-- Persistent Top Header Matching Reference Design -->
   <header class="top-nav">
     <div class="nav-brand">
       <a href="#hero-stage" class="brand-link">
         <span class="brand-text">RITHMOS</span>
-        <span class="brand-badge">HYD // 2026</span>
+        <span class="brand-subtext">WHERE BANDS RISE</span>
       </a>
     </div>
 
     <nav class="nav-menu" id="nav-menu" aria-label="Main Navigation">
-      <a href="#hero-stage" class="nav-link active">Home</a>
-      <a href="#the-idea" class="nav-link">The Idea</a>
-      <a href="#about-rithmos" class="nav-link">About</a>
-      <a href="#the-competition" class="nav-link">Competition</a>
-      <a href="#participate" class="nav-link">Participate</a>
+      <a href="#how-it-works" class="nav-link">About</a>
+      <a href="#the-competition" class="nav-link">The Competition</a>
+      <a href="#for-bands" class="nav-link">For Bands</a>
+      <a href="#the-big-stage" class="nav-link">Events</a>
+      <a href="#why-enter" class="nav-link">Gallery</a>
+      <a href="#site-footer" class="nav-link">Contact</a>
     </nav>
     
     <div class="nav-actions">
@@ -42,8 +43,9 @@
         <span class="audio-label">SOUND FX</span>
       </button>
       
-      <button id="nav-register-btn" class="nav-cta-btn">
-        <span>REGISTER BAND</span>
+      <button id="nav-register-btn" class="nav-cta-pill-btn open-band-modal-btn">
+        <span>REGISTER YOUR BAND</span>
+        <span class="btn-arrow">→</span>
       </button>
     </div>
   </header>
@@ -106,376 +108,509 @@
       </div>
     </section>
 
-    <!-- SHOT 12: RITHMOS Banner Payoff & Conversion -->
+    <!-- SHOT 12: RITHMOS Banner Payoff (Unobstructed Arena View - CTA Removed) -->
     <section class="shot-layer shot-10" id="shot-10">
-      <div class="payoff-content" id="s5-content">
-        <div class="payoff-spacer"></div>
-        
-        <div class="tagline-group">
-          <span class="hero-brand-kicker">WHERE BANDS RISE</span>
-          <h1 class="hero-headline">RITHMOS</h1>
-          <p class="manifesto-lead">A new live band competition born in Hyderabad.</p>
-          <p class="manifesto-sub">Where great bands compete, audiences connect, stories unfold — and one band rises to become the first RITHMOS Champion.</p>
-        </div>
-
-        <div class="cta-actions">
-          <button id="main-register-btn" class="primary-btn pulse-glow">
-            <span class="btn-glow"></span>
-            <span class="btn-text">REGISTER YOUR BAND</span>
-            <span class="btn-icon">⚡</span>
-          </button>
-          
-          <a href="#the-idea" id="main-explore-btn" class="secondary-btn explore-scroll-btn">
-            <span class="btn-text">EXPLORE RITHMOS</span>
-            <span class="btn-icon">↓</span>
-          </a>
-        </div>
-
-        <div class="quick-stats-strip">
-          <div class="stat-item">
-            <span class="stat-value">50+</span>
-            <span class="stat-label">Bands Competing</span>
-          </div>
-          <div class="stat-divider"></div>
-          <div class="stat-item">
-            <span class="stat-value">₹5,00,000</span>
-            <span class="stat-label">Prize Pool & Gear</span>
-          </div>
-          <div class="stat-divider"></div>
-          <div class="stat-item">
-            <span class="stat-value">HYDERABAD</span>
-            <span class="stat-label">Live Concert Arena</span>
-          </div>
-        </div>
+      <div class="stage-scroll-prompt">
+        <span class="scroll-arrow-down">↓</span>
+        <span class="scroll-prompt-text">SCROLL TO EXPLORE</span>
       </div>
     </section>
   </aside>
 
   <!-- =======================================================================
-       MAIN LANDING PAGE CONTENT FLOW (Below 3D Hero)
-       Strictly adhering to Client Requirements Blueprint
+       STATIC LANDING PAGE CONTENT FLOW (Below 3D Hero)
+       Strictly adhering to User's Uploaded Reference Design (media_1789596892980.jpg)
+       All sections are purely static without animation.
        ======================================================================= -->
   <main class="landing-content-flow" id="landing-content-flow">
     
-    <!-- SECTION 2 — THE IDEA: THE STAGE IS SET (Blueprint Page 3 & 4) -->
-    <section class="landing-section section-the-idea" id="the-idea">
-      <div class="section-container">
-        <div class="section-header">
-          <span class="section-badge">SECTION 02 // THE IDEA</span>
-          <h2 class="section-title headline-distressed">THE STAGE IS SET.</h2>
-          <div class="section-title-glow"></div>
-        </div>
-
-        <div class="idea-narrative-box">
-          <p class="idea-lead-text">
-            There are bands playing in garages, rehearsal rooms, colleges, clubs and small stages across the country. Some are already brilliant. Some are waiting to be discovered. Some just need one stage to change everything.
-          </p>
-          <div class="idea-callout-glow">
-            <h3 class="idea-callout-text headline-brush">RITHMOS is that stage.</h3>
+    <!-- SECTION 02 — HOW RITHMOS WORKS (Light Background) -->
+    <section class="static-section section-how-it-works theme-light" id="how-it-works">
+      <div class="static-container">
+        <div class="section-top-row">
+          <div class="section-tag-kicker">
+            <span class="tag-num">02</span>
+            <span class="tag-divider">——</span>
+            <span class="tag-label">HOW RITHMOS WORKS</span>
           </div>
-          <p class="idea-sub-text">
-            A competitive live music platform created to discover, celebrate and elevate bands — beginning in Hyderabad and built with a vision to grow beyond.
-          </p>
+          <div class="section-side-meta">
+            <span class="meta-line">FROM REGISTRATION</span>
+            <span class="meta-line">TO RECOGNITION.</span>
+            <span class="meta-bar"></span>
+          </div>
         </div>
 
-        <!-- Visual Progression: REHEARSAL ROOM -> CLUB STAGE -> RITHMOS STAGE -> CHAMPION -->
-        <div class="progression-wrapper">
-          <h4 class="progression-header">THE BAND JOURNEY TO THE ARENA</h4>
-          <div class="progression-grid">
-            <div class="progression-card">
-              <div class="prog-step-badge">01</div>
-              <div class="prog-icon">🚪</div>
-              <h5 class="prog-title">REHEARSAL ROOM</h5>
-              <p class="prog-desc">Garage jam pads, raw riffs, late night grit, and hungry musicians crafting their signature sound.</p>
-              <div class="prog-connector">→</div>
+        <div class="section-heading-block">
+          <h2 class="static-headline">FOUR STEPS.<br>A BIGGER TOMORROW.</h2>
+          <p class="static-subhead">A simple process. Real opportunities.</p>
+        </div>
+
+        <div class="steps-flow-grid">
+          <!-- Step 01 -->
+          <div class="step-card">
+            <span class="step-giant-num">01</span>
+            <div class="step-icon-wrap">
+              <svg class="step-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="10" y="6" width="28" height="36" rx="2" stroke="#111111" stroke-width="2.5" fill="#ffffff"/>
+                <line x1="16" y1="16" x2="28" y2="16" stroke="#111111" stroke-width="2.5" stroke-linecap="round"/>
+                <line x1="16" y1="22" x2="32" y2="22" stroke="#111111" stroke-width="2.5" stroke-linecap="round"/>
+                <line x1="16" y1="28" x2="26" y2="28" stroke="#111111" stroke-width="2.5" stroke-linecap="round"/>
+                <circle cx="34" cy="34" r="7" fill="#ff1a2b"/>
+                <line x1="34" y1="31" x2="34" y2="37" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+                <line x1="31" y1="34" x2="37" y2="34" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h3 class="step-title">REGISTER</h3>
+            <p class="step-desc">Sign up your band and tell us your story.</p>
+          </div>
+
+          <div class="step-arrow-connector">→</div>
+
+          <!-- Step 02 -->
+          <div class="step-card">
+            <span class="step-giant-num">02</span>
+            <div class="step-icon-wrap">
+              <svg class="step-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="8" y="10" width="22" height="26" rx="1.5" stroke="#111111" stroke-width="2" fill="#ffffff"/>
+                <rect x="14" y="6" width="22" height="26" rx="1.5" stroke="#111111" stroke-width="2" fill="#ffffff"/>
+                <rect x="20" y="14" width="18" height="18" rx="1.5" fill="#ff1a2b"/>
+              </svg>
+            </div>
+            <h3 class="step-title">PERFORM</h3>
+            <p class="step-desc">Play live at RITHMOS qualifiers in your city.</p>
+          </div>
+
+          <div class="step-arrow-connector">→</div>
+
+          <!-- Step 03 -->
+          <div class="step-card">
+            <span class="step-giant-num">03</span>
+            <div class="step-icon-wrap">
+              <svg class="step-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="10" y="28" width="6" height="14" rx="1" fill="#111111"/>
+                <rect x="20" y="18" width="6" height="24" rx="1" fill="#111111"/>
+                <rect x="30" y="8" width="6" height="34" rx="1" fill="#ff1a2b"/>
+              </svg>
+            </div>
+            <h3 class="step-title">COMPETE</h3>
+            <p class="step-desc">Go through multiple rounds with top bands.</p>
+          </div>
+
+          <div class="step-arrow-connector">→</div>
+
+          <!-- Step 04 -->
+          <div class="step-card">
+            <span class="step-giant-num">04</span>
+            <div class="step-icon-wrap">
+              <svg class="step-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 38L22 18L30 26L42 38H6Z" fill="#111111"/>
+                <line x1="22" y1="18" x2="22" y2="8" stroke="#111111" stroke-width="2" stroke-linecap="round"/>
+                <polygon points="22,8 34,13 22,18" fill="#ff1a2b"/>
+              </svg>
+            </div>
+            <h3 class="step-title">RISE</h3>
+            <p class="step-desc">Reach the final stage and take your band further.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 03 — WHY ENTER RITHMOS (Dark Background) -->
+    <section class="static-section section-why-enter theme-dark" id="why-enter">
+      <div class="static-container">
+        <div class="section-top-row">
+          <div class="section-tag-kicker red-accent">
+            <span class="tag-num">03</span>
+            <span class="tag-divider">——</span>
+            <span class="tag-label">WHY ENTER RITHMOS</span>
+          </div>
+          <div class="section-side-meta light-meta">
+            <span class="meta-line">REAL TALENT.</span>
+            <span class="meta-line">REAL OPPORTUNITIES.</span>
+            <span class="meta-bar red"></span>
+          </div>
+        </div>
+
+        <div class="section-heading-block">
+          <h2 class="static-headline text-white">MORE THAN JUST<br>A COMPETITION.</h2>
+          <p class="static-subhead text-muted">Opportunities that go beyond the stage.</p>
+        </div>
+
+        <div class="why-enter-content-split">
+          <!-- 5 Benefit Cards in a row -->
+          <div class="benefit-cards-grid">
+            <div class="benefit-box">
+              <div class="benefit-icon-circle">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="#ff1a2b"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zm0 12.5c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+              </div>
+              <h4 class="benefit-title">REAL EXPOSURE</h4>
+              <p class="benefit-desc">Reach new audiences</p>
             </div>
 
-            <div class="progression-card">
-              <div class="prog-step-badge">02</div>
-              <div class="prog-icon">🎸</div>
-              <h5 class="prog-title">CLUB STAGE</h5>
-              <p class="prog-desc">Sweaty club stages, intimate venue energy, and initial audience traction across Hyderabad's live music hubs.</p>
-              <div class="prog-connector">→</div>
+            <div class="benefit-box">
+              <div class="benefit-icon-circle">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="#ff1a2b"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+              </div>
+              <h4 class="benefit-title">INDUSTRY RECOGNITION</h4>
+              <p class="benefit-desc">Get noticed by professionals</p>
             </div>
 
-            <div class="progression-card highlight-stage">
-              <div class="prog-step-badge">03</div>
-              <div class="prog-icon">⚡</div>
-              <h5 class="prog-title">RITHMOS STAGE</h5>
-              <p class="prog-desc">Stadium sound systems, multi-camera live broadcast, arena lighting trusses, and thousands screaming every chorus.</p>
-              <div class="prog-connector">→</div>
+            <div class="benefit-box">
+              <div class="benefit-icon-circle">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="#ff1a2b"><path d="M4 18h4V10H4v8zm6 0h4V5h-4v13zm6 0h4V2h-4v16z"/></svg>
+              </div>
+              <h4 class="benefit-title">GROW YOUR BAND</h4>
+              <p class="benefit-desc">Create new opportunities</p>
             </div>
 
-            <div class="progression-card highlight-champion">
-              <div class="prog-step-badge gold">04</div>
-              <div class="prog-icon">🏆</div>
-              <h5 class="prog-title">CHAMPION</h5>
-              <p class="prog-desc">₹5,00,000 prize pool, studio production contract, festival circuit bookings, and nationwide rock acclaim.</p>
+            <div class="benefit-box">
+              <div class="benefit-icon-circle">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="#ff1a2b"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+              </div>
+              <h4 class="benefit-title">BUILD YOUR STORY</h4>
+              <p class="benefit-desc">Document your journey</p>
+            </div>
+
+            <div class="benefit-box">
+              <div class="benefit-icon-circle">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="#ff1a2b"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+              </div>
+              <h4 class="benefit-title">BE PART OF A BIGGER MOVEMENT</h4>
+              <p class="benefit-desc">Join a growing music community</p>
+            </div>
+          </div>
+
+          <!-- Right Radar Graphic & Meta -->
+          <div class="acoustic-radar-col">
+            <svg class="radar-svg" viewBox="0 0 280 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="280" cy="140" r="260" stroke="#ff1a2b" stroke-width="1.2" stroke-opacity="0.12"/>
+              <circle cx="280" cy="140" r="200" stroke="#ff1a2b" stroke-width="1.5" stroke-opacity="0.25"/>
+              <circle cx="280" cy="140" r="140" stroke="#ff1a2b" stroke-width="2" stroke-opacity="0.45"/>
+              <circle cx="280" cy="140" r="80" stroke="#ff1a2b" stroke-width="2.5" stroke-opacity="0.75"/>
+              <circle cx="280" cy="140" r="30" fill="#ff1a2b" fill-opacity="0.85"/>
+            </svg>
+            <div class="radar-vertical-tags">
+              <span>MUSIC</span>
+              <span>PEOPLE</span>
+              <span>OPPORTUNITIES</span>
+              <span>GROWTH</span>
+              <span class="tag-accent-bar red"></span>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- SECTION 3 — ABOUT RITHMOS (Blueprint Page 4 & 5) -->
-    <section class="landing-section section-about" id="about-rithmos">
-      <div class="section-container">
-        <div class="section-header">
-          <span class="section-badge">SECTION 03 // ABOUT RITHMOS</span>
-          <h2 class="section-subtitle">WHY RITHMOS?</h2>
-          <h3 class="section-quote headline-brush">"Because great music deserves a stage."</h3>
-        </div>
-
-        <p class="about-lead">
-          RITHMOS is not a corporate profile or a sponsorship deck converted into web pages. It is a living music property — energetic, aspirational, youthful, and emotional.
-        </p>
-
-        <div class="pillars-grid">
-          <div class="pillar-card">
-            <span class="pillar-index">01</span>
-            <h4 class="pillar-title">THE VISION</h4>
-            <p class="pillar-body">
-              To create a platform where bands can be discovered, heard, celebrated and given an opportunity to rise.
-            </p>
+    <!-- SECTION 04 — THE COMPETITION (Light Background) -->
+    <section class="static-section section-competition-journey theme-light" id="the-competition">
+      <div class="static-container">
+        <div class="section-top-row">
+          <div class="section-tag-kicker">
+            <span class="tag-num">04</span>
+            <span class="tag-divider">——</span>
+            <span class="tag-label">THE COMPETITION</span>
           </div>
-
-          <div class="pillar-card">
-            <span class="pillar-index">02</span>
-            <h4 class="pillar-title">THE BEGINNING</h4>
-            <p class="pillar-body">
-              Hyderabad is where the first chapter begins. Rooted in the rich rock culture of Deccan jams, college auditoriums, and legendary independent music scenes.
-            </p>
-          </div>
-
-          <div class="pillar-card">
-            <span class="pillar-index">03</span>
-            <h4 class="pillar-title">THE AMBITION</h4>
-            <p class="pillar-body">
-              What starts in Hyderabad has the potential to become a pan-India live music property that redefines how live bands are launched and remembered.
-            </p>
+          <div class="section-side-meta">
+            <span class="meta-line">DIFFERENT CITIES.</span>
+            <span class="meta-line">BIGGER STORIES.</span>
+            <span class="meta-bar"></span>
           </div>
         </div>
 
-        <div class="manifesto-banner">
-          <div class="manifesto-border-glow"></div>
-          <p class="manifesto-quote">
-            "We don't just want to find the next great band. We want to give them a stage people remember."
-          </p>
-          <span class="manifesto-sign">— RITHMOS FOUNDING PRINCIPLE</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- SECTION 4 — THE COMPETITION (Blueprint Architecture) -->
-    <section class="landing-section section-competition" id="the-competition">
-      <div class="section-container">
-        <div class="section-header text-center">
-          <span class="section-badge">SECTION 04 // THE ROADMAP</span>
-          <h2 class="section-title headline-distressed">THE ROAD TO THE ARENA</h2>
-          <p class="section-desc">Four rigorous stages to separate bedroom jam sessions from arena headliners.</p>
+        <div class="section-heading-block">
+          <h2 class="static-headline">A JOURNEY<br>WORTH PLAYING.</h2>
+          <p class="static-subhead">Multiple stages. One ultimate destination.</p>
         </div>
 
-        <div class="competition-timeline">
-          <div class="timeline-step">
-            <div class="step-marker">
-              <span class="marker-dot"></span>
-              <span class="step-num">STAGE 01</span>
+        <div class="timeline-horizontal-track">
+          <div class="timeline-line"></div>
+
+          <!-- Node 1 -->
+          <div class="timeline-node">
+            <div class="node-icon-wrap">
+              <svg viewBox="0 0 40 40" width="36" height="36" fill="none">
+                <circle cx="20" cy="20" r="15" stroke="#ff1a2b" stroke-width="2"/>
+                <circle cx="20" cy="20" r="9" stroke="#ff1a2b" stroke-width="2"/>
+                <circle cx="20" cy="20" r="3.5" fill="#ff1a2b"/>
+              </svg>
             </div>
-            <div class="step-content">
-              <h4 class="step-title">DEMO AUDITIONS</h4>
-              <p class="step-desc">
-                Submit raw rehearsal room video or audio tapes. Curated online by seasoned Hyderabad rock musicians and sound engineers.
-              </p>
-              <div class="step-meta">
-                <span class="meta-tag">ONLINE SUBMISSION</span>
-                <span class="meta-tag">OPEN TO ALL GENRES</span>
-              </div>
-            </div>
+            <div class="node-dot"></div>
+            <h4 class="node-title">QUALIFIERS</h4>
+            <p class="node-desc">City-level live performances</p>
           </div>
 
-          <div class="timeline-step">
-            <div class="step-marker">
-              <span class="marker-dot"></span>
-              <span class="step-num">STAGE 02</span>
+          <!-- Node 2 -->
+          <div class="timeline-node">
+            <div class="node-icon-wrap">
+              <svg viewBox="0 0 40 40" width="36" height="36" fill="none">
+                <circle cx="12" cy="14" r="2" fill="#ff1a2b"/>
+                <circle cx="12" cy="20" r="2" fill="#ff1a2b"/>
+                <circle cx="12" cy="26" r="2" fill="#ff1a2b"/>
+                <line x1="18" y1="14" x2="28" y2="14" stroke="#ff1a2b" stroke-width="2.5" stroke-linecap="round"/>
+                <line x1="18" y1="20" x2="28" y2="20" stroke="#ff1a2b" stroke-width="2.5" stroke-linecap="round"/>
+                <line x1="18" y1="26" x2="28" y2="26" stroke="#ff1a2b" stroke-width="2.5" stroke-linecap="round"/>
+              </svg>
             </div>
-            <div class="step-content">
-              <h4 class="step-title">CLUB SHOWDOWNS</h4>
-              <p class="step-desc">
-                Top 24 curated bands clash head-to-head in premier live music clubs across Hyderabad (Jubilee Hills, Gachibowli, Begumpet).
-              </p>
-              <div class="step-meta">
-                <span class="meta-tag">LIVE AUDIENCE</span>
-                <span class="meta-tag">24 BANDS COMPETING</span>
-              </div>
-            </div>
+            <div class="node-dot"></div>
+            <h4 class="node-title">SHORTLIST</h4>
+            <p class="node-desc">Top bands move forward</p>
           </div>
 
-          <div class="timeline-step">
-            <div class="step-marker">
-              <span class="marker-dot"></span>
-              <span class="step-num">STAGE 03</span>
+          <!-- Node 3 -->
+          <div class="timeline-node">
+            <div class="node-icon-wrap">
+              <svg viewBox="0 0 40 40" width="36" height="36" fill="none">
+                <circle cx="20" cy="14" r="3.5" fill="#ff1a2b"/>
+                <circle cx="12" cy="17" r="3" fill="#ff1a2b"/>
+                <circle cx="28" cy="17" r="3" fill="#ff1a2b"/>
+                <path d="M15 28C15 24 17 22 20 22C23 22 25 24 25 28" stroke="#ff1a2b" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M8 29C8 26 10 24.5 12 24.5" stroke="#ff1a2b" stroke-width="2" stroke-linecap="round"/>
+                <path d="M32 29C32 26 30 24.5 28 24.5" stroke="#ff1a2b" stroke-width="2" stroke-linecap="round"/>
+              </svg>
             </div>
-            <div class="step-content">
-              <h4 class="step-title">THE SEMIFINALS</h4>
-              <p class="step-desc">
-                Rigorous jury scoring evaluated on original songwriting, tight stage presence, instrumental mastery, and authentic crowd resonance.
-              </p>
-              <div class="step-meta">
-                <span class="meta-tag">JURY EVALUATION</span>
-                <span class="meta-tag">TOP 12 BANDS</span>
-              </div>
-            </div>
+            <div class="node-dot"></div>
+            <h4 class="node-title">JUDGING</h4>
+            <p class="node-desc">Evaluated by industry experts</p>
           </div>
 
-          <div class="timeline-step highlight-step">
-            <div class="step-marker">
-              <span class="marker-dot pulse"></span>
-              <span class="step-num gold">STAGE 04</span>
+          <!-- Node 4 -->
+          <div class="timeline-node">
+            <div class="node-icon-wrap">
+              <svg viewBox="0 0 40 40" width="36" height="36" fill="none">
+                <path d="M20 7L23.8 15.5L33 16.5L26 23L28 32L20 27.2L12 32L14 23L7 16.5L16.2 15.5L20 7Z" stroke="#ff1a2b" stroke-width="2.5" stroke-linejoin="round" fill="none"/>
+              </svg>
             </div>
-            <div class="step-content">
-              <h4 class="step-title">GRAND ARENA FINALE</h4>
-              <p class="step-desc">
-                Top 6 finalists perform on the massive RITHMOS stadium festival stage with full arena production, ₹5,00,000 prize pool, studio record deal, and crown the First RITHMOS Champion.
-              </p>
-              <div class="step-meta">
-                <span class="meta-tag highlight">STADIUM ARENA</span>
-                <span class="meta-tag highlight">₹5,00,000 PRIZE</span>
-              </div>
+            <div class="node-dot"></div>
+            <h4 class="node-title">FINALS</h4>
+            <p class="node-desc">The best bands on the big stage</p>
+          </div>
+
+          <!-- Node 5 -->
+          <div class="timeline-node">
+            <div class="node-icon-wrap">
+              <svg viewBox="0 0 40 40" width="36" height="36" fill="none">
+                <path d="M9 28L11 16L16 21L20 12L24 21L29 16L31 28H9Z" stroke="#ff1a2b" stroke-width="2.5" stroke-linejoin="round" fill="none"/>
+                <circle cx="11" cy="14" r="1.5" fill="#ff1a2b"/>
+                <circle cx="20" cy="10" r="1.5" fill="#ff1a2b"/>
+                <circle cx="29" cy="14" r="1.5" fill="#ff1a2b"/>
+              </svg>
             </div>
+            <div class="node-dot"></div>
+            <h4 class="node-title">WINNER</h4>
+            <p class="node-desc">A new chapter begins</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- SECTION 5 — PARTICIPATE & CONNECT (Blueprint Page 2) -->
-    <section class="landing-section section-participate" id="participate">
-      <div class="section-container">
-        <div class="section-header text-center">
-          <span class="section-badge">SECTION 05 // PARTICIPATE</span>
-          <h2 class="section-title headline-distressed">CHOOSE YOUR PATHWAY</h2>
-          <p class="section-desc">Whether you play the guitar, scream from the front row, or back the culture — RITHMOS is your stage.</p>
-        </div>
-
-        <div class="audiences-grid">
-          <!-- Track 1: Bands -->
-          <div class="audience-card card-bands">
-            <div class="card-glow"></div>
-            <div class="audience-badge">FOR BANDS</div>
-            <h3 class="audience-title">REGISTER YOUR BAND</h3>
-            <p class="audience-body">
-              Take the leap from your garage jam-pad to the grand stadium stage. Auditions are officially open for Hyderabad 2026.
-            </p>
-            <ul class="audience-perks">
-              <li>✓ Compete for ₹5,00,000 Prize Pool</li>
-              <li>✓ Professional Studio Recording Deal</li>
-              <li>✓ Arena Multi-Camera Live Broadcast</li>
-            </ul>
-            <button class="primary-btn open-band-modal-btn">
-              <span class="btn-text">REGISTER NOW</span>
-              <span class="btn-icon">⚡</span>
+    <!-- SECTION 05 — FOR BANDS (Dark Background with 3D Glassmorphism Shapes) -->
+    <section class="static-section section-for-bands theme-dark" id="for-bands">
+      <div class="static-container">
+        <div class="bands-split-layout">
+          <!-- Left Column -->
+          <div class="bands-left-text">
+            <div class="section-tag-kicker red-accent">
+              <span class="tag-num">05</span>
+              <span class="tag-divider">/</span>
+              <span class="tag-label">FOR BANDS</span>
+            </div>
+            <h2 class="static-headline text-white">YOUR BAND.<br>YOUR SOUND.<br>YOUR SHOT.</h2>
+            <p class="static-subhead text-muted">Take the next step. Register now and be part of something bigger.</p>
+            <button class="pill-cta-btn open-band-modal-btn">
+              <span>REGISTER YOUR BAND</span>
+              <span class="arrow-sym">→</span>
             </button>
           </div>
 
-          <!-- Track 2: Audience -->
-          <div class="audience-card card-audience">
-            <div class="card-glow"></div>
-            <div class="audience-badge">FOR MUSIC FANS</div>
-            <h3 class="audience-title">WATCH / GET UPDATES</h3>
-            <p class="audience-body">
-              Be in the crowd where history is made. Get instant notifications for live gig rounds, arena tickets, and exclusive band backstage tapes.
-            </p>
-            <ul class="audience-perks">
-              <li>✓ Early Access to Club & Arena Tickets</li>
-              <li>✓ Vote for Crowd Choice Awards</li>
-              <li>✓ Behind-the-Scenes Jam Pad Tapes</li>
-            </ul>
-            <button class="secondary-btn open-fan-modal-btn">
-              <span class="btn-text">JOIN THE MOVEMENT</span>
-              <span class="btn-icon">→</span>
-            </button>
+          <!-- Center Column: 3D Glassmorphism Shapes Graphic -->
+          <div class="glassmorphism-shapes-col">
+            <div class="glassmorphic-composition">
+              <!-- Panel 1: Smoked Dark Glass -->
+              <div class="glass-panel panel-dark"></div>
+
+              <!-- Panel 2: Radiant Crimson Glass Slab -->
+              <div class="glass-panel panel-red-glowing">
+                <div class="glass-inner-light"></div>
+              </div>
+
+              <!-- Panel 3: Translucent Frosted Glass with Etched Typography -->
+              <div class="glass-panel panel-frosted-text">
+                <div class="etched-words-list">
+                  <span>IDEAS</span>
+                  <span>REHEARSALS</span>
+                  <span>COLLABORATIONS</span>
+                  <span>PERFORMANCES</span>
+                  <span>OPPORTUNITIES</span>
+                  <span>RITHMOS</span>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <!-- Track 3: Brands -->
-          <div class="audience-card card-brands">
-            <div class="card-glow"></div>
-            <div class="audience-badge">FOR BRANDS & SPONSORS</div>
-            <h3 class="audience-title">PARTNER WITH RITHMOS</h3>
-            <p class="audience-body">
-              Align your brand with authentic live youth music culture. Title partnerships, gear showcases, digital reach, and live arena integration.
-            </p>
-            <ul class="audience-perks">
-              <li>✓ Headline Stage & Category Exclusivity</li>
-              <li>✓ On-Ground Youth Cultural Experience</li>
-              <li>✓ 360° Digital & Livestream Integration</li>
-            </ul>
-            <button class="secondary-btn open-partner-modal-btn">
-              <span class="btn-text">BECOME A PARTNER</span>
-              <span class="btn-icon">🤝</span>
+          <!-- Right Column: Vertical Story Tags -->
+          <div class="bands-right-meta">
+            <span>SAME</span>
+            <span>PEOPLE</span>
+            <span>NEW</span>
+            <span>STORIES</span>
+            <span class="tag-accent-bar red"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 06 — THE BIG STAGE (Off-white with 3D Ascending Steps) -->
+    <section class="static-section section-big-stage theme-cool" id="the-big-stage">
+      <div class="static-container">
+        <div class="stage-split-layout">
+          <!-- Left Column -->
+          <div class="stage-left-text">
+            <div class="section-tag-kicker">
+              <span class="tag-num">06</span>
+              <span class="tag-divider">/</span>
+              <span class="tag-label">THE BIG STAGE</span>
+            </div>
+            <h2 class="static-headline">EVERY STORY<br>NEEDS A STAGE.</h2>
+            <p class="static-subhead">From local stages to larger audiences — RITHMOS is where the next generation of great bands rise.</p>
+          </div>
+
+          <!-- Center Column: Isometric Ascending Steps Graphic -->
+          <div class="isometric-steps-col">
+            <svg class="isometric-steps-svg" viewBox="0 0 540 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="redTop" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#ff3b4e"/>
+                  <stop offset="100%" stop-color="#ff112d"/>
+                </linearGradient>
+                <linearGradient id="redFront" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#ff112d"/>
+                  <stop offset="100%" stop-color="#aa081a"/>
+                </linearGradient>
+                <linearGradient id="redSide" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#800412"/>
+                  <stop offset="100%" stop-color="#4d020a"/>
+                </linearGradient>
+                <filter id="redFloorGlow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feGaussianBlur stdDeviation="16" result="blur"/>
+                </filter>
+              </defs>
+
+              <!-- Floor Ambient Shadow -->
+              <ellipse cx="320" cy="275" rx="190" ry="24" fill="rgba(0,0,0,0.1)"/>
+              <ellipse cx="430" cy="270" rx="65" ry="20" fill="rgba(255,17,45,0.22)" filter="url(#redFloorGlow)"/>
+
+              <!-- Step 1 (h=22) -->
+              <polygon points="120,240 152,224 184,240 152,256" fill="#3d3d45"/>
+              <polygon points="120,240 152,256 152,278 120,262" fill="#202026"/>
+              <polygon points="152,256 184,240 184,262 152,278" fill="#15151a"/>
+
+              <!-- Step 2 (h=36) -->
+              <polygon points="160,220 192,204 224,220 192,236" fill="#42424b"/>
+              <polygon points="160,220 192,236 192,272 160,256" fill="#24242c"/>
+              <polygon points="192,236 224,220 224,256 192,272" fill="#18181f"/>
+
+              <!-- Step 3 (h=52) -->
+              <polygon points="200,200 232,184 264,200 232,216" fill="#484852"/>
+              <polygon points="200,200 232,216 232,268 200,252" fill="#282832"/>
+              <polygon points="232,216 264,200 264,252 232,268" fill="#1c1c24"/>
+
+              <!-- Step 4 (h=70) -->
+              <polygon points="240,180 272,164 304,180 272,196" fill="#4f4f5a"/>
+              <polygon points="240,180 272,196 272,266 240,250" fill="#2d2d38"/>
+              <polygon points="272,196 304,180 304,250 272,266" fill="#20202a"/>
+
+              <!-- Step 5 (h=92) -->
+              <polygon points="280,160 312,144 344,160 312,176" fill="#565663"/>
+              <polygon points="280,160 312,176 312,268 280,252" fill="#32323f"/>
+              <polygon points="312,176 344,160 344,252 312,268" fill="#252530"/>
+
+              <!-- Step 6 (h=118) -->
+              <polygon points="320,140 352,124 384,140 352,156" fill="#5e5e6c"/>
+              <polygon points="320,140 352,156 352,274 320,258" fill="#383846"/>
+              <polygon points="352,156 384,140 384,258 352,274" fill="#2a2a37"/>
+
+              <!-- Step 7: Tallest Radiant Red Tower (h=180) -->
+              <polygon points="370,80 415,56 460,80 415,104" fill="url(#redTop)"/>
+              <polygon points="370,80 415,104 415,284 370,260" fill="url(#redFront)"/>
+              <polygon points="415,104 460,80 460,260 415,284" fill="url(#redSide)"/>
+              <!-- Edge Highlights -->
+              <line x1="415" y1="56" x2="415" y2="284" stroke="#ffffff" stroke-width="1.2" stroke-opacity="0.6"/>
+              <line x1="370" y1="80" x2="415" y2="104" stroke="#ffffff" stroke-width="1.2" stroke-opacity="0.8"/>
+            </svg>
+          </div>
+
+          <!-- Right Column: Vertical Meta -->
+          <div class="stage-right-meta">
+            <span>HIGHER</span>
+            <span>FURTHER</span>
+            <span>BOLDER</span>
+            <span>TOGETHER</span>
+            <span class="tag-accent-bar"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 07 — BE PART OF WHAT'S NEXT (Dark Amphitheater Halo) -->
+    <section class="static-section section-whats-next theme-dark" id="whats-next">
+      <div class="static-container">
+        <div class="amphitheater-halo-frame">
+          <!-- Concentric Stadium Halo Arcs -->
+          <svg class="halo-arcs-svg" viewBox="0 0 900 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="450" cy="180" rx="430" ry="160" stroke="rgba(255,255,255,0.06)" stroke-width="1.5"/>
+            <ellipse cx="450" cy="180" rx="360" ry="130" stroke="#ff1a2b" stroke-width="1.5" stroke-opacity="0.25"/>
+            <ellipse cx="450" cy="180" rx="280" ry="100" stroke="#ff1a2b" stroke-width="2.2" stroke-opacity="0.65"/>
+            <ellipse cx="450" cy="180" rx="200" ry="75" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+          </svg>
+
+          <div class="halo-inner-content">
+            <div class="section-tag-kicker red-accent center-kicker">
+              <span class="tag-num">07</span>
+              <span class="tag-divider">/</span>
+              <span class="tag-label">BE PART OF WHAT'S NEXT</span>
+            </div>
+            <h2 class="static-headline text-white halo-title">WHERE BANDS RISE.</h2>
+            <p class="static-subhead text-muted halo-sub">Register your band and take the first step towards a bigger tomorrow.</p>
+            <button class="pill-cta-btn open-band-modal-btn center-btn">
+              <span>REGISTER YOUR BAND</span>
+              <span class="arrow-sym">→</span>
             </button>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- SECTION 6 — MASTER FOOTER (Blueprint Page 3) -->
-    <footer class="master-footer" id="site-footer">
-      <div class="footer-container">
-        <div class="footer-main-row">
-          <div class="footer-brand-col">
-            <div class="footer-logo">
-              <span class="footer-brand-title">RITHMOS</span>
-              <span class="footer-brand-tag">WHERE BANDS RISE</span>
+    <!-- MASTER FOOTER -->
+    <footer class="static-master-footer theme-dark" id="site-footer">
+      <div class="static-container">
+        <div class="footer-layout-row">
+          <div class="footer-brand-lockup">
+            <span class="footer-brand-title">RITHMOS</span>
+            <span class="footer-brand-sub">WHERE BANDS RISE</span>
+          </div>
+
+          <nav class="footer-nav-links" aria-label="Footer Navigation">
+            <a href="#how-it-works">ABOUT</a>
+            <a href="#the-competition">THE COMPETITION</a>
+            <a href="#for-bands">FOR BANDS</a>
+            <a href="#the-big-stage">EVENTS</a>
+            <a href="#why-enter">GALLERY</a>
+            <a href="#site-footer">CONTACT</a>
+          </nav>
+
+          <div class="footer-meta-col">
+            <div class="footer-social-icons">
+              <a href="#" class="social-icon-btn" aria-label="Instagram">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+              </a>
+              <a href="#" class="social-icon-btn" aria-label="YouTube">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+              </a>
+              <a href="#" class="social-icon-btn" aria-label="Spotify">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.498 17.307c-.217.355-.679.467-1.034.25-2.836-1.733-6.406-2.126-10.609-1.166-.406.094-.813-.162-.907-.568-.094-.406.162-.813.568-.907 4.607-1.053 8.563-.604 11.728 1.332.355.217.467.679.25 1.059zm1.467-3.262c-.274.444-.858.587-1.302.313-3.245-1.996-8.193-2.576-12.032-1.411-.5.152-1.031-.132-1.183-.632-.152-.5.132-1.031.632-1.183 4.385-1.332 9.835-.688 13.572 1.611.444.274.587.858.313 1.302zm.126-3.41c-3.89-2.31-10.31-2.524-14.032-1.393-.598.182-1.233-.162-1.415-.76-.182-.598.162-1.233.76-1.415 4.277-1.298 11.36-1.047 15.823 1.603.539.319.715 1.02.396 1.559-.319.539-1.02.715-1.559.396z"/></svg>
+              </a>
             </div>
-            <p class="footer-tagline headline-brush">
-              Every Band Has a Story. Every Story Needs a Stage.
-            </p>
-            <p class="footer-location">
-              HYDERABAD CHAPTER // 2026
-            </p>
-          </div>
-
-          <div class="footer-nav-col">
-            <h5 class="footer-col-title">SITE ARCHITECTURE</h5>
-            <ul class="footer-links">
-              <li><a href="#hero-stage">Home</a></li>
-              <li><a href="#the-idea">The Idea</a></li>
-              <li><a href="#about-rithmos">About RITHMOS</a></li>
-              <li><a href="#the-competition">The Competition</a></li>
-              <li><a href="#participate">Participate</a></li>
-              <li><a href="#" class="open-partner-modal-btn">Partners</a></li>
-            </ul>
-          </div>
-
-          <div class="footer-nav-col">
-            <h5 class="footer-col-title">COMMUNITY & CONTENT</h5>
-            <ul class="footer-links">
-              <li><a href="#participate">Band Stories</a></li>
-              <li><a href="#the-competition">Live Results</a></li>
-              <li><a href="#hero-stage">Concert Videos</a></li>
-              <li><a href="#" class="open-fan-modal-btn">Gig Updates</a></li>
-              <li><a href="#" class="open-fan-modal-btn">FAQs</a></li>
-              <li><a href="#hero-stage">RITHMOS Archive</a></li>
-            </ul>
-          </div>
-
-          <div class="footer-contact-col">
-            <h5 class="footer-col-title">STAY IN THE PIT</h5>
-            <p class="footer-contact-desc">Get the latest band drops, ticket dates, and live tour schedules delivered to your inbox.</p>
-            <form class="footer-newsletter-form" onsubmit="event.preventDefault(); alert('Subscribed to RITHMOS live drops!');">
-              <input type="email" placeholder="Enter your email" required class="newsletter-input">
-              <button type="submit" class="newsletter-submit-btn">JOIN ⚡</button>
-            </form>
-          </div>
-        </div>
-
-        <div class="footer-bottom-row">
-          <p class="copyright-text">
-            © 2026 RITHMOS LIVE PROPERTY. BORN IN HYDERABAD. ALL RIGHTS RESERVED.
-          </p>
-          <div class="footer-social-links">
-            <span class="social-tag">INSTAGRAM</span>
-            <span class="social-tag">YOUTUBE</span>
-            <span class="social-tag">SPOTIFY</span>
+            <span class="footer-tagline">MUSIC LIVES ON.</span>
           </div>
         </div>
       </div>
