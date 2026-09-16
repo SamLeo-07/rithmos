@@ -49,15 +49,17 @@
     <div class="hud-content-col">
       <ul class="hud-stages">
         <li data-target="0.00" class="hud-node active"><span class="node-num">01</span><span class="node-name">CROWD</span></li>
-        <li data-target="0.11" class="hud-node"><span class="node-num">02</span><span class="node-name">VOCALIST</span></li>
-        <li data-target="0.22" class="hud-node"><span class="node-num">03</span><span class="node-name">GUITARIST</span></li>
-        <li data-target="0.33" class="hud-node"><span class="node-num">04</span><span class="node-name">BASSIST</span></li>
-        <li data-target="0.44" class="hud-node"><span class="node-num">05</span><span class="node-name">DRUMMER</span></li>
-        <li data-target="0.56" class="hud-node"><span class="node-num">06</span><span class="node-name">KEYBOARDIST</span></li>
-        <li data-target="0.67" class="hud-node"><span class="node-num">07</span><span class="node-name">FULL BAND</span></li>
-        <li data-target="0.78" class="hud-node"><span class="node-num">08</span><span class="node-name">STAGE REVEAL</span></li>
-        <li data-target="0.89" class="hud-node"><span class="node-num">09</span><span class="node-name">BANNER</span></li>
-        <li data-target="1.00" class="hud-node"><span class="node-num">10</span><span class="node-name">RITHMOS LOCK</span></li>
+        <li data-target="0.09" class="hud-node"><span class="node-num">02</span><span class="node-name">APPROACH</span></li>
+        <li data-target="0.18" class="hud-node"><span class="node-num">03</span><span class="node-name">VOCALIST</span></li>
+        <li data-target="0.27" class="hud-node"><span class="node-num">04</span><span class="node-name">TO GUITAR</span></li>
+        <li data-target="0.36" class="hud-node"><span class="node-num">05</span><span class="node-name">GUITARIST</span></li>
+        <li data-target="0.45" class="hud-node"><span class="node-num">06</span><span class="node-name">BASSIST</span></li>
+        <li data-target="0.55" class="hud-node"><span class="node-num">07</span><span class="node-name">DRUMMER</span></li>
+        <li data-target="0.64" class="hud-node"><span class="node-num">08</span><span class="node-name">TO KEYS</span></li>
+        <li data-target="0.73" class="hud-node"><span class="node-num">09</span><span class="node-name">KEYBOARDIST</span></li>
+        <li data-target="0.82" class="hud-node"><span class="node-num">10</span><span class="node-name">FULL BAND</span></li>
+        <li data-target="0.91" class="hud-node"><span class="node-num">11</span><span class="node-name">STAGE REVEAL</span></li>
+        <li data-target="1.00" class="hud-node"><span class="node-num">12</span><span class="node-name">RITHMOS</span></li>
       </ul>
       <div class="hud-coords">
         <span class="coord-label">CAM Z:</span>
@@ -81,87 +83,12 @@
       </div>
     </section>
 
-    <!-- SHOTS 02-06: Storyboard Kinetic Typography (Floating parallel to performer silhouettes) -->
-    <div class="storyboard-performer-typo side-right" id="tag-vocalist">
-      <div class="typo-kicker">
-        <span class="shot-id">02</span>
-        <span class="kicker-slash">//</span>
-        <span class="role-tag">VOCALIST</span>
-      </div>
-      <h2 class="storyboard-headline headline-brush">
-        <span class="line-brush-white">HAS A</span>
-        <span class="line-brush-accent">STORY.</span>
-      </h2>
-    </div>
+    <!-- SHOTS 02-10: Handled seamlessly via 3D text billboards sticking directly to performers in WebGL -->
 
-    <div class="storyboard-performer-typo side-left" id="tag-guitarist">
-      <div class="typo-kicker">
-        <span class="shot-id">03</span>
-        <span class="kicker-slash">//</span>
-        <span class="role-tag">GUITARIST</span>
-      </div>
-      <h2 class="storyboard-headline headline-rock rot-neg">
-        <span class="line-white">GUITAR</span>
-        <span class="line-white">DRIVES</span>
-        <span class="line-accent">DREAMS.</span>
-      </h2>
-    </div>
-
-    <div class="storyboard-performer-typo side-right" id="tag-bassist">
-      <div class="typo-kicker">
-        <span class="shot-id">04</span>
-        <span class="kicker-slash">//</span>
-        <span class="role-tag">BASSIST</span>
-      </div>
-      <h2 class="storyboard-headline headline-rock rot-neg">
-        <span class="line-white">BASS</span>
-        <span class="line-white">BUILDS</span>
-        <span class="line-accent">DEPTH.</span>
-      </h2>
-    </div>
-
-    <div class="storyboard-performer-typo side-left" id="tag-drummer">
-      <div class="typo-kicker">
-        <span class="shot-id">05</span>
-        <span class="kicker-slash">//</span>
-        <span class="role-tag">DRUMMER</span>
-      </div>
-      <h2 class="storyboard-headline headline-rock rot-pos">
-        <span class="line-white">DRUMS</span>
-        <span class="line-white">POWER</span>
-        <span class="line-accent">PEOPLE.</span>
-      </h2>
-    </div>
-
-    <div class="storyboard-performer-typo side-left" id="tag-keyboardist">
-      <div class="typo-kicker">
-        <span class="shot-id">06</span>
-        <span class="kicker-slash">//</span>
-        <span class="role-tag">KEYBOARDIST</span>
-      </div>
-      <h2 class="storyboard-headline headline-rock rot-neg">
-        <span class="line-white">KEYS</span>
-        <span class="line-white">SHAPE</span>
-        <span class="line-accent">ATMOSPHERE.</span>
-      </h2>
-    </div>
-
-    <!-- SHOT 07: Full Band Pull Back -->
-    <section class="shot-layer shot-07" id="shot-07">
-      <div class="pullback-statement">
-        <span class="pullback-index">// 07 FULL BAND REVEAL</span>
-        <h2 class="pullback-title">
-          <span class="line-white">TOGETHER</span>
-          <span class="line-accent">THEY CREATE MORE.</span>
-        </h2>
-        <p class="pullback-sub">Five distinct voices. One unified live force.</p>
-      </div>
-    </section>
-
-    <!-- SHOT 08: Stage Arena Reveal -->
+    <!-- SHOT 11: Stage Arena Reveal -->
     <section class="shot-layer shot-08" id="shot-08">
       <div class="arena-statement">
-        <span class="arena-index">SHOT 08 // STAGE REVEAL</span>
+        <span class="arena-index">SHOT 11 // STAGE REVEAL</span>
         <h2 class="arena-title">BORN IN HYDERABAD.</h2>
         <p class="arena-sub">BUILT FOR THE SOUND THAT DEMANDS TO BE HEARD.</p>
       </div>

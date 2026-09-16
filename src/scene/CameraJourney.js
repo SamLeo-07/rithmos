@@ -9,33 +9,39 @@ export class CameraJourney {
     this.pt = particles;
     this.lenis = lenis;
 
-    // 10-Shot Camera Position Spline (Physical trajectory through deep concert space)
-    // Snaking through: Crowd -> Vocalist -> Guitarist -> Bassist -> Drummer -> Keyboardist -> Full Band -> Stage Reveal -> Banner Push -> Rithmos Lock
+    // =========================================================================
+    // 12-SHOT STORYBOARD TRAJECTORY (Image 2: "SAME STAGE, DIFFERENT STORIES. ONE RITHMOS.")
+    // Continuous physical trajectory through single concert stage space
+    // =========================================================================
     this.camPoints = [
-      new THREE.Vector3(0.0, 0.5, 50.0),     // 01 START (CROWD - far entrance, ocean of hands below)
-      new THREE.Vector3(2.2, -0.8, 3.8),     // 02 VOCALIST (Clean close-up framing face & torso on left)
-      new THREE.Vector3(-3.6, -1.4, -17.5),  // 03 GUITARIST (Frames guitarist on right, text on left)
-      new THREE.Vector3(-15.6, -1.2, -37.5), // 04 BASSIST (Frames bassist on left, text on right)
-      new THREE.Vector3(4.5, 2.0, -56.0),    // 05 DRUMMER (Elevated perspective framing drums on right, text on left)
-      new THREE.Vector3(3.5, -1.0, -73.0),   // 06 KEYBOARDIST (Frames synth keys & hands on right, text on left)
-      new THREE.Vector3(0.0, 7.5, 24.0),     // 07 PULL BACK (FULL BAND - high stadium view of all 5 performers from front)
-      new THREE.Vector3(0.0, 18.0, 22.0),    // 08 STAGE REVEAL (Grand crane arena reveal of trusses & full venue)
-      new THREE.Vector3(0.0, 10.5, -62.0),   // 09 MOVE TO BANNER (Smooth forward swoop down arena center)
-      new THREE.Vector3(0.0, 11.8, -78.0)    // 10 RITHMOS (FINAL LOCK on giant glowing stage banner with CTA below)
+      new THREE.Vector3(0.0, 1.2, 34.0),     // 01 START (CROWD - far entrance over ocean of hands)
+      new THREE.Vector3(0.6, -0.4, 14.0),    // 02 MOVE TO VOCALIST (Glide low over crowd toward stage front)
+      new THREE.Vector3(1.3, -0.4, 3.2),     // 03 VOCALIST CU (Intimate close-up framing vocalist on right, text on left)
+      new THREE.Vector3(-2.6, -0.6, -0.5),   // 04 MOVE TO GUITARIST (Pan & glide along stage apron to guitarist)
+      new THREE.Vector3(-3.8, -0.6, -3.8),   // 05 GUITARIST CU (Dynamic framing: guitarist on left, text on right)
+      new THREE.Vector3(4.2, -0.6, -3.8),    // 06 BASSIST CU (Cross-stage glide: bassist on left, text on right)
+      new THREE.Vector3(0.0, 0.4, -6.8),     // 07 DRUMMER (Upward dynamic angle: drummer center, text on right)
+      new THREE.Vector3(5.0, 0.6, -4.5),     // 08 MOVE TO KEYBOARDIST (High front-stage glide clearing bassist)
+      new THREE.Vector3(9.5, -0.2, -8.2),    // 09 KEYS CU (Dynamic concert side angle: keys & performer framed)
+      new THREE.Vector3(0.0, 4.2, 17.5),     // 10 FULL BAND (High front arena angle: all 5 members together, text in sky)
+      new THREE.Vector3(0.0, 11.5, 23.0),    // 11 STAGE REVEAL (Grand crane reveal of stage, lighting, trusses & arena)
+      new THREE.Vector3(0.0, 5.2, -8.0)      // 12 BANNER LOCK (Push into RITHMOS logo with CTA payoff)
     ];
 
-    // 10-Shot Camera Look-at Target Spline
+    // 12-Shot Camera Look-at Target Spline
     this.targetPoints = [
-      new THREE.Vector3(0.0, 0.2, 0.0),      // 01 Looks ahead across crowd toward glowing vocalist & stage
-      new THREE.Vector3(-0.6, -0.8, 0.0),    // 02 Locks on vocalist on left
-      new THREE.Vector3(-8.8, -1.8, -22.0),  // 03 Locks on guitarist on right
-      new THREE.Vector3(-11.5, -1.6, -42.0), // 04 Locks on bassist on left
-      new THREE.Vector3(-0.6, 0.8, -62.0),   // 05 Locks on drummer on right
-      new THREE.Vector3(13.0, -1.8, -80.0),  // 06 Locks on keyboardist on right
-      new THREE.Vector3(0.0, -1.0, -42.0),   // 07 Looking center stage at full band formation
-      new THREE.Vector3(0.0, 3.0, -55.0),    // 08 Looking wide across grand stage and arena truss
-      new THREE.Vector3(0.0, 8.0, -104.0),   // 09 Approach giant banner
-      new THREE.Vector3(0.0, 8.0, -104.0)    // 10 Center lock on RITHMOS logo with CTA breathing below
+      new THREE.Vector3(0.0, -0.4, -2.5),    // 01 Looking ahead across crowd at glowing stage center
+      new THREE.Vector3(0.0, -0.6, -2.5),    // 02 Locking onto vocalist
+      new THREE.Vector3(-0.6, -0.5, -2.5),   // 03 Framing vocalist and floating text
+      new THREE.Vector3(-4.5, -0.8, -6.5),   // 04 Looking towards guitarist
+      new THREE.Vector3(-4.2, -0.8, -7.2),   // 05 Focused between guitarist and text
+      new THREE.Vector3(6.2, -0.8, -7.2),    // 06 Focused between bassist and text
+      new THREE.Vector3(1.2, 1.4, -13.2),    // 07 Looking up at drummer and text
+      new THREE.Vector3(7.5, -0.6, -10.5),   // 08 Looking towards keyboardist
+      new THREE.Vector3(7.8, -0.6, -11.2),   // 09 Focused on keyboardist and text
+      new THREE.Vector3(0.0, -0.5, -8.5),    // 10 Center stage full band framing
+      new THREE.Vector3(0.0, 1.5, -10.0),    // 11 Looking down across stage, arena lighting, and crowd
+      new THREE.Vector3(0.0, 5.2, -18.6)     // 12 Direct lock on RITHMOS logo banner
     ];
 
     this.camCurve = new THREE.CatmullRomCurve3(this.camPoints, false, 'catmullrom', 0.5);
@@ -49,15 +55,6 @@ export class CameraJourney {
       document.getElementById('s1-word-3')
     ];
 
-    this.tags = {
-      vocalist: document.getElementById('tag-vocalist'),
-      guitarist: document.getElementById('tag-guitarist'),
-      drummer: document.getElementById('tag-drummer'),
-      bassist: document.getElementById('tag-bassist'),
-      keyboardist: document.getElementById('tag-keyboardist')
-    };
-
-    this.shot07 = document.getElementById('shot-07');
     this.shot08 = document.getElementById('shot-08');
     this.shot10 = document.getElementById('shot-10');
     this.s5Content = document.getElementById('s5-content');
@@ -86,16 +83,18 @@ export class CameraJourney {
 
   getFOV(p) {
     const keys = [
-      { p: 0.00, fov: 52 },
-      { p: 0.11, fov: 46 },
-      { p: 0.22, fov: 45 },
-      { p: 0.33, fov: 45 },
-      { p: 0.44, fov: 46 },
-      { p: 0.56, fov: 45 },
-      { p: 0.67, fov: 58 },
-      { p: 0.78, fov: 66 },
-      { p: 0.89, fov: 54 },
-      { p: 1.00, fov: 50 }
+      { p: 0.00, fov: 52 }, // 01 Crowd
+      { p: 0.09, fov: 48 }, // 02 Move to Vocalist
+      { p: 0.18, fov: 42 }, // 03 Vocalist CU
+      { p: 0.27, fov: 46 }, // 04 Move to Guitarist
+      { p: 0.36, fov: 42 }, // 05 Guitarist CU
+      { p: 0.45, fov: 44 }, // 06 Bassist
+      { p: 0.55, fov: 45 }, // 07 Drummer
+      { p: 0.64, fov: 46 }, // 08 Move to Keys
+      { p: 0.73, fov: 42 }, // 09 Keys CU
+      { p: 0.82, fov: 56 }, // 10 Full Band
+      { p: 0.91, fov: 64 }, // 11 Stage Reveal
+      { p: 1.00, fov: 48 }  // 12 Banner Payoff
     ];
 
     if (p <= keys[0].p) return keys[0].fov;
@@ -129,9 +128,9 @@ export class CameraJourney {
     }
 
     // 3. Mouse Parallax (subtle cinematic sway)
-    const parallaxStrength = 0.55;
+    const parallaxStrength = 0.45;
     const px = mouse ? mouse.x * parallaxStrength : 0;
-    const py = mouse ? mouse.y * (parallaxStrength * 0.45) : 0;
+    const py = mouse ? mouse.y * (parallaxStrength * 0.4) : 0;
 
     camera.position.set(
       baseCamPos.x + px,
@@ -141,12 +140,12 @@ export class CameraJourney {
 
     // 4. Subtle camera banking / roll into turns
     const tangent = this.camCurve.getTangent(p);
-    const roll = -tangent.x * 0.045;
+    const roll = -tangent.x * 0.04;
     camera.up.set(Math.sin(roll), Math.cos(roll), 0);
 
     camera.lookAt(
-      baseTarget.x + (mouse ? mouse.x * 0.25 : 0),
-      baseTarget.y + (mouse ? mouse.y * 0.18 : 0),
+      baseTarget.x + (mouse ? mouse.x * 0.2 : 0),
+      baseTarget.y + (mouse ? mouse.y * 0.15 : 0),
       baseTarget.z
     );
 
@@ -164,7 +163,7 @@ export class CameraJourney {
       const s1p = p / 0.07;
 
       // Word 1: EVERY BAND (visible immediately at p=0)
-      if (s1p >= 0.00 && s1p < 0.70) {
+      if (s1p >= 0.00 && s1p < 0.75) {
         if (this.s1Words[0]) {
           this.s1Words[0].style.opacity = '1';
           this.s1Words[0].style.transform = 'translateY(0) skewX(-5deg)';
@@ -184,71 +183,28 @@ export class CameraJourney {
         this.s1Words[1].style.opacity = '0';
         this.s1Words[1].style.transform = 'translateY(-24px) rotate(-4deg) skewX(-4deg)';
       }
-
-      // Word 3 (if present in DOM)
-      if (this.s1Words[2]) {
-        this.s1Words[2].style.display = 'none';
-      }
     } else {
       if (this.shot01) this.shot01.classList.remove('active');
     }
 
-    // ----------------------------------------
-    // SHOTS 02-06: Performer Focus HUD Badges (Strictly synchronized to camera framing)
-    // ----------------------------------------
-    // Shot 02 Vocalist: Control point 0.111. Visible when camera is framing vocalist (0.08 -> 0.145)
-    if (this.tags.vocalist) {
-      if (p >= 0.08 && p <= 0.145) this.tags.vocalist.classList.add('active');
-      else this.tags.vocalist.classList.remove('active');
-    }
-
-    // Shot 03 Guitarist: Control point 0.222. Visible when camera is framing guitarist (0.18 -> 0.245)
-    if (this.tags.guitarist) {
-      if (p >= 0.18 && p <= 0.245) this.tags.guitarist.classList.add('active');
-      else this.tags.guitarist.classList.remove('active');
-    }
-
-    // Shot 04 Bassist: Control point 0.333. Visible when camera is framing bassist (0.29 -> 0.355)
-    if (this.tags.bassist) {
-      if (p >= 0.29 && p <= 0.355) this.tags.bassist.classList.add('active');
-      else this.tags.bassist.classList.remove('active');
-    }
-
-    // Shot 05 Drummer: Control point 0.444. Visible when camera is framing drummer (0.40 -> 0.465)
-    if (this.tags.drummer) {
-      if (p >= 0.40 && p <= 0.465) this.tags.drummer.classList.add('active');
-      else this.tags.drummer.classList.remove('active');
-    }
-
-    // Shot 06 Keyboardist: Control point 0.556. Visible when camera is framing keyboardist (0.51 -> 0.575)
-    if (this.tags.keyboardist) {
-      if (p >= 0.51 && p <= 0.575) this.tags.keyboardist.classList.add('active');
-      else this.tags.keyboardist.classList.remove('active');
-    }
+    // Performer typography (Shots 03 to 10) is handled seamlessly
+    // as 3D world-space billboards sticking directly to performers in LayerCompositor!
 
     // ----------------------------------------
-    // SHOT 07: Full Band Reveal: Control point 0.667. Visible when camera is pulled back (0.63 -> 0.72)
-    // ----------------------------------------
-    if (this.shot07) {
-      if (p >= 0.63 && p <= 0.72) this.shot07.classList.add('active');
-      else this.shot07.classList.remove('active');
-    }
-
-    // ----------------------------------------
-    // SHOT 08: Stage Arena Reveal: Control point 0.778. Visible during crane reveal (0.74 -> 0.83)
+    // SHOT 11: Stage Arena Reveal (0.88 -> 0.94)
     // ----------------------------------------
     if (this.shot08) {
-      if (p >= 0.74 && p <= 0.83) this.shot08.classList.add('active');
+      if (p >= 0.88 && p <= 0.94) this.shot08.classList.add('active');
       else this.shot08.classList.remove('active');
     }
 
     // ----------------------------------------
-    // SHOT 09-10: RITHMOS Banner Payoff & Conversion: Control points 0.889 - 1.000. (0.86 -> 1.00)
+    // SHOT 12: RITHMOS Banner Payoff & Conversion (0.93 -> 1.00)
     // ----------------------------------------
     if (this.shot10) {
-      if (p >= 0.86) {
+      if (p >= 0.93) {
         this.shot10.classList.add('active');
-        const payoffP = (p - 0.86) / 0.14;
+        const payoffP = (p - 0.93) / 0.07;
         if (this.s5Content) {
           this.s5Content.style.opacity = `${Math.min(payoffP * 2.5, 1.0)}`;
           this.s5Content.style.transform = `translateY(${(1.0 - Math.min(payoffP * 1.8, 1.0)) * 24}px)`;
@@ -269,8 +225,22 @@ export class CameraJourney {
       this.hudCamZ.textContent = `${camZ >= 0 ? '+' : ''}${camZ.toFixed(1)}`;
     }
 
-    // Determine nearest active shot index
-    const shotThresholds = [0.00, 0.11, 0.22, 0.33, 0.44, 0.56, 0.67, 0.78, 0.89, 1.00];
+    // 12-Shot Storyboard thresholds
+    const shotThresholds = [
+      0.00, // 01 CROWD
+      0.09, // 02 MOVE TO VOCALIST
+      0.18, // 03 VOCALIST CU
+      0.27, // 04 MOVE TO GUITARIST
+      0.36, // 05 GUITARIST CU
+      0.45, // 06 BASSIST
+      0.55, // 07 DRUMMER
+      0.64, // 08 MOVE TO KEYS
+      0.73, // 09 KEYBOARDIST
+      0.82, // 10 FULL BAND
+      0.91, // 11 STAGE REVEAL
+      1.00  // 12 RITHMOS LOCK
+    ];
+
     let activeIdx = 0;
     let minDiff = Infinity;
     shotThresholds.forEach((thresh, idx) => {
