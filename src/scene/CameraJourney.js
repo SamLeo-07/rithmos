@@ -9,33 +9,33 @@ export class CameraJourney {
     this.pt = particles;
     this.lenis = lenis;
 
-    // 10-Shot Camera Position Spline (Physical trajectory through wide concert space)
-    // Expansive stadium framing distances (10-12 units from performers) with wide lateral travel
+    // 10-Shot Camera Position Spline (Physical trajectory through deep concert space)
+    // Snaking through: Crowd -> Vocalist -> Guitarist -> Bassist -> Drummer -> Keyboardist -> Full Band -> Stage Reveal -> Banner Push -> Rithmos Lock
     this.camPoints = [
-      new THREE.Vector3(0.0, -0.8, 28.0),   // 01 START (CROWD - wide arena entrance)
-      new THREE.Vector3(1.6, -1.5, 7.5),    // 02 VOCALIST (Center mic focus, vocalist on left)
-      new THREE.Vector3(-3.2, -1.5, 4.5),   // 03 GUITARIST (Lateral sweep stage right, guitarist on left)
-      new THREE.Vector3(-13.5, -1.2, -1.0), // 04 BASSIST (Deep stage right sweep, bassist on left, clear of guitarist)
-      new THREE.Vector3(-2.0, 1.2, -4.0),   // 05 DRUMMER (Elevated angle, drummer framed on left)
-      new THREE.Vector3(7.0, -1.5, 2.0),    // 06 KEYBOARDIST (Lateral sweep to stage left, keys on right)
-      new THREE.Vector3(0.0, 1.8, 16.0),    // 07 PULL BACK (FULL BAND across wide stadium stage)
-      new THREE.Vector3(0.0, 8.5, 23.0),    // 08 STAGE REVEAL (High crane arena architecture reveal)
-      new THREE.Vector3(0.0, 3.5, 1.0),     // 09 MOVE TO BANNER (Push to giant LED screen)
-      new THREE.Vector3(0.0, 4.0, -5.0)     // 10 RITHMOS (FINAL LOCK on stage banner)
+      new THREE.Vector3(0.0, -0.2, 50.0),    // 01 START (CROWD - far entrance, distant stage, ocean of hands below)
+      new THREE.Vector3(1.6, -1.0, 3.4),     // 02 VOCALIST (Clean close-up framing face, curls, mic, torso on left)
+      new THREE.Vector3(-6.2, -1.8, -19.2),  // 03 GUITARIST (Low angle close-up on guitar, body & fretboard on left)
+      new THREE.Vector3(-7.8, -1.4, -37.5),  // 04 BASSIST (Dynamic close-up on bassist groove, text clear on right)
+      new THREE.Vector3(-2.8, 2.0, -56.5),   // 05 DRUMMER (Elevated close-up framing drummer, raised sticks & cymbals)
+      new THREE.Vector3(9.8, -1.4, -75.5),   // 06 KEYBOARDIST (Close-up sweep across synth keys and performer)
+      new THREE.Vector3(0.0, 8.0, 18.0),     // 07 PULL BACK (FULL BAND - high stadium view of all 5 performers from front)
+      new THREE.Vector3(0.0, 18.0, 20.0),    // 08 STAGE REVEAL (Grand crane arena reveal of trusses & full venue)
+      new THREE.Vector3(0.0, 8.0, -66.0),    // 09 MOVE TO BANNER (High-speed forward drive down arena center)
+      new THREE.Vector3(0.0, 8.2, -84.0)     // 10 RITHMOS (FINAL LOCK on giant glowing stage banner)
     ];
 
     // 10-Shot Camera Look-at Target Spline
     this.targetPoints = [
-      new THREE.Vector3(0.0, -1.0, -6.0),   // 01 Crowd looks ahead to grand stage
-      new THREE.Vector3(-0.6, -1.5, -2.5),  // 02 Vocalist center mic (offset for text)
-      new THREE.Vector3(-7.2, -1.5, -5.0),  // 03 Guitarist with spotlight
-      new THREE.Vector3(-17.5, -1.6, -13.0),// 04 Bassist power groove
-      new THREE.Vector3(1.8, -0.6, -14.0),  // 05 Drummer on kit riser
-      new THREE.Vector3(14.5, -1.5, -8.5),  // 06 Keyboardist synths
-      new THREE.Vector3(0.0, -1.5, -10.0),  // 07 Full band center stage
-      new THREE.Vector3(0.0, -0.5, -14.0),  // 08 Wide stage & arena truss
-      new THREE.Vector3(0.0, 4.0, -18.2),   // 09 Approach giant banner
-      new THREE.Vector3(0.0, 4.0, -18.2)    // 10 Center lock on RITHMOS logo
+      new THREE.Vector3(0.0, 0.5, -20.0),    // 01 Looks ahead across crowd toward glowing distant stage
+      new THREE.Vector3(-0.4, -0.8, 0.0),    // 02 Center-left lock on vocalist silhouette
+      new THREE.Vector3(-8.6, -1.8, -22.0),  // 03 Low lock on guitarist
+      new THREE.Vector3(-11.5, -1.6, -42.0), // 04 Lock on bassist
+      new THREE.Vector3(-0.2, 0.8, -62.0),   // 05 Lock on drummer on kit riser
+      new THREE.Vector3(12.5, -1.8, -80.0),  // 06 Lock on keyboardist synths
+      new THREE.Vector3(0.0, 0.5, -45.0),    // 07 Looking center stage at full band formation
+      new THREE.Vector3(0.0, 3.0, -55.0),    // 08 Looking wide across grand stage and arena truss
+      new THREE.Vector3(0.0, 8.0, -104.0),   // 09 Approach giant banner
+      new THREE.Vector3(0.0, 8.0, -104.0)    // 10 Center lock on RITHMOS logo
     ];
 
     this.camCurve = new THREE.CatmullRomCurve3(this.camPoints, false, 'catmullrom', 0.5);
@@ -87,15 +87,15 @@ export class CameraJourney {
   getFOV(p) {
     const keys = [
       { p: 0.00, fov: 52 },
-      { p: 0.11, fov: 42 },
-      { p: 0.22, fov: 40 },
-      { p: 0.33, fov: 42 },
-      { p: 0.44, fov: 46 },
-      { p: 0.56, fov: 42 },
-      { p: 0.67, fov: 58 },
-      { p: 0.78, fov: 62 },
-      { p: 0.89, fov: 50 },
-      { p: 1.00, fov: 46 }
+      { p: 0.11, fov: 36 },
+      { p: 0.22, fov: 38 },
+      { p: 0.33, fov: 40 },
+      { p: 0.44, fov: 42 },
+      { p: 0.56, fov: 40 },
+      { p: 0.67, fov: 62 },
+      { p: 0.78, fov: 66 },
+      { p: 0.89, fov: 52 },
+      { p: 1.00, fov: 48 }
     ];
 
     if (p <= keys[0].p) return keys[0].fov;
@@ -163,37 +163,31 @@ export class CameraJourney {
       if (this.shot01) this.shot01.classList.add('active');
       const s1p = p / 0.07;
 
-      // Word 1: EVERY BAND
-      if (s1p >= 0.00 && s1p < 0.65) {
+      // Word 1: EVERY BAND (visible immediately at p=0)
+      if (s1p >= 0.00 && s1p < 0.70) {
         if (this.s1Words[0]) {
           this.s1Words[0].style.opacity = '1';
-          this.s1Words[0].style.transform = 'translateY(0)';
+          this.s1Words[0].style.transform = 'translateY(0) skewX(-5deg)';
         }
       } else if (this.s1Words[0]) {
         this.s1Words[0].style.opacity = '0';
-        this.s1Words[0].style.transform = 'translateY(-24px)';
+        this.s1Words[0].style.transform = 'translateY(-24px) skewX(-5deg)';
       }
 
-      // Word 2: HAS A
-      if (s1p >= 0.18 && s1p < 0.75) {
+      // Word 2: HAS A STORY. (visible immediately at p=0 in red brush script)
+      if (s1p >= 0.00 && s1p < 0.85) {
         if (this.s1Words[1]) {
           this.s1Words[1].style.opacity = '1';
-          this.s1Words[1].style.transform = 'translateY(0)';
+          this.s1Words[1].style.transform = 'translateY(0) rotate(-4deg) skewX(-4deg)';
         }
       } else if (this.s1Words[1]) {
         this.s1Words[1].style.opacity = '0';
-        this.s1Words[1].style.transform = 'translateY(-24px)';
+        this.s1Words[1].style.transform = 'translateY(-24px) rotate(-4deg) skewX(-4deg)';
       }
 
-      // Word 3: STORY.
-      if (s1p >= 0.35 && s1p < 0.95) {
-        if (this.s1Words[2]) {
-          this.s1Words[2].style.opacity = '1';
-          this.s1Words[2].style.transform = 'translateY(0)';
-        }
-      } else if (this.s1Words[2]) {
-        this.s1Words[2].style.opacity = '0';
-        this.s1Words[2].style.transform = 'translateY(-24px)';
+      // Word 3 (if present in DOM)
+      if (this.s1Words[2]) {
+        this.s1Words[2].style.display = 'none';
       }
     } else {
       if (this.shot01) this.shot01.classList.remove('active');

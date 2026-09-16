@@ -34,94 +34,150 @@ export class LayerCompositor {
 
   initLayers() {
     // 1. Far Venue Architecture (stadium / arena roof & high arches)
-    this.layers.venueArch = this.createPlaneMesh('/assets/venue-arch.png', 86, 43);
-    this.layers.venueArch.mesh.position.set(0, 6.5, -36);
+    this.layers.venueArch = this.createPlaneMesh('/assets/venue-arch.png', 130, 65);
+    this.layers.venueArch.mesh.position.set(0, 18.0, -128.0);
     this.scene.add(this.layers.venueArch.mesh);
 
     // 2. Giant LED Stage Banner Backdrop (Dark glowing screen backing)
-    const bannerGeo = new THREE.PlaneGeometry(42, 20);
+    const bannerGeo = new THREE.PlaneGeometry(56, 28);
     const bannerMat = new THREE.MeshBasicMaterial({
       color: 0x060103,
       transparent: true,
-      opacity: 0.92,
+      opacity: 0.94,
       depthTest: true,
       depthWrite: false
     });
     this.bannerScreen = new THREE.Mesh(bannerGeo, bannerMat);
-    this.bannerScreen.position.set(0, 4.0, -18.6);
+    this.bannerScreen.position.set(0, 8.0, -104.4);
     this.scene.add(this.bannerScreen);
 
-    // 3. Stage Lighting Beams (Additive concert spotlights and wash)
-    this.layers.lighting = this.createPlaneMesh('/assets/lighting.png', 76, 38, {
+    // 3. Stage Lighting Beams (Additive concert spotlights and wash across depth)
+    this.layers.lighting = this.createPlaneMesh('/assets/lighting.png', 96, 48, {
       blending: THREE.AdditiveBlending,
       opacity: 0.85
     });
-    this.layers.lighting.mesh.position.set(0, 7.0, -20.0);
+    this.layers.lighting.mesh.position.set(0, 11.0, -96.0);
     this.scene.add(this.layers.lighting.mesh);
 
-    // 4. Stage Truss Structure (arena trusses & vertical towers)
-    this.layers.truss = this.createPlaneMesh('/assets/truss-structure.png', 76, 38);
-    this.layers.truss.mesh.position.set(0, 4.5, -18.4);
+    // Midstage lighting beam wash
+    this.layers.lightingMid = this.createPlaneMesh('/assets/lighting.png', 82, 41, {
+      blending: THREE.AdditiveBlending,
+      opacity: 0.75
+    });
+    this.layers.lightingMid.mesh.position.set(0, 9.0, -55.0);
+    this.scene.add(this.layers.lightingMid.mesh);
+
+    // Front stage lighting beam wash
+    this.layers.lightingFront = this.createPlaneMesh('/assets/lighting.png', 76, 38, {
+      blending: THREE.AdditiveBlending,
+      opacity: 0.70
+    });
+    this.layers.lightingFront.mesh.position.set(0, 8.0, -15.0);
+    this.scene.add(this.layers.lightingFront.mesh);
+
+    // 4. Stage Truss Structures (arena trusses & vertical towers)
+    this.layers.truss = this.createPlaneMesh('/assets/truss-structure.png', 96, 48);
+    this.layers.truss.mesh.position.set(0, 9.5, -100.0);
     this.scene.add(this.layers.truss.mesh);
 
+    this.layers.trussMid = this.createPlaneMesh('/assets/truss-structure.png', 78, 39);
+    this.layers.trussMid.mesh.position.set(0, 8.0, -52.0);
+    this.scene.add(this.layers.trussMid.mesh);
+
     // 5. Authentic RITHMOS Stage Banner
-    this.layers.logo = this.createPlaneMesh('/assets/logo.png', 24, 12, {
+    this.layers.logo = this.createPlaneMesh('/assets/logo.png', 36, 18, {
       opacity: 0.95,
       transparent: true
     });
-    this.layers.logo.mesh.position.set(0, 4.0, -18.2);
+    this.layers.logo.mesh.position.set(0, 8.0, -104.0);
     this.scene.add(this.layers.logo.mesh);
 
-    // 6. Stage Platform (massive stadium stage floor beneath all performers)
-    this.layers.platform = this.createPlaneMesh('/assets/stage-platform.png', 68, 34);
-    this.layers.platform.mesh.position.set(0, -6.0, -11.0);
-    this.scene.add(this.layers.platform.mesh);
+    // 6. Deep Stage Platforms spanning the full concert length (Z = +4 to Z = -95)
+    this.layers.platformFront = this.createPlaneMesh('/assets/stage-platform.png', 64, 34);
+    this.layers.platformFront.mesh.position.set(0, -6.0, -10.0);
+    this.scene.add(this.layers.platformFront.mesh);
+
+    this.layers.platformMid = this.createPlaneMesh('/assets/stage-platform.png', 74, 40);
+    this.layers.platformMid.mesh.position.set(0, -6.0, -44.0);
+    this.scene.add(this.layers.platformMid.mesh);
+
+    this.layers.platformBack = this.createPlaneMesh('/assets/stage-platform.png', 84, 46);
+    this.layers.platformBack.mesh.position.set(0, -5.5, -74.0);
+    this.scene.add(this.layers.platformBack.mesh);
+
+    // Elevated Drum Riser Platform (Z = -62.0)
+    this.layers.drumPlatform = this.createPlaneMesh('/assets/stage-platform.png', 18, 9);
+    this.layers.drumPlatform.mesh.position.set(0, -1.6, -62.0);
+    this.scene.add(this.layers.drumPlatform.mesh);
 
     // ==========================================
-    // THE BAND: ALL 5 PERFORMERS DISTRIBUTED ACROSS EXPANSIVE CONCERT STAGE
-    // Spaced out according to the official Camera Movement Map with zero line-of-sight occlusion
+    // THE BAND: ALL 5 PERFORMERS DISTRIBUTED IN LENGTH (DEPTH Z)
+    // Snaking path: Vocalist (front) -> Guitarist -> Bassist -> Drummer -> Keyboardist -> Banner
     // ==========================================
 
-    // Drummer: Center stage back on elevated drum riser (Z = -14.0, X = 0.0)
-    this.layers.drummer = this.createPlaneMesh('/assets/drummer.png', 10.0, 9.14);
-    this.layers.drummer.mesh.position.set(0.0, -0.8, -14.0);
-    this.scene.add(this.layers.drummer.mesh);
-    this.performers.drummer = this.layers.drummer;
-
-    // Bassist: Stage right mid-back (camera left) (Z = -13.0, X = -16.0)
-    this.layers.bassist = this.createPlaneMesh('/assets/bassist.png', 10.5, 7.0);
-    this.layers.bassist.mesh.position.set(-16.0, -2.2, -13.0);
-    this.scene.add(this.layers.bassist.mesh);
-    this.performers.bassist = this.layers.bassist;
-
-    // Guitarist: Stage right mid-front (camera left) (Z = -5.0, X = -6.5)
-    this.layers.guitarist = this.createPlaneMesh('/assets/guitarist.png', 11.0, 7.33);
-    this.layers.guitarist.mesh.position.set(-6.5, -2.4, -5.0);
-    this.scene.add(this.layers.guitarist.mesh);
-    this.performers.guitarist = this.layers.guitarist;
-
-    // Vocalist: Center stage front (Z = -2.5, X = 0.0)
+    // Vocalist: Center stage front (Z = 0.0, X = 0.0)
     this.layers.vocalist = this.createPlaneMesh('/assets/vocalist.png', 3.32, 9.0);
-    this.layers.vocalist.mesh.position.set(0.0, -2.4, -2.5);
+    this.layers.vocalist.mesh.position.set(0.0, -2.4, 0.0);
     this.scene.add(this.layers.vocalist.mesh);
     this.performers.vocalist = this.layers.vocalist;
 
-    // Keyboardist: Stage left mid-stage (camera right) (Z = -8.5, X = 12.5)
+    // Guitarist: Stage right mid-front (Z = -22.0, X = -8.5)
+    this.layers.guitarist = this.createPlaneMesh('/assets/guitarist.png', 11.0, 7.33);
+    this.layers.guitarist.mesh.position.set(-8.5, -2.4, -22.0);
+    this.scene.add(this.layers.guitarist.mesh);
+    this.performers.guitarist = this.layers.guitarist;
+
+    // Bassist: Stage right mid-depth (Z = -42.0, X = -11.5)
+    this.layers.bassist = this.createPlaneMesh('/assets/bassist.png', 10.5, 7.0);
+    this.layers.bassist.mesh.position.set(-11.5, -2.2, -42.0);
+    this.scene.add(this.layers.bassist.mesh);
+    this.performers.bassist = this.layers.bassist;
+
+    // Drummer: Center stage back on elevated drum riser (Z = -62.0, X = 0.0, Y = 0.5)
+    this.layers.drummer = this.createPlaneMesh('/assets/drummer.png', 10.0, 9.14);
+    this.layers.drummer.mesh.position.set(0.0, 0.5, -62.0);
+    this.scene.add(this.layers.drummer.mesh);
+    this.performers.drummer = this.layers.drummer;
+
+    // Keyboardist: Stage left mid-stage (Z = -80.0, X = 12.0)
     this.layers.keyboardist = this.createPlaneMesh('/assets/keyboardist.png', 12.0, 8.0);
-    this.layers.keyboardist.mesh.position.set(12.5, -2.4, -8.5);
+    this.layers.keyboardist.mesh.position.set(12.0, -2.4, -80.0);
     this.scene.add(this.layers.keyboardist.mesh);
     this.performers.keyboardist = this.layers.keyboardist;
 
     // ==========================================
-    // ATMOSPHERE & AUDIENCE (Further away on landing view)
+    // MULTI-TIER DUPLICATED AUDIENCE ACROSS DEPTH (Z = +50 down to Z = +5)
+    // Creating dense ocean of cheering crowd matching Storyboard Panel 01
     // ==========================================
+    this.crowdLayers = [];
 
-    // Drifting Fog Planes across stage depth
+    const audienceConfigs = [
+      { type: 'hands', w: 20, h: 11.2, x: 0.0,  y: -5.9, z: 46.0, op: 0.96 },
+      { type: 'hands', w: 24, h: 13.5, x: -7.0, y: -7.4, z: 42.0, op: 0.94 },
+      { type: 'hands', w: 24, h: 13.5, x: 7.0,  y: -7.4, z: 42.0, op: 0.94 },
+      { type: 'crowd', w: 38, h: 19.0, x: 0.0,  y: -8.2, z: 35.0, op: 0.90 },
+      { type: 'crowd', w: 46, h: 23.0, x: -3.5, y: -10.2, z: 27.0, op: 0.88 },
+      { type: 'crowd', w: 56, h: 28.0, x: 3.5,  y: -11.8, z: 19.0, op: 0.84 },
+      { type: 'crowd', w: 66, h: 33.0, x: 0.0,  y: -13.3, z: 11.0, op: 0.82 },
+      { type: 'crowd', w: 76, h: 38.0, x: 0.0,  y: -14.3, z: 5.0,  op: 0.78 }
+    ];
+
+    audienceConfigs.forEach(cfg => {
+      const file = cfg.type === 'hands' ? '/assets/foreground-hands.png' : '/assets/crowd.png';
+      const plane = this.createPlaneMesh(file, cfg.w, cfg.h, { opacity: cfg.op });
+      plane.mesh.position.set(cfg.x, cfg.y, cfg.z);
+      this.crowdLayers.push({ ...plane, baseOp: cfg.op, baseZ: cfg.z, baseY: cfg.y });
+      this.scene.add(plane.mesh);
+    });
+
+    // Atmospheric Fog Planes distributed through venue depth
     const fogConfigs = [
-      { z: -14.5, y: -3.5, w: 52, h: 26, op: 0.35 },
-      { z: -8.0,  y: -4.0, w: 46, h: 23, op: 0.40 },
-      { z: -1.5,  y: -4.8, w: 42, h: 21, op: 0.45 },
-      { z: 7.0,   y: -6.0, w: 38, h: 19, op: 0.50 }
+      { z: -90.0, y: 0.0,  w: 68, h: 34, op: 0.30 },
+      { z: -60.0, y: -2.0, w: 60, h: 30, op: 0.35 },
+      { z: -30.0, y: -3.5, w: 54, h: 27, op: 0.40 },
+      { z: -10.0, y: -4.5, w: 48, h: 24, op: 0.45 },
+      { z: 15.0,  y: -5.5, w: 44, h: 22, op: 0.48 },
+      { z: 35.0,  y: -6.5, w: 40, h: 20, op: 0.50 }
     ];
 
     fogConfigs.forEach((cfg, idx) => {
@@ -133,22 +189,10 @@ export class LayerCompositor {
       this.fogPlanes.push({ ...fog, baseOp: cfg.op, baseX: (idx % 2 === 0 ? -2 : 2), baseY: cfg.y });
       this.scene.add(fog.mesh);
     });
-
-    // Crowd Midground (Z = +10.0, pushed down and back)
-    // 1774 x 887 -> Aspect ~2.0
-    this.layers.crowd = this.createPlaneMesh('/assets/crowd.png', 42, 21);
-    this.layers.crowd.mesh.position.set(0, -8.0, 10.0);
-    this.scene.add(this.layers.crowd.mesh);
-
-    // Foreground Audience Hands & Silhouettes (Z = +16.0, low bottom rim)
-    // 1672 x 941 -> Aspect ~1.77
-    this.layers.foregroundHands = this.createPlaneMesh('/assets/foreground-hands.png', 34, 19.2);
-    this.layers.foregroundHands.mesh.position.set(0, -8.6, 16.0);
-    this.scene.add(this.layers.foregroundHands.mesh);
   }
 
   update(time, scrollProgress, cameraPos) {
-    // Subtle living breathing of fog planes
+    // Living breathing of fog planes
     this.fogPlanes.forEach((fog, i) => {
       const drift = Math.sin(time * 0.35 + i * 1.8) * 1.6;
       const verticalPulse = Math.cos(time * 0.25 + i * 1.3) * 0.3;
@@ -158,16 +202,36 @@ export class LayerCompositor {
     });
 
     // Dynamic concert lighting beam sweeps
+    const sweep = Math.sin(time * 0.5) * 0.06;
     if (this.layers.lighting) {
-      const sweep = Math.sin(time * 0.5) * 0.06;
       this.layers.lighting.mesh.rotation.z = sweep;
-      this.layers.lighting.material.opacity = 0.72 + 0.22 * Math.sin(time * 1.1);
+      this.layers.lighting.material.opacity = 0.75 + 0.20 * Math.sin(time * 1.1);
+    }
+    if (this.layers.lightingMid) {
+      this.layers.lightingMid.mesh.rotation.z = -sweep * 0.8;
+      this.layers.lightingMid.material.opacity = 0.70 + 0.18 * Math.cos(time * 0.9);
+    }
+    if (this.layers.lightingFront) {
+      this.layers.lightingFront.mesh.rotation.z = sweep * 0.5;
+      this.layers.lightingFront.material.opacity = 0.65 + 0.15 * Math.sin(time * 1.3);
     }
 
     // Dynamic banner screen red breathing pulse
     if (this.bannerScreen) {
-      const pulse = 0.82 + 0.12 * Math.sin(time * 1.4);
+      const pulse = 0.85 + 0.12 * Math.sin(time * 1.4);
       this.bannerScreen.material.opacity = pulse;
+    }
+
+    // Smooth fade-out of audience layers as camera passes through them
+    if (cameraPos && this.crowdLayers) {
+      this.crowdLayers.forEach(layer => {
+        if (cameraPos.z < layer.baseZ + 2.0) {
+          const fade = THREE.MathUtils.clamp((cameraPos.z - (layer.baseZ - 6.0)) / 8.0, 0.0, 1.0);
+          layer.material.opacity = fade * layer.baseOp;
+        } else {
+          layer.material.opacity = layer.baseOp;
+        }
+      });
     }
 
     // Proximity spotlighting on active performers
@@ -175,19 +239,9 @@ export class LayerCompositor {
       Object.keys(this.performers).forEach((key) => {
         const perf = this.performers[key];
         const dist = cameraPos.distanceTo(perf.mesh.position);
-        const proximity = THREE.MathUtils.clamp(1.0 - (dist - 3.5) / 9.0, 0.0, 1.0);
-        perf.material.opacity = 0.88 + proximity * 0.12;
+        const proximity = THREE.MathUtils.clamp(1.0 - (dist - 2.5) / 12.0, 0.0, 1.0);
+        perf.material.opacity = 0.80 + proximity * 0.20;
       });
-    }
-
-    // Foreground hands subtle reaction
-    if (this.layers.foregroundHands) {
-      if (cameraPos && cameraPos.z < 13.5) {
-        const handFade = THREE.MathUtils.clamp((cameraPos.z - 9.0) / 4.5, 0.0, 1.0);
-        this.layers.foregroundHands.material.opacity = handFade * 0.9;
-      } else {
-        this.layers.foregroundHands.material.opacity = 0.9;
-      }
     }
   }
 }

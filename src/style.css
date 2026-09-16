@@ -8,8 +8,10 @@
   --color-text-muted: #8e8d94;
   --color-gold: #ffbe3b;
   
-  --font-display: 'Anton', 'Syncopate', sans-serif;
-  --font-heading: 'Syncopate', sans-serif;
+  --font-rock: 'Teko', 'Bebas Neue', 'Anton', sans-serif;
+  --font-brush: 'Permanent Marker', cursive, sans-serif;
+  --font-display: 'Teko', 'Anton', sans-serif;
+  --font-heading: 'Syncopate', 'Space Grotesk', sans-serif;
   --font-body: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
 
   --ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1);
@@ -317,32 +319,44 @@ body::after {
 }
 
 /* SHOT 01: CROWD & HERO OPENING */
+.shot-01 {
+  justify-content: flex-start;
+  padding-top: 13vh;
+}
+
 .shot-01 .typo-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 4px;
   user-select: none;
 }
 
 .shot-01 .typo-line {
-  font-family: var(--font-display);
-  font-size: clamp(3.5rem, 9vw, 9.5rem);
-  line-height: 0.88;
-  letter-spacing: 0.04em;
+  font-family: var(--font-rock);
+  font-size: clamp(4.5rem, 10.5vw, 10.5rem);
+  font-weight: 700;
+  font-style: italic;
+  line-height: 0.82;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
   color: #fff;
-  text-shadow: 0 0 30px rgba(0, 0, 0, 0.9), 0 0 60px rgba(255, 17, 45, 0.3);
-  transform: translateY(30px);
+  text-shadow: 0 0 30px rgba(0, 0, 0, 0.9), 0 0 60px rgba(255, 17, 45, 0.4);
+  transform: translateY(30px) skewX(-5deg);
   opacity: 0;
   transition: transform 0.6s var(--ease-cinematic), opacity 0.6s ease;
 }
 
 .shot-01 .word-story {
-  color: #ff1a35;
-  text-shadow: 0 0 40px var(--color-red-primary), 0 0 80px rgba(255, 17, 45, 0.7);
-  transition: transform 0.3s ease, font-size 0.3s ease;
+  font-family: var(--font-brush);
+  font-size: clamp(3.0rem, 7.5vw, 6.8rem);
+  font-style: normal;
+  color: #ff112d;
+  text-shadow: 0 0 35px #ff112d, 0 0 75px rgba(255, 17, 45, 0.85);
+  transform: rotate(-4deg) skewX(-4deg);
+  letter-spacing: 0.03em;
+  margin-top: 2px;
 }
 
 .scroll-hint {
@@ -448,12 +462,43 @@ body::after {
 .storyboard-headline {
   display: flex;
   flex-direction: column;
-  font-family: var(--font-display);
-  font-size: clamp(3rem, 5.8vw, 5.2rem);
-  line-height: 0.88;
-  letter-spacing: 0.04em;
+  font-family: var(--font-rock);
+  font-size: clamp(3.8rem, 7.5vw, 6.2rem);
+  font-weight: 700;
+  font-style: italic;
+  line-height: 0.82;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
   margin: 6px 0;
+}
+
+.headline-brush {
+  font-family: var(--font-brush);
+  font-size: clamp(3.2rem, 6.5vw, 5.6rem);
+  font-style: normal;
+  line-height: 0.88;
+  letter-spacing: 0.03em;
+  transform: rotate(-6deg) skewX(-4deg);
+}
+
+.line-brush-white {
+  color: #fff;
+  text-shadow: 0 0 25px rgba(0, 0, 0, 0.9), 0 0 50px rgba(255, 17, 45, 0.4);
+  display: block;
+}
+
+.line-brush-accent {
+  color: #ff112d;
+  text-shadow: 0 0 35px #ff112d, 0 0 70px rgba(255, 17, 45, 0.8);
+  display: block;
+}
+
+.rot-neg {
+  transform: rotate(-4deg) skewX(-5deg);
+}
+
+.rot-pos {
+  transform: rotate(3deg) skewX(4deg);
 }
 
 .storyboard-headline .line-white,
@@ -464,17 +509,8 @@ body::after {
 
 .storyboard-headline .line-accent,
 .pullback-title .line-accent {
-  color: #ff1a35;
-  text-shadow: 0 0 35px var(--color-red-primary), 0 0 70px rgba(255, 17, 45, 0.7);
-}
-
-.storyboard-sub {
-  font-family: var(--font-heading);
-  font-size: clamp(0.75rem, 1.1vw, 0.92rem);
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  color: rgba(255, 255, 255, 0.7);
-  text-transform: uppercase;
+  color: #ff112d;
+  text-shadow: 0 0 35px #ff112d, 0 0 70px rgba(255, 17, 45, 0.8);
 }
 
 /* SHOT 07: FULL BAND PULLBACK */
@@ -499,12 +535,15 @@ body::after {
 .pullback-title {
   display: flex;
   flex-direction: column;
-  font-family: var(--font-display);
-  font-size: clamp(2.8rem, 6.5vw, 5.8rem);
-  line-height: 0.92;
-  letter-spacing: 0.04em;
+  font-family: var(--font-rock);
+  font-size: clamp(3.6rem, 7.5vw, 6.8rem);
+  font-weight: 700;
+  font-style: italic;
+  line-height: 0.85;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
   margin-bottom: 12px;
+  transform: rotate(-3deg);
 }
 
 .pullback-sub {
@@ -534,19 +573,26 @@ body::after {
 }
 
 .arena-title {
-  font-family: var(--font-display);
-  font-size: clamp(2.4rem, 5.8vw, 5rem);
-  letter-spacing: 0.04em;
+  font-family: var(--font-rock);
+  font-size: clamp(3.8rem, 7.5vw, 6.8rem);
+  font-weight: 700;
+  font-style: italic;
+  letter-spacing: 0.02em;
   color: #fff;
-  line-height: 1;
+  line-height: 0.88;
   margin-bottom: 8px;
+  transform: rotate(-2deg);
+  text-shadow: 0 0 30px rgba(0, 0, 0, 0.9), 0 0 60px rgba(255, 17, 45, 0.35);
 }
 
 .arena-sub {
-  font-size: clamp(0.85rem, 1.4vw, 1.15rem);
-  letter-spacing: 0.2em;
-  color: var(--color-red-primary);
-  font-weight: 600;
+  font-family: var(--font-rock);
+  font-size: clamp(1.4rem, 2.5vw, 2.4rem);
+  font-style: italic;
+  letter-spacing: 0.06em;
+  color: #ff112d;
+  font-weight: 700;
+  text-shadow: 0 0 30px #ff112d, 0 0 60px rgba(255, 17, 45, 0.7);
 }
 
 /* SHOT 10: RITHMOS FINAL LOCK & PAYOFF */
