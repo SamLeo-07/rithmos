@@ -194,64 +194,64 @@ export class CameraJourney {
     }
 
     // ----------------------------------------
-    // SHOTS 02-06: Performer Focus HUD Badges
+    // SHOTS 02-06: Performer Focus HUD Badges (Strictly synchronized to camera framing)
     // ----------------------------------------
-    // Shot 02 Vocalist (0.07 -> 0.17)
+    // Shot 02 Vocalist: Control point 0.111. Visible when camera is framing vocalist (0.08 -> 0.14)
     if (this.tags.vocalist) {
-      if (p >= 0.07 && p <= 0.17) this.tags.vocalist.classList.add('active');
+      if (p >= 0.08 && p <= 0.14) this.tags.vocalist.classList.add('active');
       else this.tags.vocalist.classList.remove('active');
     }
 
-    // Shot 03 Guitarist (0.18 -> 0.28)
+    // Shot 03 Guitarist: Control point 0.222. Visible when camera is framing guitarist (0.18 -> 0.25)
     if (this.tags.guitarist) {
-      if (p >= 0.18 && p <= 0.28) this.tags.guitarist.classList.add('active');
+      if (p >= 0.18 && p <= 0.25) this.tags.guitarist.classList.add('active');
       else this.tags.guitarist.classList.remove('active');
     }
 
-    // Shot 04 Bassist (0.29 -> 0.39)
+    // Shot 04 Bassist: Control point 0.333. Visible when camera is framing bassist (0.29 -> 0.36)
     if (this.tags.bassist) {
-      if (p >= 0.29 && p <= 0.39) this.tags.bassist.classList.add('active');
+      if (p >= 0.29 && p <= 0.36) this.tags.bassist.classList.add('active');
       else this.tags.bassist.classList.remove('active');
     }
 
-    // Shot 05 Drummer (0.40 -> 0.50)
+    // Shot 05 Drummer: Control point 0.444. Visible when camera is framing drummer (0.40 -> 0.47)
     if (this.tags.drummer) {
-      if (p >= 0.40 && p <= 0.50) this.tags.drummer.classList.add('active');
+      if (p >= 0.40 && p <= 0.47) this.tags.drummer.classList.add('active');
       else this.tags.drummer.classList.remove('active');
     }
 
-    // Shot 06 Keyboardist (0.51 -> 0.61)
+    // Shot 06 Keyboardist: Control point 0.556. Visible when camera is framing keyboardist (0.51 -> 0.58)
     if (this.tags.keyboardist) {
-      if (p >= 0.51 && p <= 0.61) this.tags.keyboardist.classList.add('active');
+      if (p >= 0.51 && p <= 0.58) this.tags.keyboardist.classList.add('active');
       else this.tags.keyboardist.classList.remove('active');
     }
 
     // ----------------------------------------
-    // SHOT 07: Full Band Reveal (0.62 -> 0.73)
+    // SHOT 07: Full Band Reveal: Control point 0.667. Visible when camera is pulled back (0.62 -> 0.72)
     // ----------------------------------------
     if (this.shot07) {
-      if (p >= 0.62 && p <= 0.73) this.shot07.classList.add('active');
+      if (p >= 0.62 && p <= 0.72) this.shot07.classList.add('active');
       else this.shot07.classList.remove('active');
     }
 
     // ----------------------------------------
-    // SHOT 08: Stage Arena Reveal (0.74 -> 0.84)
+    // SHOT 08: Stage Arena Reveal: Control point 0.778. Visible during crane reveal (0.73 -> 0.83)
     // ----------------------------------------
     if (this.shot08) {
-      if (p >= 0.74 && p <= 0.84) this.shot08.classList.add('active');
+      if (p >= 0.73 && p <= 0.83) this.shot08.classList.add('active');
       else this.shot08.classList.remove('active');
     }
 
     // ----------------------------------------
-    // SHOT 09-10: RITHMOS Banner Payoff & Conversion (0.85 -> 1.00)
+    // SHOT 09-10: RITHMOS Banner Payoff & Conversion: Control points 0.889 - 1.000. (0.87 -> 1.00)
     // ----------------------------------------
     if (this.shot10) {
-      if (p >= 0.85) {
+      if (p >= 0.87) {
         this.shot10.classList.add('active');
-        const payoffP = (p - 0.85) / 0.15;
+        const payoffP = (p - 0.87) / 0.13;
         if (this.s5Content) {
-          this.s5Content.style.opacity = `${Math.min(payoffP * 2.0, 1.0)}`;
-          this.s5Content.style.transform = `translateY(${(1.0 - Math.min(payoffP * 1.5, 1.0)) * 24}px)`;
+          this.s5Content.style.opacity = `${Math.min(payoffP * 2.5, 1.0)}`;
+          this.s5Content.style.transform = `translateY(${(1.0 - Math.min(payoffP * 1.8, 1.0)) * 24}px)`;
         }
       } else {
         this.shot10.classList.remove('active');

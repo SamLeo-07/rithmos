@@ -32,6 +32,73 @@ export class LayerCompositor {
     return { mesh, material, texture };
   }
 
+  createContactShadowTexture() {
+    const canvas = document.createElement('canvas');
+    canvas.width = 128;
+    canvas.height = 128;
+    const ctx = canvas.getContext('2d');
+    const grad = ctx.createRadialGradient(64, 64, 0, 64, 64, 64);
+    grad.addColorStop(0, 'rgba(0, 0, 0, 0.88)');
+    grad.addColorStop(0.3, 'rgba(0, 0, 0, 0.65)');
+    grad.addColorStop(0.7, 'rgba(0, 0, 0, 0.22)');
+    grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 128, 128);
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.colorSpace = THREE.SRGBColorSpace;
+    return texture;
+  }
+
+  createSpotlightPoolTexture() {
+    const canvas = document.createElement('canvas');
+    canvas.width = 128;
+    canvas.height = 128;
+    const ctx = canvas.getContext('2d');
+    const grad = ctx.createRadialGradient(64, 64, 0, 64, 64, 64);
+    grad.addColorStop(0, 'rgba(255, 35, 55, 0.75)');
+    grad.addColorStop(0.25, 'rgba(255, 20, 45, 0.40)');
+    grad.addColorStop(0.65, 'rgba(180, 10, 30, 0.12)');
+    grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 128, 128);
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.colorSpace = THREE.SRGBColorSpace;
+    return texture;
+  }
+
+  addPerformerGrounding(x, floorY, z, shadowW, shadowH, poolW, poolH) {
+    // 1. Soft Floor Contact Shadow
+    const shadowGeo = new THREE.PlaneGeometry(shadowW, shadowH);
+    const shadowMat = new THREE.MeshBasicMaterial({
+      map: this.shadowTexture,
+      transparent: true,
+      opacity: 0.85,
+      depthWrite: false,
+      depthTest: true
+    });
+    const shadowMesh = new THREE.Mesh(shadowGeo, shadowMat);
+    shadowMesh.rotation.x = -Math.PI / 2;
+    shadowMesh.position.set(x, floorY + 0.04, z);
+    this.scene.add(shadowMesh);
+
+    // 2. Glowing Stage Floor Spotlight Pool
+    const poolGeo = new THREE.PlaneGeometry(poolW, poolH);
+    const poolMat = new THREE.MeshBasicMaterial({
+      map: this.spotlightTexture,
+      transparent: true,
+      opacity: 0.55,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+      depthTest: true
+    });
+    const poolMesh = new THREE.Mesh(poolGeo, poolMat);
+    poolMesh.rotation.x = -Math.PI / 2;
+    poolMesh.position.set(x, floorY + 0.05, z);
+    this.scene.add(poolMesh);
+
+    return { shadowMesh, shadowMat, poolMesh, poolMat, baseZ: z };
+  }
+
   initLayers() {
     // 1. Far Venue Architecture (stadium / arena roof & high arches)
     this.layers.venueArch = this.createPlaneMesh('/assets/venue-arch.png', 130, 65);
@@ -110,39 +177,49 @@ export class LayerCompositor {
     this.layers.drumPlatform.mesh.position.set(0, -1.6, -62.0);
     this.scene.add(this.layers.drumPlatform.mesh);
 
+    // Helper to generate soft contact shadow texture
+    this.shadowTexture = this.createContactShadowTexture();
+    this.spotlightTexture = this.createSpotlightPoolTexture();
+
     // ==========================================
     // THE BAND: ALL 5 PERFORMERS DISTRIBUTED IN LENGTH (DEPTH Z)
     // Snaking path: Vocalist (front) -> Guitarist -> Bassist -> Drummer -> Keyboardist -> Banner
+    // Grounded with stage floor contact shadows and spotlight pools
     // ==========================================
 
     // Vocalist: Center stage front (Z = 0.0, X = 0.0)
     this.layers.vocalist = this.createPlaneMesh('/assets/vocalist.png', 3.32, 9.0);
     this.layers.vocalist.mesh.position.set(0.0, -2.4, 0.0);
     this.scene.add(this.layers.vocalist.mesh);
+    this.layers.vocalist.grounding = this.addPerformerGrounding(0.0, -2.4, 0.0, 4.5, 2.4, 7.0, 4.0);
     this.performers.vocalist = this.layers.vocalist;
 
     // Guitarist: Stage right mid-front (Z = -22.0, X = -8.5)
     this.layers.guitarist = this.createPlaneMesh('/assets/guitarist.png', 11.0, 7.33);
     this.layers.guitarist.mesh.position.set(-8.5, -2.4, -22.0);
     this.scene.add(this.layers.guitarist.mesh);
+    this.layers.guitarist.grounding = this.addPerformerGrounding(-8.5, -2.4, -22.0, 5.5, 3.0, 8.5, 5.0);
     this.performers.guitarist = this.layers.guitarist;
 
     // Bassist: Stage right mid-depth (Z = -42.0, X = -11.5)
     this.layers.bassist = this.createPlaneMesh('/assets/bassist.png', 10.5, 7.0);
     this.layers.bassist.mesh.position.set(-11.5, -2.2, -42.0);
     this.scene.add(this.layers.bassist.mesh);
+    this.layers.bassist.grounding = this.addPerformerGrounding(-11.5, -2.2, -42.0, 5.5, 3.0, 8.5, 5.0);
     this.performers.bassist = this.layers.bassist;
 
     // Drummer: Center stage back on elevated drum riser (Z = -62.0, X = 0.0, Y = 0.5)
     this.layers.drummer = this.createPlaneMesh('/assets/drummer.png', 10.0, 9.14);
     this.layers.drummer.mesh.position.set(0.0, 0.5, -62.0);
     this.scene.add(this.layers.drummer.mesh);
+    this.layers.drummer.grounding = this.addPerformerGrounding(0.0, 0.48, -62.0, 9.0, 4.5, 12.0, 6.0);
     this.performers.drummer = this.layers.drummer;
 
     // Keyboardist: Stage left mid-stage (Z = -80.0, X = 12.0)
     this.layers.keyboardist = this.createPlaneMesh('/assets/keyboardist.png', 12.0, 8.0);
     this.layers.keyboardist.mesh.position.set(12.0, -2.4, -80.0);
     this.scene.add(this.layers.keyboardist.mesh);
+    this.layers.keyboardist.grounding = this.addPerformerGrounding(12.0, -2.4, -80.0, 6.5, 3.2, 9.5, 5.5);
     this.performers.keyboardist = this.layers.keyboardist;
 
     // ==========================================
@@ -234,13 +311,40 @@ export class LayerCompositor {
       });
     }
 
-    // Proximity spotlighting on active performers
+    // 3D Volumetric Performer Processing: Dynamic cylindrical billboarding, ground shadow sync, and behind-camera fade
     if (cameraPos) {
       Object.keys(this.performers).forEach((key) => {
         const perf = this.performers[key];
+        const dx = cameraPos.x - perf.mesh.position.x;
+        const dz = cameraPos.z - perf.mesh.position.z;
+
+        // Dynamic cylindrical billboarding: Performer turns naturally toward the camera along Y
+        // This completely eliminates the paper-thin / flat 2D cardboard effect from angled perspectives
+        if (dz > 0.05) {
+          const targetAngle = Math.atan2(dx, dz);
+          perf.mesh.rotation.y = THREE.MathUtils.clamp(targetAngle, -0.60, 0.60);
+        } else {
+          perf.mesh.rotation.y = 0;
+        }
+
+        // Dissolve performers cleanly when camera passes behind them to prevent clipping or raw 2D back-edge views
+        const distBehind = perf.mesh.position.z - cameraPos.z;
+        let behindFade = 1.0;
+        if (distBehind > 0.8) {
+          behindFade = THREE.MathUtils.clamp(1.0 - (distBehind - 0.8) / 3.5, 0.0, 1.0);
+        }
+
+        // Proximity illumination from stage spotlights
         const dist = cameraPos.distanceTo(perf.mesh.position);
         const proximity = THREE.MathUtils.clamp(1.0 - (dist - 2.5) / 12.0, 0.0, 1.0);
-        perf.material.opacity = 0.80 + proximity * 0.20;
+        const totalOpacity = (0.80 + proximity * 0.20) * behindFade;
+        perf.material.opacity = totalOpacity;
+
+        // Ground contact shadow and spotlight pool synchronization
+        if (perf.grounding) {
+          perf.grounding.shadowMat.opacity = 0.85 * behindFade;
+          perf.grounding.poolMat.opacity = (0.45 + proximity * 0.25) * behindFade;
+        }
       });
     }
   }
