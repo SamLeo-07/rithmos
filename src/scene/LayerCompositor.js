@@ -268,7 +268,8 @@ export class LayerCompositor {
     });
   }
 
-  update(time, scrollProgress, cameraPos) {
+  update(time, scrollProgress, camera) {
+    const cameraPos = camera && camera.isCamera ? camera.position : (camera || null);
     // Living breathing of fog planes
     this.fogPlanes.forEach((fog, i) => {
       const drift = Math.sin(time * 0.35 + i * 1.8) * 1.6;
@@ -311,39 +312,44 @@ export class LayerCompositor {
       });
     }
 
-    // 3D Volumetric Performer Processing: Dynamic cylindrical billboarding, ground shadow sync, and behind-camera fade
+    // 3D Volumetric Performer Processing: Dynamic cylindrical billboarding, ground shadow sync, and 3D frustum fade
     if (cameraPos) {
+      const camForward = new THREE.Vector3(0, 0, -1);
+      if (camera && camera.getWorldDirection) {
+        camera.getWorldDirection(camForward);
+      }
+
       Object.keys(this.performers).forEach((key) => {
         const perf = this.performers[key];
         const dx = cameraPos.x - perf.mesh.position.x;
         const dz = cameraPos.z - perf.mesh.position.z;
 
-        // Dynamic cylindrical billboarding: Performer turns naturally toward the camera along Y
-        // This completely eliminates the paper-thin / flat 2D cardboard effect from angled perspectives
-        if (dz > 0.05) {
+        // 1. Dynamic cylindrical billboarding: Performer turns naturally toward the camera along Y
+        // Clamped to [-0.95, 0.95] rad (~54 deg) so planes stay facing the camera lens without extreme distortion
+        const distHoriz = Math.hypot(dx, dz);
+        if (distHoriz > 0.2) {
           const targetAngle = Math.atan2(dx, dz);
-          perf.mesh.rotation.y = THREE.MathUtils.clamp(targetAngle, -0.60, 0.60);
-        } else {
-          perf.mesh.rotation.y = 0;
+          perf.mesh.rotation.y = THREE.MathUtils.clamp(targetAngle, -0.95, 0.95);
         }
 
-        // Dissolve performers cleanly when camera passes behind them to prevent clipping or raw 2D back-edge views
-        const distBehind = perf.mesh.position.z - cameraPos.z;
+        // 2. True 3D view frustum dissolve: Fade out only when actually behind camera lens
+        const toPerf = new THREE.Vector3().subVectors(perf.mesh.position, cameraPos);
+        const forwardDist = toPerf.dot(camForward);
         let behindFade = 1.0;
-        if (distBehind > 0.8) {
-          behindFade = THREE.MathUtils.clamp(1.0 - (distBehind - 0.8) / 3.5, 0.0, 1.0);
+        if (forwardDist < 0.6) {
+          behindFade = THREE.MathUtils.clamp((forwardDist - (-1.8)) / 2.4, 0.0, 1.0);
         }
 
-        // Proximity illumination from stage spotlights
+        // 3. Proximity illumination from stage spotlights
         const dist = cameraPos.distanceTo(perf.mesh.position);
-        const proximity = THREE.MathUtils.clamp(1.0 - (dist - 2.5) / 12.0, 0.0, 1.0);
-        const totalOpacity = (0.80 + proximity * 0.20) * behindFade;
+        const proximity = THREE.MathUtils.clamp(1.0 - (dist - 3.0) / 14.0, 0.0, 1.0);
+        const totalOpacity = (0.85 + proximity * 0.15) * behindFade;
         perf.material.opacity = totalOpacity;
 
-        // Ground contact shadow and spotlight pool synchronization
+        // 4. Ground contact shadow and spotlight pool synchronization
         if (perf.grounding) {
           perf.grounding.shadowMat.opacity = 0.85 * behindFade;
-          perf.grounding.poolMat.opacity = (0.45 + proximity * 0.25) * behindFade;
+          perf.grounding.poolMat.opacity = (0.50 + proximity * 0.25) * behindFade;
         }
       });
     }

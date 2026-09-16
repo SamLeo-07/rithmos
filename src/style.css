@@ -515,7 +515,8 @@ body::after {
 
 /* SHOT 07: FULL BAND PULLBACK */
 .shot-07 {
-  justify-content: center;
+  justify-content: flex-start;
+  padding-top: 14vh;
 }
 
 .pullback-statement {
@@ -555,7 +556,8 @@ body::after {
 
 /* SHOT 08: STAGE ARENA REVEAL */
 .shot-08 {
-  justify-content: center;
+  justify-content: flex-start;
+  padding-top: 14vh;
 }
 
 .arena-statement {
@@ -598,7 +600,7 @@ body::after {
 /* SHOT 10: RITHMOS FINAL LOCK & PAYOFF */
 .shot-10 {
   justify-content: flex-end;
-  padding-bottom: 70px;
+  padding-bottom: 32px;
   pointer-events: none;
 }
 
@@ -607,8 +609,8 @@ body::after {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 20px;
-  max-width: 900px;
+  gap: 14px;
+  max-width: 860px;
   pointer-events: auto;
   z-index: 30;
 }

@@ -87,8 +87,11 @@ class RithmosApp {
       // Mouse parallax
       this.sceneManager.updateMouseParallax(0.06);
 
-      // Update layers
-      this.layerCompositor.update(seconds, this.scrollProgress, this.sceneManager.camera.position);
+      // Update camera trajectory and kinetic typography first so camera is in fresh position
+      this.cameraJourney.update(this.scrollProgress, this.sceneManager.mouse);
+
+      // Update layers with camera reference
+      this.layerCompositor.update(seconds, this.scrollProgress, this.sceneManager.camera);
 
       // Update rehearsal environment
       this.rehearsalEnv.update(seconds, this.scrollProgress);
@@ -98,9 +101,6 @@ class RithmosApp {
 
       // Update particles
       this.particles.update(seconds, this.scrollProgress, this.scrollVelocity);
-
-      // Update camera trajectory and kinetic typography
-      this.cameraJourney.update(this.scrollProgress, this.sceneManager.mouse);
 
       // Update audio filter sweep
       this.audio.updateScroll(this.scrollProgress);
