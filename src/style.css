@@ -486,13 +486,14 @@ body::after {
 }
 
 .shot-01 .word-story {
-  font-family: var(--font-brush);
-  font-size: clamp(3.0rem, 7.5vw, 6.8rem);
-  font-style: normal;
+  font-family: var(--font-rock);
+  font-size: clamp(3.2rem, 7.8vw, 7.2rem);
+  font-weight: 700;
+  font-style: italic;
   color: #ff112d;
-  text-shadow: 0 0 35px #ff112d, 0 0 75px rgba(255, 17, 45, 0.85);
-  transform: rotate(-4deg) skewX(-4deg);
-  letter-spacing: 0.03em;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.95);
+  transform: translateY(30px) skewX(-5deg);
+  letter-spacing: 0.02em;
   margin-top: 2px;
 }
 
@@ -610,12 +611,12 @@ body::after {
 }
 
 .headline-brush {
-  font-family: var(--font-brush);
-  font-size: clamp(3.2rem, 6.5vw, 5.6rem);
-  font-style: normal;
+  font-family: var(--font-rock);
+  font-size: clamp(3.4rem, 7.5vw, 6.2rem);
+  font-weight: 700;
+  font-style: italic;
   line-height: 0.88;
-  letter-spacing: 0.03em;
-  transform: rotate(-6deg) skewX(-4deg);
+  letter-spacing: 0.02em;
 }
 
 .line-brush-white {
@@ -626,7 +627,7 @@ body::after {
 
 .line-brush-accent {
   color: #ff112d;
-  text-shadow: 0 0 35px #ff112d, 0 0 70px rgba(255, 17, 45, 0.8);
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.95);
   display: block;
 }
 
@@ -647,7 +648,7 @@ body::after {
 .storyboard-headline .line-accent,
 .pullback-title .line-accent {
   color: #ff112d;
-  text-shadow: 0 0 35px #ff112d, 0 0 70px rgba(255, 17, 45, 0.8);
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.95);
 }
 
 /* SHOT 07: FULL BAND PULLBACK */
@@ -731,7 +732,7 @@ body::after {
   letter-spacing: 0.06em;
   color: #ff112d;
   font-weight: 700;
-  text-shadow: 0 0 30px #ff112d, 0 0 60px rgba(255, 17, 45, 0.7);
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.95);
 }
 
 /* SHOT 10: RITHMOS FINAL LOCK & PAYOFF */

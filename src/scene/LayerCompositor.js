@@ -252,13 +252,13 @@ export class LayerCompositor {
   }
 
   // =========================================================================
-  // 5. 3D KINETIC TEXT BILLBOARDS (Physically sticking directly to performers)
-  // Transparent Canvas Textures in 3D world space (No box, pure floating rock typography)
+  // 5. 3D KINETIC TEXT BILLBOARDS (Physically attached directly to performers)
+  // High-Resolution 2048x1024 Canvas in 3D space with unified Alderwood typography
   // =========================================================================
-  createTextBillboard(lines, width = 4.0, height = 2.0, align = 'left') {
+  createTextBillboard(lines, width = 5.6, height = 2.8, align = 'left') {
     const canvas = document.createElement('canvas');
-    canvas.width = 1024;
-    canvas.height = 512;
+    canvas.width = 2048;
+    canvas.height = 1024;
     const ctx = canvas.getContext('2d');
 
     const texture = new THREE.CanvasTexture(canvas);
@@ -267,43 +267,42 @@ export class LayerCompositor {
     texture.minFilter = THREE.LinearMipmapLinearFilter;
 
     const renderText = () => {
-      ctx.clearRect(0, 0, 1024, 512);
+      ctx.clearRect(0, 0, 2048, 1024);
 
-      const startX = align === 'center' ? 512 : 70;
+      const startX = align === 'center' ? 1024 : 120;
       ctx.textAlign = align;
 
       // Accurate vertical centering calculation to prevent any top or bottom clipping
       let totalBlockHeight = 0;
       lines.forEach((item, idx) => {
-        const size = item.size || 76;
+        const size = item.size || 140;
         totalBlockHeight += size;
-        if (idx < lines.length - 1) totalBlockHeight += 14;
+        if (idx < lines.length - 1) totalBlockHeight += 24;
       });
 
-      let currentY = Math.max(60, Math.round((512 - totalBlockHeight) / 2 + (lines[0].size || 76) * 0.82));
+      let currentY = Math.max(100, Math.round((1024 - totalBlockHeight) / 2 + (lines[0].size || 140) * 0.85));
 
       lines.forEach(item => {
         const text = item.text || item;
-        const isBrush = item.brush || false;
-        const fontSize = item.size || 76;
+        const isRed = item.color === 'red' || item.brush || false;
+        const fontSize = item.size || 140;
 
         ctx.save();
+        ctx.translate(startX, currentY);
 
-        if (isBrush) {
-          // Expressive red brush script with dynamic rock tilt
-          ctx.translate(startX, currentY);
-          ctx.rotate(-0.06); // ~3.5 deg upward slant
-          ctx.font = `bold ${fontSize}px "Permanent Marker", "Rock Salt", cursive, Impact`;
+        // BOTH RED AND WHITE TEXT USE THE EXACT SAME ALDERWOOD FONT
+        ctx.font = `700 ${fontSize}px "Alderwood", "Anton", "Bebas Neue", Impact, sans-serif`;
 
-          // Intense neon red glow
-          ctx.shadowColor = 'rgba(255, 20, 50, 0.95)';
+        if (isRed) {
+          // Vibrant concert crimson red with crisp dark drop shadow (NO GLOW) - SAME ALDERWOOD FONT
+          ctx.shadowColor = 'rgba(0, 0, 0, 0.95)';
           ctx.shadowBlur = 24;
-          ctx.shadowOffsetX = 0;
-          ctx.shadowOffsetY = 4;
+          ctx.shadowOffsetX = 6;
+          ctx.shadowOffsetY = 8;
 
-          // Deep dark under-stroke for maximum contrast against stage lights
-          ctx.strokeStyle = 'rgba(10, 1, 3, 0.95)';
-          ctx.lineWidth = 10;
+          // Deep dark under-stroke for maximum contrast and punch
+          ctx.strokeStyle = 'rgba(8, 1, 3, 0.96)';
+          ctx.lineWidth = 14;
           ctx.lineJoin = 'round';
           ctx.strokeText(text.toUpperCase(), 0, 0);
 
@@ -311,19 +310,15 @@ export class LayerCompositor {
           ctx.fillStyle = '#ff1c36';
           ctx.fillText(text.toUpperCase(), 0, 0);
         } else {
-          // Heavy distressed condensed white headline in Alderwood
-          ctx.translate(startX, currentY);
-          ctx.font = `700 ${fontSize}px "Alderwood", "Anton", "Bebas Neue", Impact, sans-serif`;
-
-          // Drop shadow
+          // Clean bold white with dramatic drop shadow - SAME ALDERWOOD FONT
           ctx.shadowColor = 'rgba(0, 0, 0, 0.95)';
-          ctx.shadowBlur = 18;
-          ctx.shadowOffsetX = 4;
-          ctx.shadowOffsetY = 6;
+          ctx.shadowBlur = 28;
+          ctx.shadowOffsetX = 6;
+          ctx.shadowOffsetY = 8;
 
           // Deep dark under-stroke
-          ctx.strokeStyle = 'rgba(10, 1, 3, 0.95)';
-          ctx.lineWidth = 10;
+          ctx.strokeStyle = 'rgba(8, 1, 3, 0.96)';
+          ctx.lineWidth = 14;
           ctx.lineJoin = 'round';
           ctx.strokeText(text.toUpperCase(), 0, 0);
 
@@ -333,7 +328,7 @@ export class LayerCompositor {
         }
 
         ctx.restore();
-        currentY += fontSize + 14;
+        currentY += fontSize + 24;
       });
     };
 
@@ -364,84 +359,84 @@ export class LayerCompositor {
 
   initTextBillboards() {
     // 1. Vocalist Billboard (Shot 03: "EVERY BAND HAS A STORY.")
-    // Floats in 3D air to the left of the vocalist
+    // Towering 3D typography physically attached beside the vocalist in 3D space
     this.textBillboards.vocalist = this.createTextBillboard(
       [
-        { text: 'EVERY BAND', brush: false, size: 80 },
-        { text: 'HAS A STORY.', brush: true, size: 92 }
+        { text: 'EVERY BAND', color: 'white', size: 155 },
+        { text: 'HAS A STORY.', color: 'red', size: 170 }
       ],
-      3.8, 1.9, 'left'
+      5.6, 2.8, 'left'
     );
-    this.textBillboards.vocalist.mesh.position.set(-1.8, 0.2, -2.2);
+    this.textBillboards.vocalist.mesh.position.set(-1.4, 0.1, -2.5);
     this.textBillboards.vocalist.activeRange = [0.12, 0.16, 0.23, 0.27];
     this.scene.add(this.textBillboards.vocalist.mesh);
 
     // 2. Guitarist Billboard (Shot 05: "GUITAR DRIVES DREAMS.")
-    // Floats to the right of the guitarist towards stage center
+    // Large typography physically attached to the guitarist at stage-right
     this.textBillboards.guitarist = this.createTextBillboard(
       [
-        { text: 'GUITAR', brush: false, size: 68 },
-        { text: 'DRIVES', brush: false, size: 68 },
-        { text: 'DREAMS.', brush: true, size: 78 }
+        { text: 'GUITAR', color: 'white', size: 135 },
+        { text: 'DRIVES', color: 'white', size: 135 },
+        { text: 'DREAMS.', color: 'red', size: 150 }
       ],
-      3.6, 1.8, 'left'
+      5.6, 2.8, 'left'
     );
-    this.textBillboards.guitarist.mesh.position.set(-2.6, -0.3, -6.8);
+    this.textBillboards.guitarist.mesh.position.set(-2.2, -0.1, -7.5);
     this.textBillboards.guitarist.activeRange = [0.28, 0.34, 0.40, 0.44];
     this.scene.add(this.textBillboards.guitarist.mesh);
 
     // 3. Bassist Billboard (Shot 06: "BASS BUILDS DEPTH.")
-    // Floats to the right of the bassist
+    // Large typography physically attached beside the bassist at stage-left
     this.textBillboards.bassist = this.createTextBillboard(
       [
-        { text: 'BASS', brush: false, size: 68 },
-        { text: 'BUILDS', brush: false, size: 68 },
-        { text: 'DEPTH.', brush: true, size: 78 }
+        { text: 'BASS', color: 'white', size: 135 },
+        { text: 'BUILDS', color: 'white', size: 135 },
+        { text: 'DEPTH.', color: 'red', size: 150 }
       ],
-      3.6, 1.8, 'left'
+      5.6, 2.8, 'left'
     );
-    this.textBillboards.bassist.mesh.position.set(7.2, 0.0, -6.8);
+    this.textBillboards.bassist.mesh.position.set(6.8, -0.1, -7.2);
     this.textBillboards.bassist.activeRange = [0.40, 0.44, 0.49, 0.53];
     this.scene.add(this.textBillboards.bassist.mesh);
 
     // 4. Drummer Billboard (Shot 07: "DRUMS POWER PEOPLE.")
-    // Floats to the right of the drummer on the riser
+    // Large typography physically attached beside the drummer on the riser
     this.textBillboards.drummer = this.createTextBillboard(
       [
-        { text: 'DRUMS', brush: false, size: 68 },
-        { text: 'POWER', brush: false, size: 68 },
-        { text: 'PEOPLE.', brush: true, size: 78 }
+        { text: 'DRUMS', color: 'white', size: 135 },
+        { text: 'POWER', color: 'white', size: 135 },
+        { text: 'PEOPLE.', color: 'red', size: 150 }
       ],
-      3.6, 1.8, 'left'
+      5.6, 2.8, 'left'
     );
-    this.textBillboards.drummer.mesh.position.set(3.6, 1.3, -12.2);
+    this.textBillboards.drummer.mesh.position.set(3.5, 1.6, -13.5);
     this.textBillboards.drummer.activeRange = [0.50, 0.54, 0.59, 0.63];
     this.scene.add(this.textBillboards.drummer.mesh);
 
     // 5. Keyboardist Billboard (Shot 09: "KEYS SHAPE ATMOSPHERE.")
-    // Framed cleanly in open left-center space beside keyboardist, clear of HUD
+    // Large typography physically attached beside the keyboardist and synth stand
     this.textBillboards.keyboardist = this.createTextBillboard(
       [
-        { text: 'KEYS', brush: false, size: 64 },
-        { text: 'SHAPE', brush: false, size: 64 },
-        { text: 'ATMOSPHERE.', brush: true, size: 70 }
+        { text: 'KEYS', color: 'white', size: 130 },
+        { text: 'SHAPE', color: 'white', size: 130 },
+        { text: 'ATMOSPHERE.', color: 'red', size: 145 }
       ],
-      3.6, 1.8, 'left'
+      5.6, 2.8, 'left'
     );
-    this.textBillboards.keyboardist.mesh.position.set(6.8, 0.5, -10.5);
+    this.textBillboards.keyboardist.mesh.position.set(5.5, 0.2, -11.5);
     this.textBillboards.keyboardist.activeRange = [0.65, 0.71, 0.77, 0.80];
     this.scene.add(this.textBillboards.keyboardist.mesh);
 
     // 6. Full Band Billboard (Shot 10: "TOGETHER THEY CREATE MORE.")
-    // Floats boldly in upper arena sky above the full 5-member band
+    // Towering arena sky typography over the full band
     this.textBillboards.fullBand = this.createTextBillboard(
       [
-        { text: 'TOGETHER', brush: false, size: 84 },
-        { text: 'THEY CREATE MORE.', brush: true, size: 96 }
+        { text: 'TOGETHER', color: 'white', size: 150 },
+        { text: 'THEY CREATE MORE.', color: 'red', size: 165 }
       ],
-      8.0, 4.0, 'center'
+      10.0, 5.0, 'center'
     );
-    this.textBillboards.fullBand.mesh.position.set(0.0, 4.5, 4.0);
+    this.textBillboards.fullBand.mesh.position.set(0.0, 4.8, 3.5);
     this.textBillboards.fullBand.activeRange = [0.79, 0.82, 0.87, 0.90];
     this.scene.add(this.textBillboards.fullBand.mesh);
   }
