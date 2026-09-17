@@ -149,29 +149,23 @@ body::after {
 
 .brand-link {
   display: flex;
-  flex-direction: column;
+  align-items: center;
   text-decoration: none;
-  gap: 1px;
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-.brand-text {
-  font-family: 'Alderwood', 'Inter', -apple-system, sans-serif;
-  font-size: 1.22rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  color: #ffffff;
-  line-height: 1;
+.brand-link:hover {
+  opacity: 0.92;
+  transform: scale(1.02);
 }
 
-.brand-subtext {
-  font-family: 'Inter', -apple-system, sans-serif;
-  font-size: 0.52rem;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  color: #777782;
-  text-transform: uppercase;
-  line-height: 1;
-  margin-top: 3px;
+.nav-brand-logo {
+  height: 46px;
+  width: auto;
+  max-width: 150px;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.45));
 }
 
 .nav-menu {
