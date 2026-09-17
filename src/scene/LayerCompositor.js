@@ -85,6 +85,7 @@ export class LayerCompositor {
     const shadowMesh = new THREE.Mesh(shadowGeo, shadowMat);
     shadowMesh.rotation.x = -Math.PI / 2;
     shadowMesh.position.set(x, floorY + 0.04, z);
+    shadowMesh.renderOrder = 11;
     this.scene.add(shadowMesh);
 
     // 2. Glowing Stage Floor Spotlight Pool
@@ -100,6 +101,7 @@ export class LayerCompositor {
     const poolMesh = new THREE.Mesh(poolGeo, poolMat);
     poolMesh.rotation.x = -Math.PI / 2;
     poolMesh.position.set(x, floorY + 0.05, z);
+    poolMesh.renderOrder = 11;
     this.scene.add(poolMesh);
 
     return { shadowMesh, shadowMat, poolMesh, poolMat, baseZ: z };
@@ -112,6 +114,7 @@ export class LayerCompositor {
     // Far Venue Architecture (stadium / arena roof & high arches)
     this.layers.venueArch = this.createPlaneMesh('/assets/venue-arch.png', 80, 40);
     this.layers.venueArch.mesh.position.set(0, 12.0, -28.0);
+    this.layers.venueArch.mesh.renderOrder = 1;
     this.scene.add(this.layers.venueArch.mesh);
 
     // Giant LED Stage Banner Backdrop (Dark glowing screen backing)
@@ -119,25 +122,28 @@ export class LayerCompositor {
     const bannerMat = new THREE.MeshBasicMaterial({
       color: 0x060103,
       transparent: true,
-      opacity: 0.94,
+      opacity: 0.0,
       depthTest: true,
       depthWrite: false
     });
     this.bannerScreen = new THREE.Mesh(bannerGeo, bannerMat);
     this.bannerScreen.position.set(0, 5.2, -18.8);
+    this.bannerScreen.renderOrder = 2;
     this.scene.add(this.bannerScreen);
 
-    // Authentic RITHMOS Stage Banner
+    // Authentic RITHMOS Stage Banner (Scoped strictly to Section 5 / Shots 11-12)
     this.layers.logo = this.createPlaneMesh('/assets/logo.png', 28, 14, {
-      opacity: 0.95,
+      opacity: 0.0,
       transparent: true
     });
     this.layers.logo.mesh.position.set(0, 5.2, -18.6);
+    this.layers.logo.mesh.renderOrder = 3;
     this.scene.add(this.layers.logo.mesh);
 
     // Overhead Arena Truss Structure (Directly over the single stage)
     this.layers.truss = this.createPlaneMesh('/assets/truss-structure.png', 52, 26);
     this.layers.truss.mesh.position.set(0, 7.6, -10.0);
+    this.layers.truss.mesh.renderOrder = 4;
     this.scene.add(this.layers.truss.mesh);
 
     // Concert Stage Lighting Beams (Additive spotlights washing stage)
@@ -146,6 +152,7 @@ export class LayerCompositor {
       opacity: 0.85
     });
     this.layers.lighting.mesh.position.set(0, 8.4, -9.8);
+    this.layers.lighting.mesh.renderOrder = 5;
     this.scene.add(this.layers.lighting.mesh);
 
     // Backstage wash lighting
@@ -154,30 +161,33 @@ export class LayerCompositor {
       opacity: 0.70
     });
     this.layers.lightingBack.mesh.position.set(0, 6.0, -17.5);
+    this.layers.lightingBack.mesh.renderOrder = 5;
     this.scene.add(this.layers.lightingBack.mesh);
 
     // =========================================================================
-    // 2. ONE SINGLE COHESIVE STAGE PLATFORM (No 3x duplicate stages!)
+    // 2. ONE SINGLE COHESIVE STAGE PLATFORM (Deck sits UNDER all performers!)
     // =========================================================================
     // Main unified concert stage deck (Z = 0 to Z = -18)
     this.layers.stagePlatform = this.createPlaneMesh('/assets/stage-platform.png', 48, 24);
     this.layers.stagePlatform.mesh.position.set(0, -4.6, -10.0);
+    this.layers.stagePlatform.mesh.renderOrder = 10;
     this.scene.add(this.layers.stagePlatform.mesh);
 
     // Elevated Drum Riser on center rear stage
     this.layers.drumPlatform = this.createPlaneMesh('/assets/stage-platform.png', 15, 7.5);
     this.layers.drumPlatform.mesh.position.set(0, -2.4, -13.8);
+    this.layers.drumPlatform.mesh.renderOrder = 12;
     this.scene.add(this.layers.drumPlatform.mesh);
 
     // =========================================================================
-    // 3. THE 5 BAND MEMBERS (Standing together on the SAME stage)
-    // Storyboard: "SAME STAGE, DIFFERENT STORIES. ONE RITHMOS."
-    // Stage floor level: Y = -4.0 (drum riser top Y = -1.8)
+    // 3. THE 5 BAND MEMBERS (Standing together on the SAME stage deck)
+    // All performers have renderOrder = 25 so stage deck NEVER renders over them!
     // =========================================================================
 
     // Vocalist: Center front lip (Z = -2.5, X = 0.0)
     this.layers.vocalist = this.createPlaneMesh('/assets/vocalist.png', 2.51, 6.8);
     this.layers.vocalist.mesh.position.set(0.0, -0.6, -2.5);
+    this.layers.vocalist.mesh.renderOrder = 25;
     this.scene.add(this.layers.vocalist.mesh);
     this.layers.vocalist.grounding = this.addPerformerGrounding(0.0, -3.95, -2.5, 3.8, 2.0, 5.8, 3.2);
     this.performers.vocalist = this.layers.vocalist;
@@ -185,13 +195,16 @@ export class LayerCompositor {
     // Guitarist: Stage right mid-stage (Z = -7.5, X = -5.5)
     this.layers.guitarist = this.createPlaneMesh('/assets/guitarist.png', 9.0, 6.0);
     this.layers.guitarist.mesh.position.set(-5.5, -1.0, -7.5);
+    this.layers.guitarist.mesh.renderOrder = 25;
     this.scene.add(this.layers.guitarist.mesh);
     this.layers.guitarist.grounding = this.addPerformerGrounding(-5.5, -3.95, -7.5, 4.8, 2.6, 7.2, 4.2);
     this.performers.guitarist = this.layers.guitarist;
 
     // Bassist: Stage left mid-stage (Z = -7.5, X = +5.5)
+    // Positioned cleanly on stage deck; renderOrder 25 ensures stage NEVER cuts off body or bass!
     this.layers.bassist = this.createPlaneMesh('/assets/bassist.png', 8.7, 5.8);
-    this.layers.bassist.mesh.position.set(5.5, -1.1, -7.5);
+    this.layers.bassist.mesh.position.set(5.5, -1.3, -7.5);
+    this.layers.bassist.mesh.renderOrder = 25;
     this.scene.add(this.layers.bassist.mesh);
     this.layers.bassist.grounding = this.addPerformerGrounding(5.5, -3.95, -7.5, 4.8, 2.6, 7.2, 4.2);
     this.performers.bassist = this.layers.bassist;
@@ -199,15 +212,18 @@ export class LayerCompositor {
     // Drummer: Center stage back on elevated drum riser (Z = -13.5, X = 0.0)
     this.layers.drummer = this.createPlaneMesh('/assets/drummer.png', 7.1, 6.5);
     this.layers.drummer.mesh.position.set(0.0, 1.45, -13.5);
+    this.layers.drummer.mesh.renderOrder = 25;
     this.scene.add(this.layers.drummer.mesh);
     this.layers.drummer.grounding = this.addPerformerGrounding(0.0, -1.75, -13.5, 7.5, 3.8, 10.0, 5.2);
     this.performers.drummer = this.layers.drummer;
 
-    // Keyboardist: Stage left rear (Z = -11.5, X = +8.5)
+    // Keyboardist: Stage left (Z = -9.2, X = +7.8)
+    // Positioned on stage deck; renderOrder 25 and forward position ensure fog and stage NEVER cover him!
     this.layers.keyboardist = this.createPlaneMesh('/assets/keyboardist.png', 9.0, 6.0);
-    this.layers.keyboardist.mesh.position.set(8.5, -1.0, -11.5);
+    this.layers.keyboardist.mesh.position.set(7.8, -0.9, -9.2);
+    this.layers.keyboardist.mesh.renderOrder = 25;
     this.scene.add(this.layers.keyboardist.mesh);
-    this.layers.keyboardist.grounding = this.addPerformerGrounding(8.5, -3.95, -11.5, 5.2, 2.8, 7.8, 4.5);
+    this.layers.keyboardist.grounding = this.addPerformerGrounding(7.8, -3.95, -9.2, 5.2, 2.8, 7.8, 4.5);
     this.performers.keyboardist = this.layers.keyboardist;
 
     // =========================================================================
@@ -228,25 +244,28 @@ export class LayerCompositor {
       const file = cfg.type === 'hands' ? '/assets/foreground-hands.png' : '/assets/crowd.png';
       const plane = this.createPlaneMesh(file, cfg.w, cfg.h, { opacity: cfg.op });
       plane.mesh.position.set(cfg.x, cfg.y, cfg.z);
+      plane.mesh.renderOrder = 30;
       this.crowdLayers.push({ ...plane, baseOp: cfg.op, baseZ: cfg.z, baseY: cfg.y });
       this.scene.add(plane.mesh);
     });
 
     // Atmospheric Fog Planes around the concert stage
+    // Additive blending so smoke provides atmospheric glow without ever acting as a dark opaque mask!
     const fogConfigs = [
-      { z: -18.0, y: 0.0,  w: 52, h: 26, op: 0.28 },
-      { z: -11.0, y: -1.5, w: 46, h: 23, op: 0.32 },
-      { z: -4.0,  y: -2.8, w: 42, h: 21, op: 0.35 },
-      { z: 6.0,   y: -3.8, w: 38, h: 19, op: 0.40 },
-      { z: 20.0,  y: -4.8, w: 36, h: 18, op: 0.44 }
+      { z: -18.0, y: 0.0,  w: 52, h: 26, op: 0.20 },
+      { z: -11.0, y: -2.5, w: 46, h: 23, op: 0.16 },
+      { z: -4.0,  y: -2.8, w: 42, h: 21, op: 0.22 },
+      { z: 6.0,   y: -3.8, w: 38, h: 19, op: 0.26 },
+      { z: 20.0,  y: -4.8, w: 36, h: 18, op: 0.30 }
     ];
 
     fogConfigs.forEach((cfg, idx) => {
       const fog = this.createPlaneMesh('/assets/fog.png', cfg.w, cfg.h, {
         opacity: cfg.op,
-        blending: THREE.NormalBlending
+        blending: THREE.AdditiveBlending
       });
       fog.mesh.position.set(0, cfg.y, cfg.z);
+      fog.mesh.renderOrder = 6;
       this.fogPlanes.push({ ...fog, baseOp: cfg.op, baseX: (idx % 2 === 0 ? -2 : 2), baseY: cfg.y });
       this.scene.add(fog.mesh);
     });
@@ -361,7 +380,7 @@ export class LayerCompositor {
 
   initTextBillboards() {
     // 1. Vocalist Billboard (Shot 03: "EVERY BAND HAS A STORY.")
-    // Towering 2.5D typography as big as the vocalist, angled into the stage
+    // Towering typography straight to camera, cleanly framed beside vocalist with navbar clearance
     this.textBillboards.vocalist = this.createTextBillboard(
       [
         { text: 'EVERY BAND', color: 'white', size: 230 },
@@ -369,14 +388,12 @@ export class LayerCompositor {
       ],
       6.8, 5.6, 'center'
     );
-    this.textBillboards.vocalist.mesh.position.set(-1.3, 0.3, -2.4);
-    this.textBillboards.vocalist.baseRot = new THREE.Euler(-0.04, 0.22, -0.02);
-    this.textBillboards.vocalist.mesh.rotation.copy(this.textBillboards.vocalist.baseRot);
+    this.textBillboards.vocalist.mesh.position.set(-1.3, -0.15, -2.4);
     this.textBillboards.vocalist.activeRange = [0.12, 0.16, 0.23, 0.27];
     this.scene.add(this.textBillboards.vocalist.mesh);
 
     // 2. Guitarist Billboard (Shot 05: "GUITAR DRIVES DREAMS.")
-    // Towering 2.5D typography as big as the guitarist, framed right beside guitar
+    // Towering typography straight to camera, framed right beside guitar with navbar clearance
     this.textBillboards.guitarist = this.createTextBillboard(
       [
         { text: 'GUITAR', color: 'white', size: 180 },
@@ -385,14 +402,12 @@ export class LayerCompositor {
       ],
       3.8, 3.8, 'center'
     );
-    this.textBillboards.guitarist.mesh.position.set(-3.3, -0.2, -7.4);
-    this.textBillboards.guitarist.baseRot = new THREE.Euler(-0.02, -0.22, 0.0);
-    this.textBillboards.guitarist.mesh.rotation.copy(this.textBillboards.guitarist.baseRot);
+    this.textBillboards.guitarist.mesh.position.set(-3.3, -0.45, -7.4);
     this.textBillboards.guitarist.activeRange = [0.28, 0.33, 0.39, 0.43];
     this.scene.add(this.textBillboards.guitarist.mesh);
 
     // 3. Bassist Billboard (Shot 06: "BASS BUILDS DEPTH.")
-    // Towering 2.5D typography as big as the bassist, clear above monitor wedge
+    // Towering typography straight to camera in open space to stage-right of bassist
     this.textBillboards.bassist = this.createTextBillboard(
       [
         { text: 'BASS', color: 'white', size: 180 },
@@ -401,14 +416,12 @@ export class LayerCompositor {
       ],
       3.8, 3.8, 'center'
     );
-    this.textBillboards.bassist.mesh.position.set(4.8, -0.55, -6.8);
-    this.textBillboards.bassist.baseRot = new THREE.Euler(-0.02, 0.28, 0.0);
-    this.textBillboards.bassist.mesh.rotation.copy(this.textBillboards.bassist.baseRot);
+    this.textBillboards.bassist.mesh.position.set(2.4, -0.65, -7.0);
     this.textBillboards.bassist.activeRange = [0.40, 0.44, 0.49, 0.53];
     this.scene.add(this.textBillboards.bassist.mesh);
 
     // 4. Drummer Billboard (Shot 07: "DRUMS POWER PEOPLE.")
-    // Towering 2.5D typography as big as the drummer, beside the drum kit
+    // Towering typography straight to camera, beside the drum kit
     this.textBillboards.drummer = this.createTextBillboard(
       [
         { text: 'DRUMS', color: 'white', size: 230 },
@@ -417,25 +430,21 @@ export class LayerCompositor {
       ],
       7.2, 5.8, 'center'
     );
-    this.textBillboards.drummer.mesh.position.set(3.8, 2.0, -12.5);
-    this.textBillboards.drummer.baseRot = new THREE.Euler(-0.05, -0.22, 0.02);
-    this.textBillboards.drummer.mesh.rotation.copy(this.textBillboards.drummer.baseRot);
+    this.textBillboards.drummer.mesh.position.set(3.8, 1.8, -12.5);
     this.textBillboards.drummer.activeRange = [0.50, 0.54, 0.59, 0.63];
     this.scene.add(this.textBillboards.drummer.mesh);
 
     // 5. Keyboardist Billboard (Shot 09: "KEYS SHAPE ATMOSPHERE.")
-    // Towering 2.5D typography as big as keyboardist, in open stage space clear of HUD
+    // Towering typography straight to camera in open stage space clear of HUD and navbar
     this.textBillboards.keyboardist = this.createTextBillboard(
       [
-        { text: 'KEYS', color: 'white', size: 190 },
-        { text: 'SHAPE', color: 'white', size: 190 },
-        { text: 'ATMOSPHERE.', color: 'red', size: 195 }
+        { text: 'KEYS', color: 'white', size: 175 },
+        { text: 'SHAPE', color: 'white', size: 175 },
+        { text: 'ATMOSPHERE.', color: 'red', size: 180 }
       ],
-      5.6, 4.4, 'center'
+      5.0, 4.0, 'center'
     );
-    this.textBillboards.keyboardist.mesh.position.set(7.3, 0.4, -9.6);
-    this.textBillboards.keyboardist.baseRot = new THREE.Euler(-0.04, 0.24, -0.02);
-    this.textBillboards.keyboardist.mesh.rotation.copy(this.textBillboards.keyboardist.baseRot);
+    this.textBillboards.keyboardist.mesh.position.set(5.8, -0.45, -8.6);
     this.textBillboards.keyboardist.activeRange = [0.66, 0.70, 0.74, 0.76]; // Strictly ended before Shot 10 full band!
     this.scene.add(this.textBillboards.keyboardist.mesh);
 
@@ -478,10 +487,24 @@ export class LayerCompositor {
       this.layers.lightingBack.material.opacity = 0.65 + 0.15 * Math.cos(time * 0.9);
     }
 
-    // 3. Dynamic banner screen red breathing pulse
+    // 3. Dynamic banner screen & RITHMOS logo: strictly scoped to Section 5 (Shots 11 & 12)
+    // Completely invisible during band member shots (Shots 01-10) to prevent background letter bleed!
     if (this.bannerScreen) {
-      const pulse = 0.85 + 0.12 * Math.sin(time * 1.4);
-      this.bannerScreen.material.opacity = pulse;
+      if (scrollProgress < 0.82) {
+        this.bannerScreen.material.opacity = 0.0;
+      } else {
+        const bp = Math.min((scrollProgress - 0.82) / 0.10, 1.0);
+        this.bannerScreen.material.opacity = bp * (0.85 + 0.12 * Math.sin(time * 1.4));
+      }
+    }
+
+    if (this.layers.logo) {
+      if (scrollProgress < 0.86) {
+        this.layers.logo.material.opacity = 0.0;
+      } else {
+        const lp = Math.min((scrollProgress - 0.86) / 0.08, 1.0);
+        this.layers.logo.material.opacity = lp * 0.95;
+      }
     }
 
     // 4. Smooth fade-out of audience layers as camera passes through them
@@ -549,7 +572,7 @@ export class LayerCompositor {
         }
       });
 
-      // 6. 3D Text Billboards: Physically facing camera and dynamically fading per shot
+      // 6. 3D Text Billboards: Strictly straight to camera movement and dynamically fading per shot
       const p = THREE.MathUtils.clamp(scrollProgress, 0, 1);
       Object.keys(this.textBillboards).forEach(key => {
         const tb = this.textBillboards[key];
@@ -568,12 +591,9 @@ export class LayerCompositor {
         }
         tb.mat.opacity = THREE.MathUtils.clamp(op, 0.0, 1.0);
 
-        // 2.5D Perspective: Preserve fixed 3D spatial rotation (yaw/pitch/roll)
-        // rather than flat-facing the camera, creating genuine perspective convergence and parallax
-        if (tb.baseRot) {
-          tb.mesh.rotation.x = tb.baseRot.x;
-          tb.mesh.rotation.y = tb.baseRot.y;
-          tb.mesh.rotation.z = tb.baseRot.z;
+        // Straight to camera movement: billboard faces camera directly (zero slant/tilt distortion)
+        if (camera) {
+          tb.mesh.quaternion.copy(camera.quaternion);
         }
       });
     }

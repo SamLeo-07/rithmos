@@ -19,10 +19,10 @@ export class CameraJourney {
       new THREE.Vector3(1.3, -0.4, 3.2),     // 03 VOCALIST CU (Intimate close-up framing vocalist on right, text on left)
       new THREE.Vector3(-2.6, -0.6, -0.5),   // 04 MOVE TO GUITARIST (Pan & glide along stage apron to guitarist)
       new THREE.Vector3(-3.8, -0.6, -3.8),   // 05 GUITARIST CU (Dynamic framing: guitarist on left, text on right)
-      new THREE.Vector3(4.2, -0.6, -3.8),    // 06 BASSIST CU (Cross-stage glide: bassist on left, text on right)
+      new THREE.Vector3(3.6, -0.1, -3.4),    // 06 BASSIST CU (Elevated framing: full bassist on stage deck, head not cut off)
       new THREE.Vector3(0.0, 0.4, -7.0),     // 07 DRUMMER (Upward dynamic angle: drummer center, text on right)
-      new THREE.Vector3(4.0, 1.4, -6.8),     // 08 MOVE TO KEYBOARDIST (Elevated smooth transit clearing bassist)
-      new THREE.Vector3(6.0, 0.7, -5.6),     // 09 KEYS CU (Cinema framing: keyboardist upper body, hands & keys clearly framed)
+      new THREE.Vector3(4.6, 0.4, -5.8),     // 08 MOVE TO KEYBOARDIST (Clear transit framing keyboardist in unobstructed view)
+      new THREE.Vector3(5.6, 0.0, -5.6),     // 09 KEYS CU (Cinema framing: keyboardist upper body, hands & keys clearly framed)
       new THREE.Vector3(0.0, 4.2, 17.5),     // 10 FULL BAND (High front arena angle: all 5 members together, text in sky)
       new THREE.Vector3(0.0, 11.5, 23.0),    // 11 STAGE REVEAL (Grand crane reveal of stage, lighting, trusses & arena)
       new THREE.Vector3(0.0, 5.2, -8.0)      // 12 BANNER LOCK (Push into RITHMOS logo with CTA payoff)
@@ -35,10 +35,10 @@ export class CameraJourney {
       new THREE.Vector3(-0.6, -0.5, -2.5),   // 03 Framing vocalist and floating text
       new THREE.Vector3(-4.5, -0.8, -6.5),   // 04 Looking towards guitarist
       new THREE.Vector3(-4.2, -0.8, -7.2),   // 05 Focused between guitarist and text
-      new THREE.Vector3(6.2, -0.8, -7.2),    // 06 Focused between bassist and text
+      new THREE.Vector3(4.4, -0.7, -7.4),    // 06 Focused between bassist and text
       new THREE.Vector3(1.2, 1.4, -13.2),    // 07 Looking up at drummer and text
-      new THREE.Vector3(8.0, -0.2, -11.5),   // 08 Gliding smoothly toward keyboardist
-      new THREE.Vector3(8.2, -0.3, -11.5),   // 09 Balanced framing of keyboardist, hands, and floating text
+      new THREE.Vector3(7.4, -0.5, -9.2),    // 08 Gliding smoothly toward keyboardist
+      new THREE.Vector3(6.8, -0.5, -9.0),    // 09 Balanced framing of keyboardist, hands, and floating text
       new THREE.Vector3(0.0, -0.5, -8.5),    // 10 Center stage full band framing
       new THREE.Vector3(0.0, 1.5, -10.0),    // 11 Looking down across stage, arena lighting, and crowd
       new THREE.Vector3(0.0, 5.2, -18.6)     // 12 Direct lock on RITHMOS logo banner
