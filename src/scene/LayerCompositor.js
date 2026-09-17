@@ -28,6 +28,7 @@ export class LayerCompositor {
       transparent: true,
       depthTest: true,
       depthWrite: false,
+      alphaTest: 0.04,
       side: THREE.DoubleSide,
       ...options
     };
@@ -252,13 +253,13 @@ export class LayerCompositor {
   }
 
   // =========================================================================
-  // 5. 3D KINETIC TEXT BILLBOARDS (Physically attached directly to performers)
-  // High-Resolution 2048x1024 Canvas in 3D space with unified Alderwood typography
+  // 5. 2.5D KINETIC TEXT BILLBOARDS (As Big as the Person in 3D Space)
+  // High-Resolution 2048x1536 Canvas with unified Alderwood typography & true 2.5D slant
   // =========================================================================
-  createTextBillboard(lines, width = 5.6, height = 2.8, align = 'left') {
+  createTextBillboard(lines, width = 8.5, height = 6.2, align = 'center') {
     const canvas = document.createElement('canvas');
     canvas.width = 2048;
-    canvas.height = 1024;
+    canvas.height = 1536;
     const ctx = canvas.getContext('2d');
 
     const texture = new THREE.CanvasTexture(canvas);
@@ -267,25 +268,25 @@ export class LayerCompositor {
     texture.minFilter = THREE.LinearMipmapLinearFilter;
 
     const renderText = () => {
-      ctx.clearRect(0, 0, 2048, 1024);
+      ctx.clearRect(0, 0, 2048, 1536);
 
-      const startX = align === 'center' ? 1024 : 120;
+      const startX = align === 'center' ? 1024 : 140;
       ctx.textAlign = align;
 
-      // Accurate vertical centering calculation to prevent any top or bottom clipping
+      // Accurate vertical centering for massive "as Big as the Person" typography
       let totalBlockHeight = 0;
       lines.forEach((item, idx) => {
-        const size = item.size || 140;
+        const size = item.size || 260;
         totalBlockHeight += size;
-        if (idx < lines.length - 1) totalBlockHeight += 24;
+        if (idx < lines.length - 1) totalBlockHeight += (item.spacing || 36);
       });
 
-      let currentY = Math.max(100, Math.round((1024 - totalBlockHeight) / 2 + (lines[0].size || 140) * 0.85));
+      let currentY = Math.max(120, Math.round((1536 - totalBlockHeight) / 2 + (lines[0].size || 260) * 0.82));
 
       lines.forEach(item => {
         const text = item.text || item;
         const isRed = item.color === 'red' || item.brush || false;
-        const fontSize = item.size || 140;
+        const fontSize = item.size || 260;
 
         ctx.save();
         ctx.translate(startX, currentY);
@@ -294,31 +295,31 @@ export class LayerCompositor {
         ctx.font = `700 ${fontSize}px "Alderwood", "Anton", "Bebas Neue", Impact, sans-serif`;
 
         if (isRed) {
-          // Vibrant concert crimson red with crisp dark drop shadow (NO GLOW) - SAME ALDERWOOD FONT
-          ctx.shadowColor = 'rgba(0, 0, 0, 0.95)';
-          ctx.shadowBlur = 24;
-          ctx.shadowOffsetX = 6;
-          ctx.shadowOffsetY = 8;
+          // Crisp dark drop shadow (ZERO GLOW)
+          ctx.shadowColor = 'rgba(0, 0, 0, 0.96)';
+          ctx.shadowBlur = 28;
+          ctx.shadowOffsetX = 8;
+          ctx.shadowOffsetY = 12;
 
           // Deep dark under-stroke for maximum contrast and punch
-          ctx.strokeStyle = 'rgba(8, 1, 3, 0.96)';
-          ctx.lineWidth = 14;
+          ctx.strokeStyle = 'rgba(8, 1, 3, 0.98)';
+          ctx.lineWidth = 20;
           ctx.lineJoin = 'round';
           ctx.strokeText(text.toUpperCase(), 0, 0);
 
-          // Vivid concert red fill
+          // Vivid concert crimson fill
           ctx.fillStyle = '#ff1c36';
           ctx.fillText(text.toUpperCase(), 0, 0);
         } else {
-          // Clean bold white with dramatic drop shadow - SAME ALDERWOOD FONT
-          ctx.shadowColor = 'rgba(0, 0, 0, 0.95)';
+          // Clean bold white with dramatic drop shadow
+          ctx.shadowColor = 'rgba(0, 0, 0, 0.96)';
           ctx.shadowBlur = 28;
-          ctx.shadowOffsetX = 6;
-          ctx.shadowOffsetY = 8;
+          ctx.shadowOffsetX = 8;
+          ctx.shadowOffsetY = 12;
 
           // Deep dark under-stroke
-          ctx.strokeStyle = 'rgba(8, 1, 3, 0.96)';
-          ctx.lineWidth = 14;
+          ctx.strokeStyle = 'rgba(8, 1, 3, 0.98)';
+          ctx.lineWidth = 20;
           ctx.lineJoin = 'round';
           ctx.strokeText(text.toUpperCase(), 0, 0);
 
@@ -328,7 +329,7 @@ export class LayerCompositor {
         }
 
         ctx.restore();
-        currentY += fontSize + 24;
+        currentY += fontSize + (item.spacing || 36);
       });
     };
 
@@ -349,95 +350,108 @@ export class LayerCompositor {
       opacity: 0.0,
       depthTest: true,
       depthWrite: false,
+      alphaTest: 0.02,
       side: THREE.DoubleSide
     });
 
     const mesh = new THREE.Mesh(geo, mat);
     mesh.renderOrder = 999; // Render crisply in front of performer/lighting volume
-    return { mesh, mat, texture, renderText };
+    return { mesh, mat, texture, renderText, baseRot: new THREE.Euler(0, 0, 0) };
   }
 
   initTextBillboards() {
     // 1. Vocalist Billboard (Shot 03: "EVERY BAND HAS A STORY.")
-    // Towering 3D typography physically attached beside the vocalist in 3D space
+    // Towering 2.5D typography as big as the vocalist, angled into the stage
     this.textBillboards.vocalist = this.createTextBillboard(
       [
-        { text: 'EVERY BAND', color: 'white', size: 155 },
-        { text: 'HAS A STORY.', color: 'red', size: 170 }
+        { text: 'EVERY BAND', color: 'white', size: 230 },
+        { text: 'HAS A STORY.', color: 'red', size: 250 }
       ],
-      5.6, 2.8, 'left'
+      6.8, 5.6, 'center'
     );
-    this.textBillboards.vocalist.mesh.position.set(-1.4, 0.1, -2.5);
+    this.textBillboards.vocalist.mesh.position.set(-1.3, 0.3, -2.4);
+    this.textBillboards.vocalist.baseRot = new THREE.Euler(-0.04, 0.22, -0.02);
+    this.textBillboards.vocalist.mesh.rotation.copy(this.textBillboards.vocalist.baseRot);
     this.textBillboards.vocalist.activeRange = [0.12, 0.16, 0.23, 0.27];
     this.scene.add(this.textBillboards.vocalist.mesh);
 
     // 2. Guitarist Billboard (Shot 05: "GUITAR DRIVES DREAMS.")
-    // Large typography physically attached to the guitarist at stage-right
+    // Towering 2.5D typography as big as the guitarist, framed right beside guitar
     this.textBillboards.guitarist = this.createTextBillboard(
       [
-        { text: 'GUITAR', color: 'white', size: 135 },
-        { text: 'DRIVES', color: 'white', size: 135 },
-        { text: 'DREAMS.', color: 'red', size: 150 }
+        { text: 'GUITAR', color: 'white', size: 180 },
+        { text: 'DRIVES', color: 'white', size: 180 },
+        { text: 'DREAMS.', color: 'red', size: 200 }
       ],
-      5.6, 2.8, 'left'
+      3.8, 3.8, 'center'
     );
-    this.textBillboards.guitarist.mesh.position.set(-2.2, -0.1, -7.5);
-    this.textBillboards.guitarist.activeRange = [0.28, 0.34, 0.40, 0.44];
+    this.textBillboards.guitarist.mesh.position.set(-3.3, -0.2, -7.4);
+    this.textBillboards.guitarist.baseRot = new THREE.Euler(-0.02, -0.22, 0.0);
+    this.textBillboards.guitarist.mesh.rotation.copy(this.textBillboards.guitarist.baseRot);
+    this.textBillboards.guitarist.activeRange = [0.28, 0.33, 0.39, 0.43];
     this.scene.add(this.textBillboards.guitarist.mesh);
 
     // 3. Bassist Billboard (Shot 06: "BASS BUILDS DEPTH.")
-    // Large typography physically attached beside the bassist at stage-left
+    // Towering 2.5D typography as big as the bassist, clear above monitor wedge
     this.textBillboards.bassist = this.createTextBillboard(
       [
-        { text: 'BASS', color: 'white', size: 135 },
-        { text: 'BUILDS', color: 'white', size: 135 },
-        { text: 'DEPTH.', color: 'red', size: 150 }
+        { text: 'BASS', color: 'white', size: 180 },
+        { text: 'BUILDS', color: 'white', size: 180 },
+        { text: 'DEPTH.', color: 'red', size: 200 }
       ],
-      5.6, 2.8, 'left'
+      3.8, 3.8, 'center'
     );
-    this.textBillboards.bassist.mesh.position.set(6.8, -0.1, -7.2);
+    this.textBillboards.bassist.mesh.position.set(4.8, -0.55, -6.8);
+    this.textBillboards.bassist.baseRot = new THREE.Euler(-0.02, 0.28, 0.0);
+    this.textBillboards.bassist.mesh.rotation.copy(this.textBillboards.bassist.baseRot);
     this.textBillboards.bassist.activeRange = [0.40, 0.44, 0.49, 0.53];
     this.scene.add(this.textBillboards.bassist.mesh);
 
     // 4. Drummer Billboard (Shot 07: "DRUMS POWER PEOPLE.")
-    // Large typography physically attached beside the drummer on the riser
+    // Towering 2.5D typography as big as the drummer, beside the drum kit
     this.textBillboards.drummer = this.createTextBillboard(
       [
-        { text: 'DRUMS', color: 'white', size: 135 },
-        { text: 'POWER', color: 'white', size: 135 },
-        { text: 'PEOPLE.', color: 'red', size: 150 }
+        { text: 'DRUMS', color: 'white', size: 230 },
+        { text: 'POWER', color: 'white', size: 230 },
+        { text: 'PEOPLE.', color: 'red', size: 250 }
       ],
-      5.6, 2.8, 'left'
+      7.2, 5.8, 'center'
     );
-    this.textBillboards.drummer.mesh.position.set(3.5, 1.6, -13.5);
+    this.textBillboards.drummer.mesh.position.set(3.8, 2.0, -12.5);
+    this.textBillboards.drummer.baseRot = new THREE.Euler(-0.05, -0.22, 0.02);
+    this.textBillboards.drummer.mesh.rotation.copy(this.textBillboards.drummer.baseRot);
     this.textBillboards.drummer.activeRange = [0.50, 0.54, 0.59, 0.63];
     this.scene.add(this.textBillboards.drummer.mesh);
 
     // 5. Keyboardist Billboard (Shot 09: "KEYS SHAPE ATMOSPHERE.")
-    // Large typography physically attached beside the keyboardist and synth stand
+    // Towering 2.5D typography as big as keyboardist, in open stage space clear of HUD
     this.textBillboards.keyboardist = this.createTextBillboard(
       [
-        { text: 'KEYS', color: 'white', size: 130 },
-        { text: 'SHAPE', color: 'white', size: 130 },
-        { text: 'ATMOSPHERE.', color: 'red', size: 145 }
+        { text: 'KEYS', color: 'white', size: 190 },
+        { text: 'SHAPE', color: 'white', size: 190 },
+        { text: 'ATMOSPHERE.', color: 'red', size: 195 }
       ],
-      5.6, 2.8, 'left'
+      5.6, 4.4, 'center'
     );
-    this.textBillboards.keyboardist.mesh.position.set(5.5, 0.2, -11.5);
-    this.textBillboards.keyboardist.activeRange = [0.65, 0.71, 0.77, 0.80];
+    this.textBillboards.keyboardist.mesh.position.set(7.3, 0.4, -9.6);
+    this.textBillboards.keyboardist.baseRot = new THREE.Euler(-0.04, 0.24, -0.02);
+    this.textBillboards.keyboardist.mesh.rotation.copy(this.textBillboards.keyboardist.baseRot);
+    this.textBillboards.keyboardist.activeRange = [0.66, 0.70, 0.74, 0.76]; // Strictly ended before Shot 10 full band!
     this.scene.add(this.textBillboards.keyboardist.mesh);
 
     // 6. Full Band Billboard (Shot 10: "TOGETHER THEY CREATE MORE.")
-    // Towering arena sky typography over the full band
+    // Monumental arena headline spanning over the 5-member band
     this.textBillboards.fullBand = this.createTextBillboard(
       [
-        { text: 'TOGETHER', color: 'white', size: 150 },
-        { text: 'THEY CREATE MORE.', color: 'red', size: 165 }
+        { text: 'TOGETHER', color: 'white', size: 260 },
+        { text: 'THEY CREATE MORE.', color: 'red', size: 260 }
       ],
-      10.0, 5.0, 'center'
+      14.0, 7.5, 'center'
     );
-    this.textBillboards.fullBand.mesh.position.set(0.0, 4.8, 3.5);
-    this.textBillboards.fullBand.activeRange = [0.79, 0.82, 0.87, 0.90];
+    this.textBillboards.fullBand.mesh.position.set(0.0, 4.8, 1.0);
+    this.textBillboards.fullBand.baseRot = new THREE.Euler(-0.06, 0.0, 0.0);
+    this.textBillboards.fullBand.mesh.rotation.copy(this.textBillboards.fullBand.baseRot);
+    this.textBillboards.fullBand.activeRange = [0.78, 0.81, 0.87, 0.90];
     this.scene.add(this.textBillboards.fullBand.mesh);
   }
 
@@ -554,11 +568,12 @@ export class LayerCompositor {
         }
         tb.mat.opacity = THREE.MathUtils.clamp(op, 0.0, 1.0);
 
-        // Turn to face camera lens
-        const bdx = cameraPos.x - tb.mesh.position.x;
-        const bdz = cameraPos.z - tb.mesh.position.z;
-        if (Math.hypot(bdx, bdz) > 0.1) {
-          tb.mesh.rotation.y = Math.atan2(bdx, bdz);
+        // 2.5D Perspective: Preserve fixed 3D spatial rotation (yaw/pitch/roll)
+        // rather than flat-facing the camera, creating genuine perspective convergence and parallax
+        if (tb.baseRot) {
+          tb.mesh.rotation.x = tb.baseRot.x;
+          tb.mesh.rotation.y = tb.baseRot.y;
+          tb.mesh.rotation.z = tb.baseRot.z;
         }
       });
     }
