@@ -15,6 +15,7 @@ class RithmosApp {
     this.init3D();
     this.initAudio();
     this.initModals();
+    this.initScrollReveal();
     this.startLoop();
   }
 
@@ -158,6 +159,24 @@ class RithmosApp {
 
   initModals() {
     this.modals = new ModalManager(this.lenis);
+  }
+
+  initScrollReveal() {
+    const revealEls = document.querySelectorAll('.reveal-on-scroll');
+    if (!revealEls.length) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-revealed');
+        }
+      });
+    }, {
+      rootMargin: '0px 0px -40px 0px',
+      threshold: 0.08
+    });
+
+    revealEls.forEach((el) => observer.observe(el));
   }
 
   startLoop() {
