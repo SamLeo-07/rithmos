@@ -380,15 +380,15 @@ export class LayerCompositor {
 
   initTextBillboards() {
     // 1. Vocalist Billboard (Shot 03: "EVERY BAND HAS A STORY.")
-    // Towering typography straight to camera, cleanly framed beside vocalist with navbar clearance
+    // Towering typography straight to camera, placed in open stage-right space clear of singer's body/face
     this.textBillboards.vocalist = this.createTextBillboard(
       [
-        { text: 'EVERY BAND', color: 'white', size: 230 },
-        { text: 'HAS A STORY.', color: 'red', size: 250 }
+        { text: 'EVERY BAND', color: 'white', size: 210 },
+        { text: 'HAS A STORY.', color: 'red', size: 220 }
       ],
-      6.8, 5.6, 'center'
+      5.4, 4.4, 'center'
     );
-    this.textBillboards.vocalist.mesh.position.set(-1.3, -0.15, -2.4);
+    this.textBillboards.vocalist.mesh.position.set(-2.8, -0.05, -2.4);
     this.textBillboards.vocalist.activeRange = [0.12, 0.16, 0.23, 0.27];
     this.scene.add(this.textBillboards.vocalist.mesh);
 
@@ -402,12 +402,12 @@ export class LayerCompositor {
       ],
       3.8, 3.8, 'center'
     );
-    this.textBillboards.guitarist.mesh.position.set(-3.3, -0.45, -7.4);
+    this.textBillboards.guitarist.mesh.position.set(-3.2, -0.3, -7.4);
     this.textBillboards.guitarist.activeRange = [0.28, 0.33, 0.39, 0.43];
     this.scene.add(this.textBillboards.guitarist.mesh);
 
     // 3. Bassist Billboard (Shot 06: "BASS BUILDS DEPTH.")
-    // Towering typography straight to camera in open space to stage-right of bassist
+    // Towering typography straight to camera in open space with >80px clearance from left HUD
     this.textBillboards.bassist = this.createTextBillboard(
       [
         { text: 'BASS', color: 'white', size: 180 },
@@ -416,7 +416,7 @@ export class LayerCompositor {
       ],
       3.8, 3.8, 'center'
     );
-    this.textBillboards.bassist.mesh.position.set(2.4, -0.65, -7.0);
+    this.textBillboards.bassist.mesh.position.set(3.4, -0.65, -7.0);
     this.textBillboards.bassist.activeRange = [0.40, 0.44, 0.49, 0.53];
     this.scene.add(this.textBillboards.bassist.mesh);
 
@@ -435,16 +435,16 @@ export class LayerCompositor {
     this.scene.add(this.textBillboards.drummer.mesh);
 
     // 5. Keyboardist Billboard (Shot 09: "KEYS SHAPE ATMOSPHERE.")
-    // Towering typography straight to camera in open stage space clear of HUD and navbar
+    // Towering typography straight to camera in open stage space clear of synthesizer keys, HUD and navbar
     this.textBillboards.keyboardist = this.createTextBillboard(
       [
         { text: 'KEYS', color: 'white', size: 175 },
         { text: 'SHAPE', color: 'white', size: 175 },
         { text: 'ATMOSPHERE.', color: 'red', size: 180 }
       ],
-      5.0, 4.0, 'center'
+      4.8, 3.8, 'center'
     );
-    this.textBillboards.keyboardist.mesh.position.set(5.8, -0.45, -8.6);
+    this.textBillboards.keyboardist.mesh.position.set(5.6, 0.0, -8.6);
     this.textBillboards.keyboardist.activeRange = [0.66, 0.70, 0.74, 0.76]; // Strictly ended before Shot 10 full band!
     this.scene.add(this.textBillboards.keyboardist.mesh);
 
@@ -499,10 +499,10 @@ export class LayerCompositor {
     }
 
     if (this.layers.logo) {
-      if (scrollProgress < 0.86) {
+      if (scrollProgress < 0.94) {
         this.layers.logo.material.opacity = 0.0;
       } else {
-        const lp = Math.min((scrollProgress - 0.86) / 0.08, 1.0);
+        const lp = Math.min((scrollProgress - 0.94) / 0.06, 1.0);
         this.layers.logo.material.opacity = lp * 0.95;
       }
     }

@@ -465,30 +465,30 @@ body::after {
 }
 
 .shot-01 .typo-line {
-  font-family: var(--font-rock);
+  font-family: 'Alderwood', 'Inter', sans-serif;
   font-size: clamp(4.5rem, 10.5vw, 10.5rem);
   font-weight: 700;
-  font-style: italic;
-  line-height: 0.82;
-  letter-spacing: 0.02em;
+  font-style: normal;
+  line-height: 0.88;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: #fff;
-  text-shadow: 0 0 30px rgba(0, 0, 0, 0.9), 0 0 60px rgba(255, 17, 45, 0.4);
-  transform: translateY(30px) skewX(-5deg);
+  text-shadow: 0 6px 28px rgba(0, 0, 0, 0.95);
+  transform: translateY(30px);
   opacity: 0;
   transition: transform 0.6s var(--ease-cinematic), opacity 0.6s ease;
 }
 
 .shot-01 .word-story {
-  font-family: var(--font-rock);
+  font-family: 'Alderwood', 'Inter', sans-serif;
   font-size: clamp(3.2rem, 7.8vw, 7.2rem);
   font-weight: 700;
-  font-style: italic;
-  color: #ff112d;
-  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.95);
-  transform: translateY(30px) skewX(-5deg);
-  letter-spacing: 0.02em;
-  margin-top: 2px;
+  font-style: normal;
+  color: #ff1c36;
+  text-shadow: 0 6px 28px rgba(0, 0, 0, 0.95);
+  transform: translateY(30px);
+  letter-spacing: 0.04em;
+  margin-top: 6px;
 }
 
 .scroll-hint {
@@ -707,24 +707,24 @@ body::after {
 }
 
 .arena-title {
-  font-family: var(--font-rock);
-  font-size: clamp(3.8rem, 7.5vw, 6.8rem);
+  font-family: 'Alderwood', 'Inter', sans-serif;
+  font-size: clamp(3.4rem, 6.5vw, 5.8rem);
   font-weight: 700;
-  font-style: italic;
-  letter-spacing: 0.02em;
+  font-style: normal;
+  letter-spacing: 0.04em;
   color: #fff;
-  line-height: 0.88;
-  margin-bottom: 8px;
-  transform: rotate(-2deg);
-  text-shadow: 0 0 30px rgba(0, 0, 0, 0.9), 0 0 60px rgba(255, 17, 45, 0.35);
+  line-height: 0.92;
+  margin-bottom: 12px;
+  transform: none;
+  text-shadow: 0 6px 28px rgba(0, 0, 0, 0.95);
 }
 
 .arena-sub {
-  font-family: var(--font-rock);
+  font-family: 'Alderwood', 'Inter', sans-serif;
   font-size: clamp(1.4rem, 2.5vw, 2.4rem);
-  font-style: italic;
-  letter-spacing: 0.06em;
-  color: #ff112d;
+  font-style: normal;
+  letter-spacing: 0.08em;
+  color: #ff1c36;
   font-weight: 700;
   text-shadow: 0 4px 20px rgba(0, 0, 0, 0.95);
 }

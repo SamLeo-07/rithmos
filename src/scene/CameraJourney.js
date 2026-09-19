@@ -18,14 +18,14 @@ export class CameraJourney {
       new THREE.Vector3(0.6, -0.4, 14.0),    // 02 MOVE TO VOCALIST (Glide low over crowd toward stage front)
       new THREE.Vector3(1.3, -0.4, 3.2),     // 03 VOCALIST CU (Intimate close-up framing vocalist on right, text on left)
       new THREE.Vector3(-2.6, -0.6, -0.5),   // 04 MOVE TO GUITARIST (Pan & glide along stage apron to guitarist)
-      new THREE.Vector3(-3.8, -0.6, -3.8),   // 05 GUITARIST CU (Dynamic framing: guitarist on left, text on right)
-      new THREE.Vector3(3.6, -0.1, -3.4),    // 06 BASSIST CU (Elevated framing: full bassist on stage deck, head not cut off)
+      new THREE.Vector3(-4.2, 0.1, -3.2),    // 05 GUITARIST CU (Balanced framing: guitarist head, guitar & text fully visible)
+      new THREE.Vector3(3.6, 0.0, -3.4),     // 06 BASSIST CU (Elevated framing: full bassist on stage deck with navbar margin)
       new THREE.Vector3(0.0, 0.4, -7.0),     // 07 DRUMMER (Upward dynamic angle: drummer center, text on right)
-      new THREE.Vector3(4.6, 0.4, -5.8),     // 08 MOVE TO KEYBOARDIST (Clear transit framing keyboardist in unobstructed view)
-      new THREE.Vector3(5.6, 0.0, -5.6),     // 09 KEYS CU (Cinema framing: keyboardist upper body, hands & keys clearly framed)
+      new THREE.Vector3(4.8, 0.6, -5.4),     // 08 MOVE TO KEYBOARDIST (Smooth transit framing keyboardist head and keys)
+      new THREE.Vector3(5.4, 0.4, -4.8),     // 09 KEYS CU (Cinema framing: keyboardist head, hands & synth keys fully in frame)
       new THREE.Vector3(0.0, 4.2, 17.5),     // 10 FULL BAND (High front arena angle: all 5 members together, text in sky)
       new THREE.Vector3(0.0, 11.5, 23.0),    // 11 STAGE REVEAL (Grand crane reveal of stage, lighting, trusses & arena)
-      new THREE.Vector3(0.0, 5.2, -8.0)      // 12 BANNER LOCK (Push into RITHMOS logo with CTA payoff)
+      new THREE.Vector3(0.0, 5.2, 0.0)       // 12 BANNER LOCK (Fully framed RITHMOS logo banner without any edge cropping)
     ];
 
     // 12-Shot Camera Look-at Target Spline
@@ -34,14 +34,14 @@ export class CameraJourney {
       new THREE.Vector3(0.0, -0.6, -2.5),    // 02 Locking onto vocalist
       new THREE.Vector3(-0.6, -0.5, -2.5),   // 03 Framing vocalist and floating text
       new THREE.Vector3(-4.5, -0.8, -6.5),   // 04 Looking towards guitarist
-      new THREE.Vector3(-4.2, -0.8, -7.2),   // 05 Focused between guitarist and text
-      new THREE.Vector3(4.4, -0.7, -7.4),    // 06 Focused between bassist and text
+      new THREE.Vector3(-4.8, 0.0, -7.5),    // 05 Balanced between guitarist head/chest and text
+      new THREE.Vector3(4.6, -0.4, -7.4),    // 06 Focused on bassist and text with comfortable margin
       new THREE.Vector3(1.2, 1.4, -13.2),    // 07 Looking up at drummer and text
-      new THREE.Vector3(7.4, -0.5, -9.2),    // 08 Gliding smoothly toward keyboardist
-      new THREE.Vector3(6.8, -0.5, -9.0),    // 09 Balanced framing of keyboardist, hands, and floating text
+      new THREE.Vector3(7.4, 0.2, -9.2),     // 08 Gliding smoothly toward keyboardist upper body
+      new THREE.Vector3(7.2, 0.2, -9.0),     // 09 Balanced framing of keyboardist head, hands, keys, and text
       new THREE.Vector3(0.0, -0.5, -8.5),    // 10 Center stage full band framing
       new THREE.Vector3(0.0, 1.5, -10.0),    // 11 Looking down across stage, arena lighting, and crowd
-      new THREE.Vector3(0.0, 5.2, -18.6)     // 12 Direct lock on RITHMOS logo banner
+      new THREE.Vector3(0.0, 5.2, -18.6)     // 12 Direct center lock on RITHMOS logo banner
     ];
 
     this.camCurve = new THREE.CatmullRomCurve3(this.camPoints, false, 'catmullrom', 0.5);
@@ -89,14 +89,14 @@ export class CameraJourney {
       { p: 0.09, fov: 48 }, // 02 Move to Vocalist
       { p: 0.18, fov: 42 }, // 03 Vocalist CU
       { p: 0.27, fov: 46 }, // 04 Move to Guitarist
-      { p: 0.36, fov: 42 }, // 05 Guitarist CU
+      { p: 0.36, fov: 46 }, // 05 Guitarist CU (widened to ensure head and guitar fully visible)
       { p: 0.45, fov: 44 }, // 06 Bassist
       { p: 0.55, fov: 45 }, // 07 Drummer
       { p: 0.64, fov: 48 }, // 08 Move to Keys
-      { p: 0.73, fov: 50 }, // 09 Keys CU (wider to frame performer properly)
+      { p: 0.73, fov: 52 }, // 09 Keys CU (wider to frame head, keys, and text properly)
       { p: 0.82, fov: 56 }, // 10 Full Band
       { p: 0.91, fov: 64 }, // 11 Stage Reveal
-      { p: 1.00, fov: 48 }  // 12 Banner Payoff
+      { p: 1.00, fov: 52 }  // 12 Banner Payoff (fully framed RITHMOS logo)
     ];
 
     if (p <= keys[0].p) return keys[0].fov;
