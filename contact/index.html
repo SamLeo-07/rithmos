@@ -42,21 +42,21 @@
     <div class="subpage-container">
       <div class="subpage-kicker">
         <span class="kicker-dot"></span>
-        <span>DIRECTORY // FESTIVAL OPERATIONS & LIVE DESK</span>
+        <span>DIRECTORY // FESTIVAL SECRETARIAT &amp; OPERATIONS DIRECTORATE</span>
       </div>
       <h1 class="subpage-title">
         CONNECT WITH RITHMOS.<br>
         <span class="accent-text">HYDERABAD FESTIVAL HQ.</span>
       </h1>
       <p class="subpage-lead">
-        Direct communications desk for band auditions, technical stage requirements, brand partnerships, media accreditations, and audience inquiries. Our operations team is active across all regional stages.
+        Official communications desk for participating artists, corporate brand partners, media accreditations, and institutional stakeholders. Operating under ISO-aligned concert production and acoustic safety standards.
       </p>
 
       <!-- Live Operational Status Ticker -->
       <div class="ops-status-row">
         <div class="status-pill">
           <span class="status-led green"></span>
-          <span class="status-label">BOX OFFICE: ONLINE & TICKETING</span>
+          <span class="status-label">BOX OFFICE: ONLINE &amp; TICKETING</span>
         </div>
         <div class="status-pill">
           <span class="status-led red"></span>
@@ -65,6 +65,10 @@
         <div class="status-pill">
           <span class="status-led amber"></span>
           <span class="status-label">BAND REGISTRATIONS: 28 DAYS REMAINING</span>
+        </div>
+        <div class="status-pill">
+          <span class="status-led" style="background:#8a8898; box-shadow:0 0 6px rgba(255,255,255,0.3);"></span>
+          <span class="status-label">SECRETARIAT REF: HYD-ENT-2026-0884</span>
         </div>
       </div>
     </div>
@@ -187,32 +191,38 @@
 
             <div class="form-row">
               <div class="form-group">
-                <label for="c-email">Email Address *</label>
+                <label for="c-email">Official Email Address *</label>
                 <input type="email" id="c-email" required placeholder="name@domain.com">
               </div>
               <div class="form-group">
                 <label for="c-dept">Department *</label>
                 <select id="c-dept" required>
                   <option value="" disabled selected>Select Department</option>
-                  <option value="Band Support">Band Support &amp; Auditions</option>
-                  <option value="Sponsorship">Brand Partnerships &amp; Sponsorships</option>
-                  <option value="Press">Press &amp; Media Accreditation</option>
-                  <option value="General">Audience &amp; General Inquiries</option>
+                  <option value="Band Support">Band Operations &amp; Backline Specs</option>
+                  <option value="Sponsorship">Corporate Partnerships &amp; Stage Naming</option>
+                  <option value="Press">Press &amp; Media Accreditation Bureau</option>
+                  <option value="General">Audience &amp; VIP Concierge</option>
                 </select>
               </div>
             </div>
 
-            <div class="form-group">
-              <label for="c-band">Band or Organization Name (Optional)</label>
-              <input type="text" id="c-band" placeholder="e.g. Deccan Redfall / Red Bull India">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="c-band">Band, Brand or Agency Name</label>
+                <input type="text" id="c-band" placeholder="e.g. Deccan Redfall / Red Bull India / Rolling Stone">
+              </div>
+              <div class="form-group">
+                <label for="c-role">Designation / Role</label>
+                <input type="text" id="c-role" placeholder="e.g. Band Leader / Marketing Director / Journalist">
+              </div>
             </div>
 
             <div class="form-group">
               <div class="label-with-counter">
-                <label for="c-msg">Your Message *</label>
+                <label for="c-msg">Inquiry Details *</label>
                 <span class="char-count" id="char-counter">0 / 500</span>
               </div>
-              <textarea id="c-msg" rows="4" maxlength="500" required placeholder="Tell us how we can assist you with your band audition, stage spec, or partnership..."></textarea>
+              <textarea id="c-msg" rows="4" maxlength="500" required placeholder="Outline your technical requirements, partnership proposal, or audition inquiry..."></textarea>
             </div>
 
             <div class="form-actions">
@@ -220,6 +230,10 @@
                 <span>TRANSMIT INQUIRY</span>
                 <span>⚡</span>
               </button>
+            </div>
+
+            <div class="form-privacy-note">
+              🔒 Encrypted transmission routed directly to the designated department secretariat under our SLA response guarantee. Governed by the RITHMOS Festival Privacy &amp; Data Charter.
             </div>
 
             <div id="contact-form-success" class="success-alert" style="display: none;">
@@ -231,14 +245,14 @@
         <!-- Festival HQ Coordinates Card -->
         <div class="hq-location-card">
           <div class="hq-header">
-            <span class="hq-kicker">FESTIVAL HEADQUARTERS</span>
+            <span class="hq-kicker">FESTIVAL SECRETARIAT HQ</span>
             <h3 class="hq-title">GACHIBOWLI INDOOR STADIUM COMPLEX</h3>
           </div>
 
           <div class="hq-address-block">
             <div class="hq-icon-pin">📍</div>
             <div class="hq-address-text">
-              <strong>RITHMOS FESTIVAL OPERATIONS DESK</strong><br>
+              <strong>RITHMOS OPERATIONS DIRECTORATE</strong><br>
               Gachibowli Indoor Stadium Complex, Old Mumbai Hwy,<br>
               Gachibowli, Hyderabad, Telangana 500032
             </div>
@@ -248,7 +262,11 @@
           <div class="hq-gates-list">
             <div class="gate-item">
               <span class="gate-code">GATE 03</span>
-              <span class="gate-desc">Band Loading Dock &amp; Artist Green Room Check-in</span>
+              <span class="gate-desc">Artist Green Room Check-in &amp; Sound Crew Access</span>
+            </div>
+            <div class="gate-item">
+              <span class="gate-code">BAY 02</span>
+              <span class="gate-desc">Heavy Audio Rigs &amp; Drum Backline Loading Ramp</span>
             </div>
             <div class="gate-item">
               <span class="gate-code">GATE 01</span>
@@ -256,7 +274,7 @@
             </div>
             <div class="gate-item">
               <span class="gate-code">GATE 06</span>
-              <span class="gate-desc">Press, Jurors &amp; VIP Balcony Access</span>
+              <span class="gate-desc">Media Bureau, Jurors &amp; VIP Balcony Lounge</span>
             </div>
           </div>
 
@@ -272,6 +290,10 @@
               <span>💬</span>
               <span>DIRECT WHATSAPP DESK (+91 90001 84200)</span>
             </a>
+          </div>
+
+          <div class="hq-meta-legal">
+            RITHMOS LIVE ENTERTAINMENT LLP &bull; GSTIN: 36AAECR9984K1Z5 &bull; HYDERABAD, TELANGANA
           </div>
         </div>
       </div>
@@ -420,6 +442,28 @@
           </button>
           <div class="faq-answer">
             <p>Yes! All qualifier rounds are open live concerts hosted across our Hyderabad partner club stages. Fan cheering and crowd energy directly factor into the judges' live atmosphere evaluation.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 7: Corporate Brand Partnerships -->
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>How do corporate brand partnerships work, and what is the GST contracting workflow?</span>
+            <span class="faq-chevron">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Corporate partnerships, title sponsorship tiers, and experiential brand activation booths are managed directly through our Secretariat Directorate. All partnerships are formalized under GST-compliant institutional contracts with structured SLA milestones, verified footfall metrics, and post-event brand ROI audit reports.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 8: Technical Sound Riders & RF Spectrum -->
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>What is the protocol for submitting custom technical sound riders and wireless RF frequencies?</span>
+            <span class="faq-chevron">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Selected bands and visiting headliners must submit their official technical channel list, stage plot, and wireless IEM/mic frequency specs at least 14 days prior to their stage call. Our FOH engineering team conducts pre-festival RF spectrum coordination to guarantee zero interference across all 48 wireless channels.</p>
           </div>
         </div>
       </div>
