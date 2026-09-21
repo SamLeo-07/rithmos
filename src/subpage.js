@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       if (contactSubmitBtn) {
         contactSubmitBtn.disabled = true;
-        contactSubmitBtn.innerHTML = '<span>DISPATCHING...</span> <span>⏳</span>';
+        contactSubmitBtn.innerHTML = '<span>Sending Message...</span>';
       }
 
       setTimeout(() => {
@@ -152,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (contactSubmitBtn) {
           contactSubmitBtn.disabled = false;
-          contactSubmitBtn.innerHTML = '<span>TRANSMIT INQUIRY</span> <span>⚡</span>';
+          contactSubmitBtn.innerHTML = '<span>Send Message</span> <span class="btn-arrow">&rarr;</span>';
         }
         setTimeout(() => {
           if (contactSuccess) {
