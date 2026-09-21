@@ -24,7 +24,7 @@ export class CameraJourney {
       new THREE.Vector3(4.8, 0.6, -5.4),     // 08 MOVE TO KEYBOARDIST (Smooth transit framing keyboardist head and keys)
       new THREE.Vector3(5.4, 0.4, -4.8),     // 09 KEYS CU (Cinema framing: keyboardist head, hands & synth keys fully in frame)
       new THREE.Vector3(0.0, 1.4, 16.5),     // 10 FULL BAND (Front arena eye-level: all 5 members together on stage)
-      new THREE.Vector3(0.0, 3.4, 25.0),     // 11 STAGE REVEAL (Grand arena overview: full stage, trusses, lighting & crowd)
+      new THREE.Vector3(0.0, 2.4, 18.5),     // 11 STAGE REVEAL (Intimate stadium overview: full stage, trusses, lighting & crowd)
       new THREE.Vector3(0.0, 2.2, 13.0)      // 12 RITHMOS REVEAL (Hero push toward stage: band in front of radiant backstage logo)
     ];
 
@@ -40,7 +40,7 @@ export class CameraJourney {
       new THREE.Vector3(7.4, 0.2, -9.2),     // 08 Gliding smoothly toward keyboardist upper body
       new THREE.Vector3(7.2, 0.2, -9.0),     // 09 Balanced framing of keyboardist head, hands, keys, and text
       new THREE.Vector3(0.0, 0.4, -8.0),     // 10 Level framing on center stage and band
-      new THREE.Vector3(0.0, 1.0, -10.0),    // 11 Balanced look across illuminated stage and arena
+      new THREE.Vector3(0.0, 1.2, -10.0),    // 11 Balanced look across illuminated stage and arena
       new THREE.Vector3(0.0, 4.2, -18.6)     // 12 Straight-on lock on radiant backstage RITHMOS screen
     ];
 
@@ -95,7 +95,7 @@ export class CameraJourney {
       { p: 0.64, fov: 48 }, // 08 Move to Keys
       { p: 0.73, fov: 52 }, // 09 Keys CU (wider to frame head, keys, and text properly)
       { p: 0.82, fov: 54 }, // 10 Full Band
-      { p: 0.91, fov: 60 }, // 11 Stage Reveal
+      { p: 0.91, fov: 54 }, // 11 Stage Reveal
       { p: 1.00, fov: 52 }  // 12 Backstage Finale
     ];
 

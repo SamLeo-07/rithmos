@@ -142,71 +142,152 @@
           <p class="static-subhead text-muted">A simple process. Real opportunities.</p>
         </div>
 
-        <div class="steps-flow-grid">
-          <!-- Step 01 -->
-          <div class="step-card">
-            <span class="step-giant-num">01</span>
-            <div class="step-icon-wrap">
-              <svg class="step-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="10" y="6" width="28" height="36" rx="2" stroke="#ffffff" stroke-width="2" fill="#14131a"/>
-                <line x1="16" y1="16" x2="28" y2="16" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
-                <line x1="16" y1="22" x2="32" y2="22" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
-                <line x1="16" y1="28" x2="26" y2="28" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
-                <circle cx="34" cy="34" r="7" fill="#ff1a2b"/>
-                <line x1="34" y1="31" x2="34" y2="37" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
-                <line x1="31" y1="34" x2="37" y2="34" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
-              </svg>
+        <!-- Interactive Red Cable Narrative Spine -->
+        <div class="narrative-conduit-wrapper">
+          <div class="conduit-header-bar">
+            <div class="conduit-signal-source">
+              <span class="jack-pulse-dot"></span>
+              <span class="jack-text">AMP SIGNAL // LIVE INPUT</span>
             </div>
-            <h3 class="step-title">REGISTER</h3>
-            <p class="step-desc">Sign up your band and tell us your story.</p>
+            <div class="conduit-status-indicator">
+              <span class="status-meter-label">STAGE FLOW // 4 CHAPTERS</span>
+              <div class="status-vu-meter">
+                <span></span><span></span><span></span><span></span><span></span>
+              </div>
+            </div>
           </div>
 
-          <div class="step-arrow-connector">→</div>
-
-          <!-- Step 02 -->
-          <div class="step-card">
-            <span class="step-giant-num">02</span>
-            <div class="step-icon-wrap">
-              <svg class="step-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="8" y="10" width="22" height="26" rx="1.5" stroke="#ffffff" stroke-width="2" fill="#14131a"/>
-                <rect x="14" y="6" width="22" height="26" rx="1.5" stroke="#ffffff" stroke-width="2" fill="#14131a"/>
-                <rect x="20" y="14" width="18" height="18" rx="1.5" fill="#ff1a2b"/>
-              </svg>
-            </div>
-            <h3 class="step-title">PERFORM</h3>
-            <p class="step-desc">Play live at RITHMOS qualifiers in your city.</p>
+          <!-- SVG Red Cable Connecting All 4 Steps -->
+          <div class="red-cable-track">
+            <svg class="red-cable-svg" id="red-cable-svg" viewBox="0 0 1200 40" preserveAspectRatio="none">
+              <!-- Background dark trace -->
+              <path class="cable-path-bg" d="M 0,20 L 150,20 C 220,20 230,20 300,20 L 450,20 C 520,20 530,20 600,20 L 750,20 C 820,20 830,20 900,20 L 1200,20" />
+              <!-- Glowing red animated path -->
+              <path class="cable-path-glow" id="cable-path-glow" d="M 0,20 L 150,20 C 220,20 230,20 300,20 L 450,20 C 520,20 530,20 600,20 L 750,20 C 820,20 830,20 900,20 L 1200,20" />
+              <!-- Glowing connection nodes -->
+              <circle class="cable-node-circle node-1" cx="150" cy="20" r="6" />
+              <circle class="cable-node-circle node-2" cx="450" cy="20" r="6" />
+              <circle class="cable-node-circle node-3" cx="750" cy="20" r="6" />
+              <circle class="cable-node-circle node-4" cx="1050" cy="20" r="6" />
+            </svg>
           </div>
 
-          <div class="step-arrow-connector">→</div>
-
-          <!-- Step 03 -->
-          <div class="step-card">
-            <span class="step-giant-num">03</span>
-            <div class="step-icon-wrap">
-              <svg class="step-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="10" y="28" width="6" height="14" rx="1" fill="#ffffff"/>
-                <rect x="20" y="18" width="6" height="24" rx="1" fill="#ffffff"/>
-                <rect x="30" y="8" width="6" height="34" rx="1" fill="#ff1a2b"/>
-              </svg>
+          <div class="steps-flow-grid" id="steps-flow-grid">
+            <!-- Step 01 -->
+            <div class="step-card is-energized" data-step="1">
+              <div class="step-card-header">
+                <span class="step-giant-num">01</span>
+                <div class="card-eq-bars">
+                  <span class="eq-bar"></span>
+                  <span class="eq-bar"></span>
+                  <span class="eq-bar"></span>
+                  <span class="eq-bar"></span>
+                </div>
+              </div>
+              <span class="step-stage-tag">CHAPTER 01 // AUDIO INTAKE</span>
+              <div class="step-icon-wrap">
+                <svg class="step-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="10" y="6" width="28" height="36" rx="2" stroke="#ffffff" stroke-width="2" fill="#14131a"/>
+                  <line x1="16" y1="16" x2="28" y2="16" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+                  <line x1="16" y1="22" x2="32" y2="22" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+                  <line x1="16" y1="28" x2="26" y2="28" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+                  <circle cx="34" cy="34" r="7" fill="#ff1a2b"/>
+                  <line x1="34" y1="31" x2="34" y2="37" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+                  <line x1="31" y1="34" x2="37" y2="34" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <h3 class="step-title">PLUG IN YOUR SOUND</h3>
+              <p class="step-milestone">REGISTRATION // ZERO ENTRY FEE</p>
+              <p class="step-desc">Submit your original demo and lineup. Every stadium headliner starts with a single chord plugged into an amp.</p>
+              <div class="step-connector-stem"></div>
             </div>
-            <h3 class="step-title">COMPETE</h3>
-            <p class="step-desc">Go through multiple rounds with top bands.</p>
+
+            <!-- Step 02 -->
+            <div class="step-card is-energized" data-step="2">
+              <div class="step-card-header">
+                <span class="step-giant-num">02</span>
+                <div class="card-eq-bars">
+                  <span class="eq-bar"></span>
+                  <span class="eq-bar"></span>
+                  <span class="eq-bar"></span>
+                  <span class="eq-bar"></span>
+                </div>
+              </div>
+              <span class="step-stage-tag">CHAPTER 02 // ON STAGE</span>
+              <div class="step-icon-wrap">
+                <svg class="step-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="8" y="10" width="22" height="26" rx="1.5" stroke="#ffffff" stroke-width="2" fill="#14131a"/>
+                  <rect x="14" y="6" width="22" height="26" rx="1.5" stroke="#ffffff" stroke-width="2" fill="#14131a"/>
+                  <rect x="20" y="14" width="18" height="18" rx="1.5" fill="#ff1a2b"/>
+                </svg>
+              </div>
+              <h3 class="step-title">HIT QUALIFIER STAGE</h3>
+              <p class="step-milestone">REGIONAL HUBS // PRO CONCERT PA</p>
+              <p class="step-desc">15 minutes under concert spotlights. Real sound engineers, live audiences, and industry judges evaluating your energy.</p>
+              <div class="step-connector-stem"></div>
+            </div>
+
+            <!-- Step 03 -->
+            <div class="step-card is-energized" data-step="3">
+              <div class="step-card-header">
+                <span class="step-giant-num">03</span>
+                <div class="card-eq-bars">
+                  <span class="eq-bar"></span>
+                  <span class="eq-bar"></span>
+                  <span class="eq-bar"></span>
+                  <span class="eq-bar"></span>
+                </div>
+              </div>
+              <span class="step-stage-tag">CHAPTER 03 // KNOCKOUTS</span>
+              <div class="step-icon-wrap">
+                <svg class="step-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="10" y="28" width="6" height="14" rx="1" fill="#ffffff"/>
+                  <rect x="20" y="18" width="6" height="24" rx="1" fill="#ffffff"/>
+                  <rect x="30" y="8" width="6" height="34" rx="1" fill="#ff1a2b"/>
+                </svg>
+              </div>
+              <h3 class="step-title">BATTLE CITY CHAMPIONS</h3>
+              <p class="step-milestone">HEAD-TO-HEAD // LIVE CROWD VOTE</p>
+              <p class="step-desc">Elimination rounds pitting the fiercest acts head-to-head. Musical tightness and stage presence decide who advances.</p>
+              <div class="step-connector-stem"></div>
+            </div>
+
+            <!-- Step 04 -->
+            <div class="step-card is-energized" data-step="4">
+              <div class="step-card-header">
+                <span class="step-giant-num">04</span>
+                <div class="card-eq-bars">
+                  <span class="eq-bar"></span>
+                  <span class="eq-bar"></span>
+                  <span class="eq-bar"></span>
+                  <span class="eq-bar"></span>
+                </div>
+              </div>
+              <span class="step-stage-tag">CHAPTER 04 // THE ARENA</span>
+              <div class="step-icon-wrap">
+                <svg class="step-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M6 38L22 18L30 26L42 38H6Z" fill="#ffffff"/>
+                  <line x1="22" y1="18" x2="22" y2="8" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+                  <polygon points="22,8 34,13 22,18" fill="#ff1a2b"/>
+                </svg>
+              </div>
+              <h3 class="step-title">OWN THE GRAND FINALE</h3>
+              <p class="step-milestone">STADIUM SHOWCASE // 10,000 FANS</p>
+              <p class="step-desc">Headline the massive RITHMOS stadium stage. Professional recording deals, national press, and the city championship trophy.</p>
+              <div class="step-connector-stem"></div>
+            </div>
           </div>
 
-          <div class="step-arrow-connector">→</div>
-
-          <!-- Step 04 -->
-          <div class="step-card">
-            <span class="step-giant-num">04</span>
-            <div class="step-icon-wrap">
-              <svg class="step-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M6 38L22 18L30 26L42 38H6Z" fill="#ffffff"/>
-                <line x1="22" y1="18" x2="22" y2="8" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
-                <polygon points="22,8 34,13 22,18" fill="#ff1a2b"/>
-              </svg>
+          <!-- Narrative Inter-Section Thread Plunging into Section 03 & 04 -->
+          <div class="narrative-inter-section-cable">
+            <div class="cable-drop-line">
+              <span class="cable-drop-glow"></span>
+              <span class="cable-signal-runner"></span>
             </div>
-            <h3 class="step-title">RISE</h3>
-            <p class="step-desc">Reach the final stage and take your band further.</p>
+            <div class="cable-inter-tag">
+              <span class="cable-tag-dot"></span>
+              <span class="cable-tag-text">SIGNAL THREAD FLOWS TO STAGE TOUR ↓</span>
+            </div>
           </div>
         </div>
       </div>

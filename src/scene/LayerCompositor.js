@@ -275,9 +275,20 @@ export class LayerCompositor {
   // High-Resolution 2048x1536 Canvas with unified Alderwood typography & true 2.5D slant
   // =========================================================================
   createTextBillboard(lines, width = 8.5, height = 6.2, align = 'center') {
+    // Dynamic canvas resolution precisely matching the 3D plane's aspect ratio!
+    const aspect = width / height;
+    let canvasW, canvasH;
+    if (aspect >= 1.0) {
+      canvasW = aspect > 2.2 ? 2800 : 2048;
+      canvasH = Math.round(canvasW / aspect);
+    } else {
+      canvasH = 2048;
+      canvasW = Math.round(canvasH * aspect);
+    }
+
     const canvas = document.createElement('canvas');
-    canvas.width = 2048;
-    canvas.height = 1536;
+    canvas.width = canvasW;
+    canvas.height = canvasH;
     const ctx = canvas.getContext('2d');
 
     const texture = new THREE.CanvasTexture(canvas);
@@ -286,9 +297,9 @@ export class LayerCompositor {
     texture.minFilter = THREE.LinearMipmapLinearFilter;
 
     const renderText = () => {
-      ctx.clearRect(0, 0, 2048, 1536);
+      ctx.clearRect(0, 0, canvasW, canvasH);
 
-      const startX = align === 'center' ? 1024 : 140;
+      const startX = align === 'center' ? canvasW / 2 : Math.round(canvasW * 0.08);
       ctx.textAlign = align;
 
       // Accurate vertical centering for massive "as Big as the Person" typography
@@ -299,7 +310,7 @@ export class LayerCompositor {
         if (idx < lines.length - 1) totalBlockHeight += (item.spacing || 36);
       });
 
-      let currentY = Math.max(120, Math.round((1536 - totalBlockHeight) / 2 + (lines[0].size || 260) * 0.82));
+      let currentY = Math.max(60, Math.round((canvasH - totalBlockHeight) / 2 + (lines[0].size || 260) * 0.82));
 
       lines.forEach(item => {
         const text = item.text || item;
@@ -449,15 +460,15 @@ export class LayerCompositor {
     this.scene.add(this.textBillboards.keyboardist.mesh);
 
     // 6. Full Band Billboard (Shot 10: "TOGETHER THEY CREATE MORE.")
-    // Monumental arena headline nested right above the 5-member band
+    // Monumental arena headline spanning boldly above the 5-member band
     this.textBillboards.fullBand = this.createTextBillboard(
       [
-        { text: 'TOGETHER', color: 'white', size: 240 },
-        { text: 'THEY CREATE MORE.', color: 'red', size: 240 }
+        { text: 'TOGETHER', color: 'white', size: 340, spacing: 32 },
+        { text: 'THEY CREATE MORE.', color: 'red', size: 340 }
       ],
-      11.0, 5.5, 'center'
+      17.5, 7.0, 'center'
     );
-    this.textBillboards.fullBand.mesh.position.set(0.0, 3.2, -5.0);
+    this.textBillboards.fullBand.mesh.position.set(0.0, 3.8, -5.5);
     this.textBillboards.fullBand.activeRange = [0.78, 0.81, 0.86, 0.89];
     this.scene.add(this.textBillboards.fullBand.mesh);
   }

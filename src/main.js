@@ -17,6 +17,7 @@ class RithmosApp {
     this.initAudio();
     this.initModals();
     this.initScrollReveal();
+    this.initNarrativeCable();
     this.startLoop();
   }
 
@@ -300,6 +301,73 @@ class RithmosApp {
     });
 
     revealEls.forEach((el) => observer.observe(el));
+  }
+
+  initNarrativeCable() {
+    const cable = document.getElementById('cable-path-glow');
+    const nodes = document.querySelectorAll('.cable-node-circle');
+    const cards = document.querySelectorAll('.step-card');
+    const section = document.getElementById('how-it-works');
+    if (!cable || cards.length === 0 || !section) return;
+
+    let totalLength = 1200;
+    try {
+      if (cable.getTotalLength) totalLength = cable.getTotalLength();
+    } catch (err) {
+      totalLength = 1200;
+    }
+    cable.style.strokeDasharray = `${totalLength}`;
+
+    const updateCableOnScroll = () => {
+      const rect = section.getBoundingClientRect();
+      const winH = window.innerHeight;
+      // Start drawing as soon as section enters viewport
+      const start = winH * 0.90;
+      const end = -rect.height * 0.35;
+      const raw = (start - rect.top) / (start - end);
+      const progress = Math.max(0, Math.min(1, raw));
+
+      // Dash offset to reveal glowing red path progressively
+      const offset = totalLength * (1.0 - Math.min(progress * 1.3, 1.0));
+      cable.style.strokeDashoffset = `${offset}`;
+
+      // Sequentially energize cards and glowing terminal nodes
+      cards.forEach((card, idx) => {
+        const threshold = 0.10 + idx * 0.22;
+        if (progress >= threshold) {
+          card.classList.add('is-energized');
+          if (nodes[idx]) {
+            nodes[idx].style.fill = '#ff1c36';
+            nodes[idx].style.stroke = '#ffffff';
+          }
+        } else {
+          card.classList.remove('is-energized');
+          if (nodes[idx]) {
+            nodes[idx].style.fill = '#0d0c12';
+            nodes[idx].style.stroke = '#ff1c36';
+          }
+        }
+      });
+    };
+
+    window.addEventListener('scroll', updateCableOnScroll, { passive: true });
+    updateCableOnScroll();
+
+    // Interactive card hover: surges red node pulse
+    cards.forEach((card, idx) => {
+      card.addEventListener('mouseenter', () => {
+        if (nodes[idx]) {
+          nodes[idx].style.transform = 'scale(1.4)';
+          nodes[idx].style.filter = 'drop-shadow(0 0 12px #ff1c36) drop-shadow(0 0 24px #ff1c36)';
+        }
+      });
+      card.addEventListener('mouseleave', () => {
+        if (nodes[idx]) {
+          nodes[idx].style.transform = 'scale(1.0)';
+          nodes[idx].style.filter = 'drop-shadow(0 0 6px #ff1c36)';
+        }
+      });
+    });
   }
 
   startLoop() {
