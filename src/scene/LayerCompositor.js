@@ -128,7 +128,7 @@ export class LayerCompositor {
     });
     this.bannerScreen = new THREE.Mesh(bannerGeo, bannerMat);
     this.bannerScreen.position.set(0, 5.2, -18.8);
-    this.bannerScreen.renderOrder = 2;
+    this.bannerScreen.renderOrder = 27;
     this.scene.add(this.bannerScreen);
 
     // Authentic RITHMOS Stage Banner (Scoped strictly to Section 5 / Shots 11-12)
@@ -137,7 +137,7 @@ export class LayerCompositor {
       transparent: true
     });
     this.layers.logo.mesh.position.set(0, 5.2, -18.6);
-    this.layers.logo.mesh.renderOrder = 3;
+    this.layers.logo.mesh.renderOrder = 28;
     this.scene.add(this.layers.logo.mesh);
 
     // Overhead Arena Truss Structure (Directly over the single stage)
@@ -499,11 +499,20 @@ export class LayerCompositor {
     }
 
     if (this.layers.logo) {
-      if (scrollProgress < 0.94) {
+      if (scrollProgress < 0.93) {
         this.layers.logo.material.opacity = 0.0;
       } else {
-        const lp = Math.min((scrollProgress - 0.94) / 0.06, 1.0);
-        this.layers.logo.material.opacity = lp * 0.95;
+        const lp = Math.min((scrollProgress - 0.93) / 0.04, 1.0);
+        this.layers.logo.material.opacity = lp * 1.0;
+      }
+    }
+
+    // Fade out elevated drum riser during Shot 12 so backstage banner is 100% visible
+    if (this.layers.drumPlatform) {
+      if (scrollProgress >= 0.93) {
+        this.layers.drumPlatform.material.opacity = Math.max(0.0, 1.0 - (scrollProgress - 0.93) / 0.04);
+      } else {
+        this.layers.drumPlatform.material.opacity = 1.0;
       }
     }
 
@@ -559,16 +568,23 @@ export class LayerCompositor {
           }
         }
 
+        // Drummer shot 12 fade: Fade out drummer during Shot 12 (p >= 0.93)
+        // so the full RITHMOS backstage logo and "WHERE BANDS RISE" ribbon are 100% unobstructed!
+        let drummerShot12Fade = 1.0;
+        if (key === 'drummer' && scrollProgress >= 0.93) {
+          drummerShot12Fade = Math.max(0.0, 1.0 - (scrollProgress - 0.93) / 0.04);
+        }
+
         // Proximity illumination from stage spotlights
         const dist = cameraPos.distanceTo(perf.mesh.position);
         const proximity = THREE.MathUtils.clamp(1.0 - (dist - 3.0) / 12.0, 0.0, 1.0);
-        const totalOpacity = (0.88 + proximity * 0.12) * behindFade * bassistShotFade;
+        const totalOpacity = (0.88 + proximity * 0.12) * behindFade * bassistShotFade * drummerShot12Fade;
         perf.material.opacity = totalOpacity;
 
         // Ground contact shadow and spotlight pool synchronization
         if (perf.grounding) {
-          perf.grounding.shadowMat.opacity = 0.85 * behindFade * bassistShotFade;
-          perf.grounding.poolMat.opacity = (0.55 + proximity * 0.25) * behindFade * bassistShotFade;
+          perf.grounding.shadowMat.opacity = 0.85 * behindFade * bassistShotFade * drummerShot12Fade;
+          perf.grounding.poolMat.opacity = (0.55 + proximity * 0.25) * behindFade * bassistShotFade * drummerShot12Fade;
         }
       });
 

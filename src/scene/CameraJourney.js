@@ -25,7 +25,7 @@ export class CameraJourney {
       new THREE.Vector3(5.4, 0.4, -4.8),     // 09 KEYS CU (Cinema framing: keyboardist head, hands & synth keys fully in frame)
       new THREE.Vector3(0.0, 4.2, 17.5),     // 10 FULL BAND (High front arena angle: all 5 members together, text in sky)
       new THREE.Vector3(0.0, 11.5, 23.0),    // 11 STAGE REVEAL (Grand crane reveal of stage, lighting, trusses & arena)
-      new THREE.Vector3(0.0, 5.2, 0.0)       // 12 BANNER LOCK (Fully framed RITHMOS logo banner without any edge cropping)
+      new THREE.Vector3(0.0, 5.8, 3.8)       // 12 BANNER LOCK (Fully framed RITHMOS logo banner without any edge cropping)
     ];
 
     // 12-Shot Camera Look-at Target Spline
@@ -41,7 +41,7 @@ export class CameraJourney {
       new THREE.Vector3(7.2, 0.2, -9.0),     // 09 Balanced framing of keyboardist head, hands, keys, and text
       new THREE.Vector3(0.0, -0.5, -8.5),    // 10 Center stage full band framing
       new THREE.Vector3(0.0, 1.5, -10.0),    // 11 Looking down across stage, arena lighting, and crowd
-      new THREE.Vector3(0.0, 5.2, -18.6)     // 12 Direct center lock on RITHMOS logo banner
+      new THREE.Vector3(0.0, 5.5, -18.6)     // 12 Direct center lock on RITHMOS logo banner
     ];
 
     this.camCurve = new THREE.CatmullRomCurve3(this.camPoints, false, 'catmullrom', 0.5);
@@ -96,7 +96,7 @@ export class CameraJourney {
       { p: 0.73, fov: 52 }, // 09 Keys CU (wider to frame head, keys, and text properly)
       { p: 0.82, fov: 56 }, // 10 Full Band
       { p: 0.91, fov: 64 }, // 11 Stage Reveal
-      { p: 1.00, fov: 52 }  // 12 Banner Payoff (fully framed RITHMOS logo)
+      { p: 1.00, fov: 55 }  // 12 Banner Payoff (fully framed RITHMOS logo with ample horizontal clearance)
     ];
 
     if (p <= keys[0].p) return keys[0].fov;

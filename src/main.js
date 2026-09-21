@@ -12,6 +12,7 @@ class RithmosApp {
   constructor() {
     this.canvas = document.getElementById('webgl-canvas');
     this.initSmoothScroll();
+    this.initStageStepping();
     this.init3D();
     this.initAudio();
     this.initModals();
@@ -83,6 +84,128 @@ class RithmosApp {
           });
         }
       });
+    });
+  }
+
+  initStageStepping() {
+    const heroStage = document.getElementById('hero-stage');
+    // Person/Climax Story Stops:
+    // 0.00: Crowd
+    // 0.18: Vocalist
+    // 0.36: Guitarist
+    // 0.45: Bassist
+    // 0.55: Drummer
+    // 0.73: Keyboardist
+    // 0.82: Full Band
+    // 0.91: Stage Reveal
+    // 1.00: Backstage Logo
+    const PERSON_STAGES = [0.00, 0.18, 0.36, 0.45, 0.55, 0.73, 0.82, 0.91, 1.00];
+    let lastStepTime = 0;
+    const STEP_COOLDOWN = 650; // ms between discrete steps
+
+    const getHeroHeight = () => {
+      return heroStage ? Math.max(heroStage.offsetHeight - window.innerHeight, 1) : 5500;
+    };
+
+    const triggerStep = (direction) => {
+      const heroHeight = getHeroHeight();
+      const currentP = this.scrollProgress;
+      const now = performance.now();
+
+      if (direction > 0) {
+        // Step forward to next person/stage
+        const nextStage = PERSON_STAGES.find(s => s > currentP + 0.025);
+        if (nextStage !== undefined) {
+          lastStepTime = now;
+          this.lenis.scrollTo(nextStage * heroHeight, { duration: 1.15 });
+          return true;
+        }
+        // At 1.00: let natural scroll take user into Section 02
+        return false;
+      } else {
+        // Step backward to previous person/stage
+        if (window.scrollY >= heroHeight - 15) {
+          // Re-entering hero stage from Section 02: lock cleanly onto Backstage Logo (1.00)
+          lastStepTime = now;
+          this.lenis.scrollTo(1.00 * heroHeight, { duration: 1.15 });
+          return true;
+        }
+        const prevStages = PERSON_STAGES.filter(s => s < currentP - 0.025);
+        if (prevStages.length > 0) {
+          lastStepTime = now;
+          const prevStage = prevStages[prevStages.length - 1];
+          this.lenis.scrollTo(prevStage * heroHeight, { duration: 1.15 });
+          return true;
+        } else {
+          lastStepTime = now;
+          this.lenis.scrollTo(0, { duration: 1.15 });
+          return true;
+        }
+      }
+    };
+
+    // Wheel Stepping (Discrete person-to-person progression)
+    window.addEventListener('wheel', (e) => {
+      const heroHeight = getHeroHeight();
+      const scrollY = window.scrollY;
+
+      // Active when within hero stage or right at the entry boundary from Section 02
+      if (scrollY < heroHeight - 15 || (scrollY <= heroHeight + 40 && e.deltaY < 0)) {
+        if (Math.abs(e.deltaY) < 14) return; // ignore subtle jitter
+
+        const now = performance.now();
+        if (now - lastStepTime < STEP_COOLDOWN) {
+          e.preventDefault();
+          return;
+        }
+
+        const handled = triggerStep(e.deltaY > 0 ? 1 : -1);
+        if (handled) {
+          e.preventDefault();
+        }
+      }
+    }, { passive: false });
+
+    // Touch Stepping (Mobile swipe gestures)
+    let touchStartY = 0;
+    window.addEventListener('touchstart', (e) => {
+      if (e.touches && e.touches.length > 0) {
+        touchStartY = e.touches[0].clientY;
+      }
+    }, { passive: true });
+
+    window.addEventListener('touchend', (e) => {
+      if (!e.changedTouches || e.changedTouches.length === 0) return;
+      const touchEndY = e.changedTouches[0].clientY;
+      const diffY = touchStartY - touchEndY; // > 0 is swipe up / scroll down
+
+      if (Math.abs(diffY) > 35) {
+        const heroHeight = getHeroHeight();
+        const scrollY = window.scrollY;
+
+        if (scrollY < heroHeight - 15 || (scrollY <= heroHeight + 40 && diffY < 0)) {
+          const now = performance.now();
+          if (now - lastStepTime < STEP_COOLDOWN) return;
+
+          triggerStep(diffY > 0 ? 1 : -1);
+        }
+      }
+    }, { passive: true });
+
+    // Keyboard Stepping (Arrow keys & Page keys)
+    window.addEventListener('keydown', (e) => {
+      const heroHeight = getHeroHeight();
+      const scrollY = window.scrollY;
+
+      if (scrollY < heroHeight - 15 || (scrollY <= heroHeight + 40 && (e.key === 'ArrowUp' || e.key === 'PageUp'))) {
+        if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
+          const handled = triggerStep(1);
+          if (handled) e.preventDefault();
+        } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+          const handled = triggerStep(-1);
+          if (handled) e.preventDefault();
+        }
+      }
     });
   }
 
