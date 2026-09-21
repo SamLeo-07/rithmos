@@ -1478,7 +1478,23 @@ body::after {
   stroke: #ff1c36;
   stroke-width: 2.5;
   filter: drop-shadow(0 0 6px #ff1c36);
-  transition: all 0.3s ease;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.25s ease, fill 0.25s ease, stroke 0.25s ease, filter 0.25s ease;
+}
+
+.cable-node-circle.is-energized {
+  fill: #ff1c36;
+  stroke: #ffffff;
+  stroke-width: 3;
+  filter: drop-shadow(0 0 10px #ff1c36) drop-shadow(0 0 18px rgba(255, 28, 54, 0.7));
+}
+
+.cable-node-circle.is-hovered {
+  transform: scale(1.35);
+  fill: #ffffff;
+  stroke: #ff1c36;
+  filter: drop-shadow(0 0 14px #ff1c36) drop-shadow(0 0 28px #ff1c36);
 }
 
 .steps-flow-grid {

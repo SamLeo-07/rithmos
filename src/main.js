@@ -210,39 +210,12 @@ class RithmosApp {
     });
   }
 
-  updateActiveNav(scrollY) {
+  updateActiveNav() {
     const navLinks = document.querySelectorAll('.nav-link');
-    const sections = [
-      { id: 'hero-stage', el: document.getElementById('hero-stage') },
-      { id: 'how-it-works', el: document.getElementById('how-it-works') },
-      { id: 'why-enter', el: document.getElementById('why-enter') },
-      { id: 'the-competition', el: document.getElementById('the-competition') },
-      { id: 'for-bands', el: document.getElementById('for-bands') },
-      { id: 'the-big-stage', el: document.getElementById('the-big-stage') },
-      { id: 'whats-next', el: document.getElementById('whats-next') },
-      { id: 'site-footer', el: document.getElementById('site-footer') }
-    ];
-
-    let currentSectionId = 'hero-stage';
-    const triggerOffset = window.innerHeight * 0.35;
-
-    sections.forEach(({ id, el }) => {
-      if (el) {
-        let top = 0;
-        let curr = el;
-        while (curr) {
-          top += curr.offsetTop || 0;
-          curr = curr.offsetParent;
-        }
-        if (scrollY >= top - triggerOffset) {
-          currentSectionId = id;
-        }
-      }
-    });
-
+    const currentPath = window.location.pathname.replace(/\/$/, '');
     navLinks.forEach((link) => {
-      const href = link.getAttribute('href');
-      if (href === `#${currentSectionId}`) {
+      const href = link.getAttribute('href').replace(/\/$/, '');
+      if (href && (href === currentPath || (currentPath === '' && href === '/'))) {
         link.classList.add('active');
       } else {
         link.classList.remove('active');
@@ -333,18 +306,16 @@ class RithmosApp {
 
       // Sequentially energize cards and glowing terminal nodes
       cards.forEach((card, idx) => {
-        const threshold = 0.10 + idx * 0.22;
+        const threshold = 0.05 + idx * 0.12;
         if (progress >= threshold) {
           card.classList.add('is-energized');
           if (nodes[idx]) {
-            nodes[idx].style.fill = '#ff1c36';
-            nodes[idx].style.stroke = '#ffffff';
+            nodes[idx].classList.add('is-energized');
           }
         } else {
           card.classList.remove('is-energized');
           if (nodes[idx]) {
-            nodes[idx].style.fill = '#0d0c12';
-            nodes[idx].style.stroke = '#ff1c36';
+            nodes[idx].classList.remove('is-energized');
           }
         }
       });
@@ -353,18 +324,16 @@ class RithmosApp {
     window.addEventListener('scroll', updateCableOnScroll, { passive: true });
     updateCableOnScroll();
 
-    // Interactive card hover: surges red node pulse
+    // Interactive card hover: surges red node pulse without SVG coordinate distortion
     cards.forEach((card, idx) => {
       card.addEventListener('mouseenter', () => {
         if (nodes[idx]) {
-          nodes[idx].style.transform = 'scale(1.4)';
-          nodes[idx].style.filter = 'drop-shadow(0 0 12px #ff1c36) drop-shadow(0 0 24px #ff1c36)';
+          nodes[idx].classList.add('is-hovered');
         }
       });
       card.addEventListener('mouseleave', () => {
         if (nodes[idx]) {
-          nodes[idx].style.transform = 'scale(1.0)';
-          nodes[idx].style.filter = 'drop-shadow(0 0 6px #ff1c36)';
+          nodes[idx].classList.remove('is-hovered');
         }
       });
     });
