@@ -18,6 +18,7 @@ class RithmosApp {
     this.initModals();
     this.initScrollReveal();
     this.initNarrativeCable();
+    this.initContinuousStorytelling();
     this.startLoop();
   }
 
@@ -269,8 +270,8 @@ class RithmosApp {
         }
       });
     }, {
-      rootMargin: '0px 0px -40px 0px',
-      threshold: 0.08
+      rootMargin: '60px 0px 60px 0px',
+      threshold: 0.01
     });
 
     revealEls.forEach((el) => observer.observe(el));
@@ -337,6 +338,191 @@ class RithmosApp {
         }
       });
     });
+  }
+
+  initContinuousStorytelling() {
+    const storyHud = document.getElementById('landing-story-hud');
+    const hudSteps = document.querySelectorAll('.story-hud-step');
+    const heroStage = document.getElementById('hero-stage');
+
+    const sections = [
+      { id: 'how-it-works', step: '02' },
+      { id: 'why-enter', step: '03' },
+      { id: 'the-competition', step: '04' },
+      { id: 'for-bands', step: '05' },
+      { id: 'the-big-stage', step: '06' },
+      { id: 'whats-next', step: '07' }
+    ];
+
+    // Section 03 Elements
+    const sec03 = document.getElementById('why-enter');
+    const term03 = document.getElementById('terminal-03');
+    const benefitBoxes = sec03 ? sec03.querySelectorAll('.benefit-box') : [];
+    const acousticRadar = document.getElementById('acoustic-radar-col');
+
+    // Section 04 Elements
+    const sec04 = document.getElementById('the-competition');
+    const term04 = document.getElementById('terminal-04');
+    const compCableGlow = document.getElementById('comp-cable-glow');
+    const compNodes = sec04 ? sec04.querySelectorAll('.timeline-node') : [];
+
+    // Section 05 Elements
+    const sec05 = document.getElementById('for-bands');
+    const term05 = document.getElementById('terminal-05');
+    const panelRedGlowing = document.getElementById('panel-red-glowing');
+    const etchedWords = sec05 ? sec05.querySelectorAll('.etched-word') : [];
+
+    // Section 06 Elements
+    const sec06 = document.getElementById('the-big-stage');
+    const term06 = document.getElementById('terminal-06');
+    const isoSteps = [1, 2, 3, 4, 5, 6, 7].map(n => document.getElementById(`step-${n}`));
+
+    // Section 07 Elements
+    const sec07 = document.getElementById('whats-next');
+    const term07 = document.getElementById('terminal-07');
+    const haloFrame = document.getElementById('amphitheater-halo-frame');
+
+    const getProgress = (el, winH) => {
+      if (!el) return 0;
+      const rect = el.getBoundingClientRect();
+      const start = winH * 0.92;
+      const end = -rect.height * 0.30;
+      const total = start - end;
+      if (total <= 0) return 0;
+      return Math.max(0, Math.min(1.2, (start - rect.top) / total));
+    };
+
+    const updateStoryJourney = () => {
+      const winH = window.innerHeight;
+      const scrollY = window.scrollY;
+      const heroHeight = heroStage ? Math.max(heroStage.offsetHeight - winH, 1) : 5500;
+
+      // Toggle HUD visibility: show when user scrolls past 3D hero stage into landing sections
+      if (storyHud) {
+        if (scrollY > heroHeight + 120) {
+          storyHud.classList.add('is-visible');
+        } else {
+          storyHud.classList.remove('is-visible');
+        }
+      }
+
+      // Track active section for HUD
+      let currentActiveStep = '02';
+      const readLine = winH * 0.45;
+      sections.forEach(({ id, step }) => {
+        const el = document.getElementById(id);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= readLine && rect.bottom >= readLine) {
+            currentActiveStep = step;
+          }
+          // Ensure reveal-on-scroll elements are cleanly visible once section is reached
+          if (rect.top < winH * 0.95 && rect.bottom > 0) {
+            el.querySelectorAll('.reveal-on-scroll').forEach(rev => rev.classList.add('is-revealed'));
+          }
+        }
+      });
+
+      hudSteps.forEach(link => {
+        if (link.getAttribute('data-step') === currentActiveStep) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
+
+      // Terminals energization
+      const checkTerminal = (termEl) => {
+        if (!termEl) return;
+        const rect = termEl.getBoundingClientRect();
+        if (rect.top < winH * 0.88) {
+          termEl.classList.add('is-energized');
+        } else {
+          termEl.classList.remove('is-energized');
+        }
+      };
+
+      checkTerminal(term03);
+      checkTerminal(term04);
+      checkTerminal(term05);
+      checkTerminal(term06);
+      checkTerminal(term07);
+
+      // SECTION 03: Benefit Cards + Equalizers + Acoustic Radar
+      if (sec03) {
+        const p3 = getProgress(sec03, winH);
+        if (acousticRadar) {
+          acousticRadar.classList.toggle('is-pulsing', p3 > 0.05 && p3 < 1.05);
+        }
+        benefitBoxes.forEach((box, idx) => {
+          if (p3 >= 0.06 + idx * 0.10) {
+            box.classList.add('is-energized');
+          } else {
+            box.classList.remove('is-energized');
+          }
+        });
+      }
+
+      // SECTION 04: Live SVG Tournament Circuit Cable + Nodes
+      if (sec04) {
+        const p4 = getProgress(sec04, winH);
+        if (compCableGlow) {
+          const clamped = Math.min(1.0, Math.max(0, p4 * 1.35));
+          const offset = 1000 * (1.0 - clamped);
+          compCableGlow.style.strokeDashoffset = `${offset}`;
+        }
+        compNodes.forEach((node, idx) => {
+          if (p4 >= 0.08 + idx * 0.16) {
+            node.classList.add('is-energized');
+          } else {
+            node.classList.remove('is-energized');
+          }
+        });
+      }
+
+      // SECTION 05: Rehearsal Studio Radiant Glass Panel + Etched Typography
+      if (sec05) {
+        const p5 = getProgress(sec05, winH);
+        if (panelRedGlowing) {
+          panelRedGlowing.classList.toggle('is-energized', p5 > 0.05 && p5 < 1.05);
+        }
+        etchedWords.forEach((word, idx) => {
+          if (p5 >= 0.10 + idx * 0.12) {
+            word.classList.add('is-lit');
+          } else {
+            word.classList.remove('is-lit');
+          }
+        });
+      }
+
+      // SECTION 06: Isometric Ascending Steps Climbing
+      if (sec06) {
+        const p6 = getProgress(sec06, winH);
+        isoSteps.forEach((step, idx) => {
+          if (step) {
+            if (p6 >= 0.08 + idx * 0.11) {
+              step.classList.add('is-lit');
+            } else {
+              step.classList.remove('is-lit');
+            }
+          }
+        });
+      }
+
+      // SECTION 07: Curved Stadium Halo Shockwave Resonance
+      if (sec07) {
+        const p7 = getProgress(sec07, winH);
+        if (haloFrame) {
+          haloFrame.classList.toggle('is-energized', p7 > 0.05 && p7 < 1.05);
+        }
+      }
+    };
+
+    if (this.lenis) {
+      this.lenis.on('scroll', updateStoryJourney);
+    }
+    window.addEventListener('scroll', updateStoryJourney, { passive: true });
+    updateStoryJourney();
   }
 
   startLoop() {

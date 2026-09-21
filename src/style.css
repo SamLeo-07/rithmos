@@ -2470,3 +2470,398 @@ body::after {
     gap: 14px;
   }
 }
+
+/* ==========================================================================
+   CONTINUOUS INTER-SECTION STORYTELLING SYSTEM (Sections 02 to 07)
+   Unifying the landing page into a live, interactive rock audio circuit
+   ========================================================================== */
+
+/* Inter-Section Bridges */
+.story-conduit-bridge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+  margin-bottom: -20px;
+  position: relative;
+  z-index: 10;
+}
+
+.bridge-stem {
+  width: 2px;
+  height: 80px;
+  background: linear-gradient(180deg, #ff1c36 0%, rgba(255, 28, 54, 0.45) 80%, rgba(255, 28, 54, 0.15) 100%);
+  position: relative;
+  box-shadow: 0 0 10px rgba(255, 28, 54, 0.6);
+}
+
+.bridge-glow-path {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #ff1c36;
+  filter: blur(2px);
+  opacity: 0.85;
+}
+
+.bridge-signal-runner {
+  position: absolute;
+  top: 0;
+  left: -2px;
+  width: 6px;
+  height: 20px;
+  border-radius: 3px;
+  background: #ffffff;
+  box-shadow: 0 0 10px #ffffff, 0 0 20px #ff1c36;
+  animation: bridgeRunner 1.8s infinite cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes bridgeRunner {
+  0% { top: 0; opacity: 0; transform: scaleY(0.5); }
+  20% { opacity: 1; transform: scaleY(1); }
+  80% { opacity: 1; transform: scaleY(1); }
+  100% { top: 60px; opacity: 0; transform: scaleY(0.5); }
+}
+
+.bridge-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 5px 14px;
+  background: #0e0d14;
+  border: 1px solid rgba(255, 28, 54, 0.35);
+  border-radius: 20px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.7);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.bridge-tag:hover {
+  border-color: #ff1c36;
+  box-shadow: 0 0 16px rgba(255, 28, 54, 0.4);
+}
+
+.bridge-jack-icon {
+  font-size: 0.75rem;
+  color: #ff1c36;
+  animation: jackPulse 1.4s infinite ease-in-out;
+}
+
+.bridge-label {
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  color: #c4c1d2;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* Section Input Terminals (Top of Each Section) */
+.section-input-terminal {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 28px;
+}
+
+.terminal-coupler {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 14px;
+  background: rgba(14, 13, 20, 0.9);
+  border: 1px solid rgba(255, 28, 54, 0.25);
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+}
+
+.coupler-led {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ff1c36;
+  box-shadow: 0 0 8px #ff1c36;
+  animation: jackPulse 1.6s infinite ease-in-out;
+}
+
+.coupler-text {
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.16em;
+  color: #ff475b;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* Section 03: Benefit Cards with Equalizers */
+.benefit-header-row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.benefit-box {
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.benefit-box::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: transparent;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.benefit-box.is-energized {
+  border-color: rgba(255, 28, 54, 0.4);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 18px rgba(255, 28, 54, 0.08);
+  background: #0f0e16;
+}
+
+.benefit-box.is-energized::before {
+  background: linear-gradient(90deg, transparent, #ff1c36, transparent);
+  box-shadow: 0 0 10px #ff1c36;
+}
+
+.benefit-box:hover {
+  transform: translateY(-6px);
+  border-color: #ff1c36;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.9), 0 0 24px rgba(255, 28, 54, 0.2);
+}
+
+/* Acoustic Radar Pulsing Waves */
+.radar-ring {
+  transition: stroke 0.4s ease, stroke-width 0.4s ease, stroke-opacity 0.4s ease;
+}
+
+.acoustic-radar-col.is-pulsing .radar-ring.r4 {
+  stroke: #ffffff;
+  stroke-width: 3.5;
+  stroke-opacity: 1;
+  filter: drop-shadow(0 0 10px #ff1c36);
+  animation: radarWave 2s infinite ease-out;
+}
+
+.acoustic-radar-col.is-pulsing .radar-ring.r3 {
+  animation: radarWave 2.4s infinite ease-out 0.3s;
+}
+
+.acoustic-radar-col.is-pulsing .radar-ring.r2 {
+  animation: radarWave 2.8s infinite ease-out 0.6s;
+}
+
+@keyframes radarWave {
+  0% { stroke-opacity: 0.85; stroke-width: 3; }
+  50% { stroke-opacity: 0.4; stroke-width: 2; }
+  100% { stroke-opacity: 0.1; stroke-width: 1; }
+}
+
+/* Section 04: Tournament Circuit Live SVG Cable */
+.competition-cable-track {
+  position: absolute;
+  top: 72px;
+  left: 5%;
+  right: 5%;
+  height: 20px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.competition-cable-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.comp-cable-bg {
+  stroke: rgba(255, 255, 255, 0.1);
+  stroke-width: 3;
+}
+
+.comp-cable-glow {
+  stroke: #ff1c36;
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 8px #ff1c36) drop-shadow(0 0 16px rgba(255, 28, 54, 0.6));
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 0.6s ease;
+}
+
+.timeline-node {
+  position: relative;
+  z-index: 3;
+  transition: transform 0.3s ease;
+}
+
+.timeline-node.is-energized .node-dot {
+  background: #ff1c36;
+  box-shadow: 0 0 12px #ff1c36, 0 0 24px rgba(255, 28, 54, 0.8);
+  transform: scale(1.2);
+}
+
+.timeline-node:hover {
+  transform: translateY(-6px);
+}
+
+.timeline-node:hover .node-dot {
+  background: #ffffff;
+  box-shadow: 0 0 16px #ffffff, 0 0 28px #ff1c36;
+  transform: scale(1.4);
+}
+
+/* Section 05: Rehearsal Studio Sequential Word Illumination */
+.panel-red-glowing.is-energized {
+  box-shadow: 0 0 35px rgba(255, 28, 54, 0.5), inset 0 0 20px rgba(255, 28, 54, 0.4);
+  animation: panelSurge 2.2s infinite ease-in-out alternate;
+}
+
+@keyframes panelSurge {
+  0% { filter: brightness(1.0); }
+  100% { filter: brightness(1.35) drop-shadow(0 0 15px #ff1c36); }
+}
+
+.etched-word {
+  display: block;
+  font-family: 'Space Grotesk', monospace;
+  font-size: clamp(0.75rem, 1.3vw, 1.05rem);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: rgba(255, 255, 255, 0.25);
+  transition: color 0.3s ease, transform 0.3s ease, text-shadow 0.3s ease;
+}
+
+.etched-word.is-lit {
+  color: #ff1c36;
+  text-shadow: 0 0 14px rgba(255, 28, 54, 0.85);
+  transform: translateX(6px);
+}
+
+.etched-word:hover {
+  color: #ffffff;
+  text-shadow: 0 0 16px #ff1c36, 0 0 26px #ff1c36;
+  transform: translateX(10px);
+}
+
+/* Section 06: Isometric Steps Climbing Animation */
+.iso-step polygon {
+  transition: fill 0.35s ease, filter 0.35s ease;
+}
+
+.iso-step.is-lit polygon {
+  filter: drop-shadow(0 0 8px rgba(255, 28, 54, 0.6));
+}
+
+.iso-step.step-7.is-peak polygon {
+  animation: peakBeacon 1.8s infinite ease-in-out alternate;
+}
+
+@keyframes peakBeacon {
+  0% { filter: drop-shadow(0 0 12px rgba(255, 28, 54, 0.4)); }
+  100% { filter: drop-shadow(0 0 28px rgba(255, 28, 54, 0.95)) drop-shadow(0 0 50px #ff1c36); }
+}
+
+/* Section 07: Amphitheater Halo Soundwave Resonance */
+.amphitheater-halo-frame.is-energized .halo-ring.h3 {
+  animation: haloShockwave 2.2s infinite ease-out;
+}
+
+.amphitheater-halo-frame.is-energized .halo-ring.h2 {
+  animation: haloShockwave 2.2s infinite ease-out 0.4s;
+}
+
+@keyframes haloShockwave {
+  0% { stroke-opacity: 0.9; stroke-width: 3.5; }
+  50% { stroke-opacity: 0.45; stroke-width: 2.2; }
+  100% { stroke-opacity: 0.1; stroke-width: 1.2; }
+}
+
+/* Floating Landing Storyline Chapter HUD */
+.landing-story-hud {
+  position: fixed;
+  right: 28px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 14px;
+  z-index: 900;
+  pointer-events: auto;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.landing-story-hud.is-visible {
+  opacity: 1;
+}
+
+.story-hud-title {
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+  color: #ff1c36;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.story-hud-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.story-hud-step {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  padding: 4px 10px;
+  border-radius: 4px;
+  background: rgba(13, 12, 18, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+  transition: all 0.25s ease;
+}
+
+.story-hud-step:hover,
+.story-hud-step.active {
+  border-color: #ff1c36;
+  background: rgba(255, 28, 54, 0.12);
+  box-shadow: 0 0 14px rgba(255, 28, 54, 0.25);
+}
+
+.hud-step-num {
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: #ff475b;
+}
+
+.hud-step-name {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  color: #c5c2d3;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.story-hud-step.active .hud-step-name {
+  color: #ffffff;
+}
+
+@media (max-width: 900px) {
+  .landing-story-hud {
+    display: none;
+  }
+}
+
