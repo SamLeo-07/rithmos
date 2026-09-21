@@ -76,19 +76,91 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // FAQ Accordion Interaction
+  const faqItems = document.querySelectorAll('.faq-item');
+  faqItems.forEach((item) => {
+    const questionBtn = item.querySelector('.faq-question');
+    if (questionBtn) {
+      questionBtn.addEventListener('click', () => {
+        const isOpen = item.classList.contains('open');
+        // Close others for clean accordion feel
+        faqItems.forEach((other) => {
+          if (other !== item) {
+            other.classList.remove('open');
+            other.querySelector('.faq-question')?.setAttribute('aria-expanded', 'false');
+          }
+        });
+        if (isOpen) {
+          item.classList.remove('open');
+          questionBtn.setAttribute('aria-expanded', 'false');
+        } else {
+          item.classList.add('open');
+          questionBtn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    }
+  });
+
+  // Department Channel Route Buttons
+  const routeButtons = document.querySelectorAll('.channel-route-btn');
+  const deptSelect = document.getElementById('c-dept');
+  routeButtons.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetVal = btn.getAttribute('data-dept-val');
+      if (deptSelect && targetVal) {
+        deptSelect.value = targetVal;
+        const deskSection = document.getElementById('transmission-desk');
+        if (deskSection) {
+          deskSection.scrollIntoView({ behavior: 'smooth' });
+        }
+        deptSelect.focus();
+      }
+    });
+  });
+
+  // Message Character Counter
+  const messageInput = document.getElementById('c-msg');
+  const charCounter = document.getElementById('char-counter');
+  if (messageInput && charCounter) {
+    messageInput.addEventListener('input', () => {
+      const len = messageInput.value.length;
+      charCounter.textContent = `${len} / 500`;
+    });
+  }
+
   // Contact Form Handling (on /contact)
   const contactForm = document.getElementById('subpage-contact-form');
   const contactSuccess = document.getElementById('contact-form-success');
+  const contactSubmitBtn = document.getElementById('contact-submit-btn');
+
   if (contactForm) {
     contactForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      if (contactSuccess) {
-        contactSuccess.style.display = 'block';
-        contactForm.reset();
-        setTimeout(() => {
-          contactSuccess.style.display = 'none';
-        }, 6000);
+      if (contactSubmitBtn) {
+        contactSubmitBtn.disabled = true;
+        contactSubmitBtn.innerHTML = '<span>DISPATCHING...</span> <span>⏳</span>';
       }
+
+      setTimeout(() => {
+        if (contactSuccess) {
+          contactSuccess.style.display = 'block';
+        }
+        contactForm.reset();
+        if (charCounter) {
+          charCounter.textContent = '0 / 500';
+        }
+        if (contactSubmitBtn) {
+          contactSubmitBtn.disabled = false;
+          contactSubmitBtn.innerHTML = '<span>TRANSMIT INQUIRY</span> <span>⚡</span>';
+        }
+        setTimeout(() => {
+          if (contactSuccess) {
+            contactSuccess.style.display = 'none';
+          }
+        }, 7000);
+      }, 700);
     });
   }
 });
+
