@@ -23,9 +23,9 @@ export class CameraJourney {
       new THREE.Vector3(0.0, 0.4, -7.0),     // 07 DRUMMER (Upward dynamic angle: drummer center, text on right)
       new THREE.Vector3(4.8, 0.6, -5.4),     // 08 MOVE TO KEYBOARDIST (Smooth transit framing keyboardist head and keys)
       new THREE.Vector3(5.4, 0.4, -4.8),     // 09 KEYS CU (Cinema framing: keyboardist head, hands & synth keys fully in frame)
-      new THREE.Vector3(0.0, 4.2, 17.5),     // 10 FULL BAND (High front arena angle: all 5 members together, text in sky)
-      new THREE.Vector3(0.0, 11.5, 23.0),    // 11 STAGE REVEAL (Grand crane reveal of stage, lighting, trusses & arena)
-      new THREE.Vector3(0.0, 5.8, 3.8)       // 12 BANNER LOCK (Fully framed RITHMOS logo banner without any edge cropping)
+      new THREE.Vector3(0.0, 1.4, 16.5),     // 10 FULL BAND (Front arena eye-level: all 5 members together on stage)
+      new THREE.Vector3(0.0, 3.4, 25.0),     // 11 STAGE REVEAL (Grand arena overview: full stage, trusses, lighting & crowd)
+      new THREE.Vector3(0.0, 2.2, 13.0)      // 12 RITHMOS REVEAL (Hero push toward stage: band in front of radiant backstage logo)
     ];
 
     // 12-Shot Camera Look-at Target Spline
@@ -39,9 +39,9 @@ export class CameraJourney {
       new THREE.Vector3(1.2, 1.4, -13.2),    // 07 Looking up at drummer and text
       new THREE.Vector3(7.4, 0.2, -9.2),     // 08 Gliding smoothly toward keyboardist upper body
       new THREE.Vector3(7.2, 0.2, -9.0),     // 09 Balanced framing of keyboardist head, hands, keys, and text
-      new THREE.Vector3(0.0, -0.5, -8.5),    // 10 Center stage full band framing
-      new THREE.Vector3(0.0, 1.5, -10.0),    // 11 Looking down across stage, arena lighting, and crowd
-      new THREE.Vector3(0.0, 5.5, -18.6)     // 12 Direct center lock on RITHMOS logo banner
+      new THREE.Vector3(0.0, 0.4, -8.0),     // 10 Level framing on center stage and band
+      new THREE.Vector3(0.0, 1.0, -10.0),    // 11 Balanced look across illuminated stage and arena
+      new THREE.Vector3(0.0, 4.2, -18.6)     // 12 Straight-on lock on radiant backstage RITHMOS screen
     ];
 
     this.camCurve = new THREE.CatmullRomCurve3(this.camPoints, false, 'catmullrom', 0.5);
@@ -94,9 +94,9 @@ export class CameraJourney {
       { p: 0.55, fov: 45 }, // 07 Drummer
       { p: 0.64, fov: 48 }, // 08 Move to Keys
       { p: 0.73, fov: 52 }, // 09 Keys CU (wider to frame head, keys, and text properly)
-      { p: 0.82, fov: 56 }, // 10 Full Band
-      { p: 0.91, fov: 64 }, // 11 Stage Reveal
-      { p: 1.00, fov: 55 }  // 12 Banner Payoff (fully framed RITHMOS logo with ample horizontal clearance)
+      { p: 0.82, fov: 54 }, // 10 Full Band
+      { p: 0.91, fov: 60 }, // 11 Stage Reveal
+      { p: 1.00, fov: 52 }  // 12 Backstage Finale
     ];
 
     if (p <= keys[0].p) return keys[0].fov;
@@ -140,9 +140,13 @@ export class CameraJourney {
       baseCamPos.z
     );
 
-    // 4. Subtle camera banking / roll into turns
+    // 4. Subtle camera banking / roll into turns, strictly leveled for arena shots 10-12
     const tangent = this.camCurve.getTangent(p);
-    const roll = -tangent.x * 0.04;
+    let roll = -tangent.x * 0.04;
+    if (p >= 0.76) {
+      const levelFade = THREE.MathUtils.clamp(1.0 - (p - 0.76) / 0.06, 0.0, 1.0);
+      roll *= levelFade;
+    }
     camera.up.set(Math.sin(roll), Math.cos(roll), 0);
 
     camera.lookAt(

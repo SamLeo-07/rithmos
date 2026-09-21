@@ -117,33 +117,41 @@ export class LayerCompositor {
     this.layers.venueArch.mesh.renderOrder = 1;
     this.scene.add(this.layers.venueArch.mesh);
 
-    // Giant LED Stage Banner Backdrop (Dark glowing screen backing)
-    const bannerGeo = new THREE.PlaneGeometry(42, 21);
+    // Giant LED Stage Banner Backdrop (Mounted on Backstage Arena Wall)
+    const bannerGeo = new THREE.PlaneGeometry(46, 23);
     const bannerMat = new THREE.MeshBasicMaterial({
       color: 0x060103,
       transparent: true,
-      opacity: 0.0,
-      depthTest: true,
+      opacity: 0.96,
       depthWrite: false
     });
     this.bannerScreen = new THREE.Mesh(bannerGeo, bannerMat);
-    this.bannerScreen.position.set(0, 5.2, -18.8);
-    this.bannerScreen.renderOrder = 27;
+    this.bannerScreen.position.set(0, 8.4, -18.8);
+    this.bannerScreen.renderOrder = 2;
     this.scene.add(this.bannerScreen);
 
-    // Authentic RITHMOS Stage Banner (Scoped strictly to Section 5 / Shots 11-12)
-    this.layers.logo = this.createPlaneMesh('/assets/logo.png', 28, 14, {
+    // Authentic RITHMOS Stage Banner (Mounted on Backstage Screen behind performers)
+    this.layers.logo = this.createPlaneMesh('/assets/logo.png', 30, 15, {
       opacity: 0.0,
       transparent: true
     });
-    this.layers.logo.mesh.position.set(0, 5.2, -18.6);
-    this.layers.logo.mesh.renderOrder = 28;
+    this.layers.logo.mesh.position.set(0, 8.4, -18.6);
+    this.layers.logo.mesh.renderOrder = 3;
     this.scene.add(this.layers.logo.mesh);
+
+    // Backstage wash lighting
+    this.layers.lightingBack = this.createPlaneMesh('/assets/lighting.png', 48, 24, {
+      blending: THREE.AdditiveBlending,
+      opacity: 0.70
+    });
+    this.layers.lightingBack.mesh.position.set(0, 8.4, -17.5);
+    this.layers.lightingBack.mesh.renderOrder = 4;
+    this.scene.add(this.layers.lightingBack.mesh);
 
     // Overhead Arena Truss Structure (Directly over the single stage)
     this.layers.truss = this.createPlaneMesh('/assets/truss-structure.png', 52, 26);
     this.layers.truss.mesh.position.set(0, 7.6, -10.0);
-    this.layers.truss.mesh.renderOrder = 4;
+    this.layers.truss.mesh.renderOrder = 6;
     this.scene.add(this.layers.truss.mesh);
 
     // Concert Stage Lighting Beams (Additive spotlights washing stage)
@@ -152,17 +160,8 @@ export class LayerCompositor {
       opacity: 0.85
     });
     this.layers.lighting.mesh.position.set(0, 8.4, -9.8);
-    this.layers.lighting.mesh.renderOrder = 5;
+    this.layers.lighting.mesh.renderOrder = 7;
     this.scene.add(this.layers.lighting.mesh);
-
-    // Backstage wash lighting
-    this.layers.lightingBack = this.createPlaneMesh('/assets/lighting.png', 48, 24, {
-      blending: THREE.AdditiveBlending,
-      opacity: 0.70
-    });
-    this.layers.lightingBack.mesh.position.set(0, 6.0, -17.5);
-    this.layers.lightingBack.mesh.renderOrder = 5;
-    this.scene.add(this.layers.lightingBack.mesh);
 
     // =========================================================================
     // 2. ONE SINGLE COHESIVE STAGE PLATFORM (Deck sits UNDER all performers!)
@@ -449,18 +448,16 @@ export class LayerCompositor {
     this.scene.add(this.textBillboards.keyboardist.mesh);
 
     // 6. Full Band Billboard (Shot 10: "TOGETHER THEY CREATE MORE.")
-    // Monumental arena headline spanning over the 5-member band
+    // Monumental arena headline nested right above the 5-member band
     this.textBillboards.fullBand = this.createTextBillboard(
       [
-        { text: 'TOGETHER', color: 'white', size: 260 },
-        { text: 'THEY CREATE MORE.', color: 'red', size: 260 }
+        { text: 'TOGETHER', color: 'white', size: 240 },
+        { text: 'THEY CREATE MORE.', color: 'red', size: 240 }
       ],
-      14.0, 7.5, 'center'
+      11.0, 5.5, 'center'
     );
-    this.textBillboards.fullBand.mesh.position.set(0.0, 4.8, 1.0);
-    this.textBillboards.fullBand.baseRot = new THREE.Euler(-0.06, 0.0, 0.0);
-    this.textBillboards.fullBand.mesh.rotation.copy(this.textBillboards.fullBand.baseRot);
-    this.textBillboards.fullBand.activeRange = [0.78, 0.81, 0.87, 0.90];
+    this.textBillboards.fullBand.mesh.position.set(0.0, 3.2, -5.0);
+    this.textBillboards.fullBand.activeRange = [0.78, 0.81, 0.86, 0.89];
     this.scene.add(this.textBillboards.fullBand.mesh);
   }
 
@@ -499,20 +496,11 @@ export class LayerCompositor {
     }
 
     if (this.layers.logo) {
-      if (scrollProgress < 0.93) {
+      if (scrollProgress < 0.88) {
         this.layers.logo.material.opacity = 0.0;
       } else {
-        const lp = Math.min((scrollProgress - 0.93) / 0.04, 1.0);
+        const lp = Math.min((scrollProgress - 0.88) / 0.08, 1.0);
         this.layers.logo.material.opacity = lp * 1.0;
-      }
-    }
-
-    // Fade out elevated drum riser during Shot 12 so backstage banner is 100% visible
-    if (this.layers.drumPlatform) {
-      if (scrollProgress >= 0.93) {
-        this.layers.drumPlatform.material.opacity = Math.max(0.0, 1.0 - (scrollProgress - 0.93) / 0.04);
-      } else {
-        this.layers.drumPlatform.material.opacity = 1.0;
       }
     }
 
@@ -568,23 +556,16 @@ export class LayerCompositor {
           }
         }
 
-        // Drummer shot 12 fade: Fade out drummer during Shot 12 (p >= 0.93)
-        // so the full RITHMOS backstage logo and "WHERE BANDS RISE" ribbon are 100% unobstructed!
-        let drummerShot12Fade = 1.0;
-        if (key === 'drummer' && scrollProgress >= 0.93) {
-          drummerShot12Fade = Math.max(0.0, 1.0 - (scrollProgress - 0.93) / 0.04);
-        }
-
         // Proximity illumination from stage spotlights
         const dist = cameraPos.distanceTo(perf.mesh.position);
         const proximity = THREE.MathUtils.clamp(1.0 - (dist - 3.0) / 12.0, 0.0, 1.0);
-        const totalOpacity = (0.88 + proximity * 0.12) * behindFade * bassistShotFade * drummerShot12Fade;
+        const totalOpacity = (0.88 + proximity * 0.12) * behindFade * bassistShotFade;
         perf.material.opacity = totalOpacity;
 
         // Ground contact shadow and spotlight pool synchronization
         if (perf.grounding) {
-          perf.grounding.shadowMat.opacity = 0.85 * behindFade * bassistShotFade * drummerShot12Fade;
-          perf.grounding.poolMat.opacity = (0.55 + proximity * 0.25) * behindFade * bassistShotFade * drummerShot12Fade;
+          perf.grounding.shadowMat.opacity = 0.85 * behindFade * bassistShotFade;
+          perf.grounding.poolMat.opacity = (0.55 + proximity * 0.25) * behindFade * bassistShotFade;
         }
       });
 

@@ -686,47 +686,43 @@ body::after {
   text-transform: uppercase;
 }
 
-/* SHOT 08: STAGE ARENA REVEAL */
+/* SHOT 08: STAGE ARENA REVEAL (Shot 11) */
 .shot-08 {
   justify-content: flex-start;
-  padding-top: 14vh;
+  padding-top: 88px;
+  pointer-events: none;
 }
 
 .arena-statement {
   text-align: center;
-  max-width: 860px;
-}
-
-.arena-index {
-  display: block;
-  font-family: var(--font-heading);
-  font-size: 0.75rem;
-  letter-spacing: 0.25em;
-  color: var(--color-red-primary);
-  margin-bottom: 12px;
+  max-width: 900px;
+  margin: 0 auto;
+  background: transparent;
+  box-shadow: none;
+  border: none;
 }
 
 .arena-title {
   font-family: 'Alderwood', 'Inter', sans-serif;
-  font-size: clamp(3.4rem, 6.5vw, 5.8rem);
+  font-size: clamp(2.4rem, 4.4vw, 3.8rem);
   font-weight: 700;
   font-style: normal;
   letter-spacing: 0.04em;
-  color: #fff;
-  line-height: 0.92;
-  margin-bottom: 12px;
+  color: #ffffff;
+  line-height: 0.95;
+  margin-bottom: 8px;
   transform: none;
-  text-shadow: 0 6px 28px rgba(0, 0, 0, 0.95);
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.95);
 }
 
 .arena-sub {
   font-family: 'Alderwood', 'Inter', sans-serif;
-  font-size: clamp(1.4rem, 2.5vw, 2.4rem);
+  font-size: clamp(1.1rem, 2.0vw, 1.6rem);
   font-style: normal;
   letter-spacing: 0.08em;
   color: #ff1c36;
   font-weight: 700;
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.95);
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.95);
 }
 
 /* SHOT 10: RITHMOS FINAL LOCK & PAYOFF */
