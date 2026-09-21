@@ -443,7 +443,8 @@ export class LayerCompositor {
       ],
       4.8, 3.8, 'center'
     );
-    this.textBillboards.keyboardist.mesh.position.set(5.6, 0.0, -8.6);
+    // Positioned cleanly to the right of the keyboardist (keyboardist is at X=7.8)
+    this.textBillboards.keyboardist.mesh.position.set(9.9, 0.3, -8.5);
     this.textBillboards.keyboardist.activeRange = [0.66, 0.70, 0.74, 0.76]; // Strictly ended before Shot 10 full band!
     this.scene.add(this.textBillboards.keyboardist.mesh);
 
@@ -588,9 +589,10 @@ export class LayerCompositor {
         }
         tb.mat.opacity = THREE.MathUtils.clamp(op, 0.0, 1.0);
 
-        // Straight to camera movement: billboard faces camera directly (zero slant/tilt distortion)
-        if (camera) {
-          tb.mesh.quaternion.copy(camera.quaternion);
+        // Straight to camera movement: Billboard aims directly at camera eye
+        // so text is perpendicular to line of sight and NEVER tilts backwards or faces upwards!
+        if (camera && camera.position) {
+          tb.mesh.lookAt(camera.position);
         }
       });
     }
