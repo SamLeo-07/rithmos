@@ -91,17 +91,16 @@ class RithmosApp {
 
   initStageStepping() {
     const heroStage = document.getElementById('hero-stage');
-    // Person/Climax Story Stops:
-    // 0.00: Crowd
-    // 0.18: Dual Vocalists (Male & Female Vocalists)
-    // 0.36: Guitarist
-    // 0.45: Bassist
-    // 0.55: Drummer
-    // 0.73: Keyboardist
-    // 0.82: Full Band
-    // 0.91: Stage Reveal
-    // 1.00: Backstage Logo
-    const PERSON_STAGES = [0.00, 0.18, 0.36, 0.45, 0.55, 0.73, 0.82, 0.91, 1.00];
+    // 8-Beat Narrative Story Stops:
+    // 0.00: 01 STORY (Every band has a story)
+    // 0.14: 02 STAGE (Every story needs a stage)
+    // 0.28: 03 RITHMOS (Rithmos is the stage)
+    // 0.43: 04 MOMENT (Every dream needs a moment)
+    // 0.57: 05 STAGE (Every moment needs a stage)
+    // 0.71: 06 RITHMOS (Rithmos is the stage)
+    // 0.85: 07 FLASH (Rithmos brand flashes)
+    // 1.00: 08 RISE (Where bands rise animated waveform)
+    const PERSON_STAGES = [0.00, 0.14, 0.28, 0.43, 0.57, 0.71, 0.85, 1.00];
     let lastStepTime = 0;
     const STEP_COOLDOWN = 650; // ms between discrete steps
 

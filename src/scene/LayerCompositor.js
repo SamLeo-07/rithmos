@@ -131,13 +131,17 @@ export class LayerCompositor {
     this.scene.add(this.bannerScreen);
 
     // Authentic RITHMOS Stage Banner (Mounted on Backstage Screen behind performers)
-    this.layers.logo = this.createPlaneMesh('/assets/logo.png', 20.5, 10.0, {
+    // Uses logo-brand.png (soundwave icon + RITHMOS wordmark + guitar pick emblem)
+    this.layers.logo = this.createPlaneMesh('/assets/logo-brand.png', 19.6, 8.1, {
       opacity: 0.0,
       transparent: true
     });
-    this.layers.logo.mesh.position.set(0, 11.4, -18.6);
+    this.layers.logo.mesh.position.set(0, 11.8, -18.6);
     this.layers.logo.mesh.renderOrder = 3;
     this.scene.add(this.layers.logo.mesh);
+
+    // Dynamic Tagline Waveform Mesh: "WHERE BANDS RISE" (Zoom and Unzoom wave traveling Where -> Rise)
+    this.initTaglineWaveform();
 
     // Backstage wash lighting
     this.layers.lightingBack = this.createPlaneMesh('/assets/lighting.png', 38, 19, {
@@ -396,9 +400,119 @@ export class LayerCompositor {
     return { mesh, mat, texture, renderText, baseRot: new THREE.Euler(0, 0, 0) };
   }
 
+  // =========================================================================
+  // 5. ANIMATED WAVEFORM TAGLINE: "WHERE BANDS RISE"
+  // Dynamic audio-waveform traveling from "Where" -> "Bands" -> "Rise" with zoom & unzoom
+  // =========================================================================
+  initTaglineWaveform() {
+    const canvas = document.createElement('canvas');
+    canvas.width = 1800;
+    canvas.height = 240;
+    this.taglineCanvas = canvas;
+    this.taglineCtx = canvas.getContext('2d');
+
+    this.taglineTexture = new THREE.CanvasTexture(canvas);
+    this.taglineTexture.colorSpace = THREE.SRGBColorSpace;
+    this.taglineTexture.minFilter = THREE.LinearFilter;
+    this.taglineTexture.magFilter = THREE.LinearFilter;
+
+    const geo = new THREE.PlaneGeometry(16.0, 2.13);
+    const mat = new THREE.MeshBasicMaterial({
+      map: this.taglineTexture,
+      transparent: true,
+      opacity: 0.0,
+      depthTest: true,
+      depthWrite: false,
+      alphaTest: 0.02
+    });
+
+    this.taglineMesh = new THREE.Mesh(geo, mat);
+    this.taglineMesh.position.set(0, 6.85, -18.5);
+    this.taglineMesh.renderOrder = 5;
+    this.scene.add(this.taglineMesh);
+    this.layers.taglineWave = { mesh: this.taglineMesh, mat };
+  }
+
+  renderTaglineWaveform(time) {
+    const ctx = this.taglineCtx;
+    const w = this.taglineCanvas.width;
+    const h = this.taglineCanvas.height;
+
+    ctx.clearRect(0, 0, w, h);
+
+    const centerY = h / 2 + 8;
+    const words = ['WHERE', 'BANDS', 'RISE'];
+    const wordSpacings = [w * 0.28, w * 0.50, w * 0.72];
+
+    // Left and right accent bars
+    ctx.fillStyle = 'rgba(255, 28, 54, 0.85)';
+    ctx.fillRect(w * 0.06, centerY - 4, w * 0.14, 8);
+    ctx.fillRect(w * 0.80, centerY - 4, w * 0.14, 8);
+
+    // Audio Equalizer Waveform line beneath the words
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = 'rgba(255, 30, 60, 0.45)';
+    ctx.beginPath();
+    const waveY = centerY + 42;
+    for (let x = w * 0.06; x <= w * 0.94; x += 12) {
+      const normX = (x - w * 0.06) / (w * 0.88);
+      const phase = time * 6.5 - normX * Math.PI * 4.0;
+      const waveAmp = Math.pow((Math.sin(phase) + 1.0) / 2.0, 3.0) * 16.0;
+      const y = waveY - waveAmp;
+      if (x === w * 0.06) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+
+    // Render each word with traveling wave zoom and unzoom
+    words.forEach((word, idx) => {
+      const wordCenter = wordSpacings[idx];
+      const normPos = idx / (words.length - 1); // 0 (Where), 0.5 (Bands), 1.0 (Rise)
+
+      // Soundwave traveling from Where -> Bands -> Rise
+      const wavePhase = time * 4.5 - normPos * Math.PI * 2.2;
+      const waveVal = (Math.sin(wavePhase) + 1.0) / 2.0; // 0 to 1
+      const waveSpike = Math.pow(waveVal, 3.5); // Sharp audio peak
+
+      // Zoom and Unzoom: scale from 1.0 to 1.38
+      const zoom = 1.0 + waveSpike * 0.38;
+      const liftY = -waveSpike * 14.0;
+
+      ctx.save();
+      ctx.translate(wordCenter, centerY + liftY);
+      ctx.scale(zoom, zoom);
+
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.font = `900 76px "Alderwood", "Anton", "Bebas Neue", Impact, sans-serif`;
+
+      // Glow & under-stroke when zoomed
+      ctx.shadowColor = waveSpike > 0.3 ? 'rgba(255, 28, 54, 0.95)' : 'rgba(0, 0, 0, 0.9)';
+      ctx.shadowBlur = waveSpike > 0.3 ? 24 : 12;
+      ctx.shadowOffsetX = 0;
+      ctx.shadowOffsetY = waveSpike > 0.3 ? 0 : 6;
+
+      ctx.strokeStyle = '#050204';
+      ctx.lineWidth = 14;
+      ctx.lineJoin = 'round';
+      ctx.strokeText(word, 0, 0);
+
+      // Gradient / color change across zoom
+      if (waveSpike > 0.35) {
+        ctx.fillStyle = '#ff223e'; // Vibrant crimson at wave peak
+      } else {
+        ctx.fillStyle = '#f5f5fa'; // Metallic crisp white at rest
+      }
+      ctx.fillText(word, 0, 0);
+
+      ctx.restore();
+    });
+
+    this.taglineTexture.needsUpdate = true;
+  }
+
   initTextBillboards() {
-    // 1. Vocalists Billboard (Shot 03: "EVERY STORY NEEDS A STAGE.")
-    // Towering typography straight to camera, shared directly in the middle between male and female vocalists
+    // Beat 2: Vocalists (02 STAGE: "EVERY STORY NEEDS A STAGE.")
     this.textBillboards.vocalist = this.createTextBillboard(
       [
         { text: 'EVERY STORY', color: 'white', size: 195 },
@@ -407,77 +521,55 @@ export class LayerCompositor {
       4.8, 3.8, 'center'
     );
     this.textBillboards.vocalist.mesh.position.set(0.0, -0.05, -2.35);
-    this.textBillboards.vocalist.activeRange = [0.12, 0.16, 0.23, 0.27];
+    this.textBillboards.vocalist.activeRange = [0.08, 0.12, 0.17, 0.21];
     this.scene.add(this.textBillboards.vocalist.mesh);
 
-    // 2. Guitarist Billboard (Shot 05: "GUITAR DRIVES DREAMS.")
-    // Towering typography straight to camera, framed right beside guitar with navbar clearance
+    // Beat 3: Guitarist & Bassist (03 RITHMOS: "RITHMOS IS THE STAGE.")
     this.textBillboards.guitarist = this.createTextBillboard(
       [
-        { text: 'GUITAR', color: 'white', size: 180 },
-        { text: 'DRIVES', color: 'white', size: 180 },
-        { text: 'DREAMS.', color: 'red', size: 200 }
+        { text: 'RITHMOS', color: 'red', size: 210 },
+        { text: 'IS THE STAGE.', color: 'white', size: 175 }
       ],
-      3.8, 3.8, 'center'
+      4.2, 3.4, 'center'
     );
-    this.textBillboards.guitarist.mesh.position.set(-3.2, -0.3, -7.4);
-    this.textBillboards.guitarist.activeRange = [0.28, 0.33, 0.39, 0.43];
+    this.textBillboards.guitarist.mesh.position.set(-3.3, -0.05, -6.8);
+    this.textBillboards.guitarist.activeRange = [0.22, 0.26, 0.31, 0.35];
     this.scene.add(this.textBillboards.guitarist.mesh);
 
-    // 3. Bassist Billboard (Shot 06: "BASS BUILDS DEPTH.")
-    // Towering typography straight to camera in open space with >80px clearance from left HUD
-    this.textBillboards.bassist = this.createTextBillboard(
-      [
-        { text: 'BASS', color: 'white', size: 180 },
-        { text: 'BUILDS', color: 'white', size: 180 },
-        { text: 'DEPTH.', color: 'red', size: 200 }
-      ],
-      3.8, 3.8, 'center'
-    );
-    this.textBillboards.bassist.mesh.position.set(3.4, -0.65, -7.0);
-    this.textBillboards.bassist.activeRange = [0.40, 0.44, 0.49, 0.53];
-    this.scene.add(this.textBillboards.bassist.mesh);
-
-    // 4. Drummer Billboard (Shot 07: "DRUMS POWER PEOPLE.")
-    // Towering typography straight to camera, beside the drum kit
+    // Beat 4: Drummer (04 MOMENT: "EVERY DREAM NEEDS A MOMENT.")
     this.textBillboards.drummer = this.createTextBillboard(
       [
-        { text: 'DRUMS', color: 'white', size: 230 },
-        { text: 'POWER', color: 'white', size: 230 },
-        { text: 'PEOPLE.', color: 'red', size: 250 }
+        { text: 'EVERY DREAM', color: 'white', size: 185 },
+        { text: 'NEEDS A MOMENT.', color: 'red', size: 185 }
       ],
-      7.2, 5.8, 'center'
+      5.2, 4.0, 'center'
     );
-    this.textBillboards.drummer.mesh.position.set(3.8, 1.8, -12.5);
-    this.textBillboards.drummer.activeRange = [0.50, 0.54, 0.59, 0.63];
+    this.textBillboards.drummer.mesh.position.set(2.4, 1.5, -12.0);
+    this.textBillboards.drummer.activeRange = [0.37, 0.41, 0.46, 0.50];
     this.scene.add(this.textBillboards.drummer.mesh);
 
-    // 5. Keyboardist Billboard (Shot 09: "KEYS SHAPE ATMOSPHERE.")
-    // Towering typography straight to camera in open stage space clear of synthesizer keys, HUD and navbar
+    // Beat 5: Keyboardist (05 STAGE: "EVERY MOMENT NEEDS A STAGE.")
     this.textBillboards.keyboardist = this.createTextBillboard(
       [
-        { text: 'KEYS', color: 'white', size: 175 },
-        { text: 'SHAPE', color: 'white', size: 175 },
-        { text: 'ATMOSPHERE.', color: 'red', size: 180 }
+        { text: 'EVERY MOMENT', color: 'white', size: 175 },
+        { text: 'NEEDS A STAGE.', color: 'red', size: 175 }
       ],
-      4.8, 3.8, 'center'
+      4.2, 3.4, 'center'
     );
-    // Positioned cleanly to the right of the keyboardist (keyboardist is at X=7.8)
-    this.textBillboards.keyboardist.mesh.position.set(9.9, 0.3, -8.5);
-    this.textBillboards.keyboardist.activeRange = [0.66, 0.70, 0.74, 0.76]; // Strictly ended before Shot 10 full band!
+    this.textBillboards.keyboardist.mesh.position.set(8.4, 0.35, -8.5);
+    this.textBillboards.keyboardist.activeRange = [0.51, 0.55, 0.60, 0.64];
     this.scene.add(this.textBillboards.keyboardist.mesh);
 
-    // 6. Full Band Billboard (Shot 10: "TOGETHER THEY CREATE MORE.")
-    // Monumental arena headline spanning boldly above the 5-member band
+    // Beat 6: Full Band (06 RITHMOS: "RITHMOS IS THE STAGE.")
     this.textBillboards.fullBand = this.createTextBillboard(
       [
-        { text: 'TOGETHER', color: 'white', size: 340, spacing: 32 },
-        { text: 'THEY CREATE MORE.', color: 'red', size: 340 }
+        { text: 'RITHMOS', color: 'red', size: 340, spacing: 32 },
+        { text: 'IS THE STAGE.', color: 'white', size: 340 }
       ],
       17.5, 7.0, 'center'
     );
     this.textBillboards.fullBand.mesh.position.set(0.0, 3.8, -5.5);
-    this.textBillboards.fullBand.activeRange = [0.78, 0.81, 0.86, 0.89];
+    this.textBillboards.fullBand.activeRange = [0.65, 0.69, 0.74, 0.78];
     this.scene.add(this.textBillboards.fullBand.mesh);
   }
 
@@ -504,23 +596,52 @@ export class LayerCompositor {
       this.layers.lightingBack.material.opacity = 0.65 + 0.15 * Math.cos(time * 0.9);
     }
 
-    // 3. Dynamic banner screen & RITHMOS logo: strictly scoped to Section 5 (Shots 11 & 12)
-    // Completely invisible during band member shots (Shots 01-10) to prevent background letter bleed!
-    if (this.bannerScreen) {
-      if (scrollProgress < 0.82) {
-        this.bannerScreen.material.opacity = 0.0;
-      } else {
-        const bp = Math.min((scrollProgress - 0.82) / 0.10, 1.0);
-        this.bannerScreen.material.opacity = bp * (0.85 + 0.12 * Math.sin(time * 1.4));
-      }
-    }
+    // 3. Dynamic Backstage Screen, RITHMOS Brand & Animated Waveform Tagline
+    // 7TH SCROLL (0.78 <= p < 0.92): RITHMOS brand flashes with rapid concert strobe energy!
+    // 8TH SCROLL (p >= 0.92): Full steady brand with traveling waveform tagline zoom/unzoom!
+    if (scrollProgress >= 0.78 && scrollProgress < 0.92) {
+      // 16Hz energetic concert strobe flashes
+      const strobePhase = Math.sin(time * 32.0);
+      const isStrobe = strobePhase > 0.15;
+      const flashOpacity = isStrobe ? 1.0 : 0.22;
 
-    if (this.layers.logo) {
-      if (scrollProgress < 0.88) {
+      if (this.layers.logo) {
+        this.layers.logo.material.opacity = flashOpacity;
+      }
+      if (this.layers.lightingBack) {
+        this.layers.lightingBack.material.opacity = isStrobe ? 1.0 : 0.25;
+      }
+      if (this.bannerScreen) {
+        this.bannerScreen.material.opacity = isStrobe ? 0.98 : 0.35;
+      }
+      if (this.layers.taglineWave) {
+        this.layers.taglineWave.mat.opacity = 0.0; // Tagline only activates on 8th scroll!
+      }
+    } else if (scrollProgress >= 0.92) {
+      // 8TH SCROLL: Full illuminated brand with animated waveform tagline
+      if (this.layers.logo) {
+        this.layers.logo.material.opacity = 1.0;
+      }
+      if (this.layers.lightingBack) {
+        this.layers.lightingBack.material.opacity = 0.85 + 0.15 * Math.sin(time * 2.0);
+      }
+      if (this.bannerScreen) {
+        this.bannerScreen.material.opacity = 0.96;
+      }
+      if (this.layers.taglineWave) {
+        const tagOp = Math.min((scrollProgress - 0.92) / 0.04, 1.0);
+        this.layers.taglineWave.mat.opacity = tagOp;
+        this.renderTaglineWaveform(time);
+      }
+    } else {
+      if (this.layers.logo) {
         this.layers.logo.material.opacity = 0.0;
-      } else {
-        const lp = Math.min((scrollProgress - 0.88) / 0.08, 1.0);
-        this.layers.logo.material.opacity = lp * 1.0;
+      }
+      if (this.bannerScreen) {
+        this.bannerScreen.material.opacity = 0.0;
+      }
+      if (this.layers.taglineWave) {
+        this.layers.taglineWave.mat.opacity = 0.0;
       }
     }
 

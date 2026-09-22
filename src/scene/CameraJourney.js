@@ -13,35 +13,38 @@ export class CameraJourney {
     // 12-SHOT STORYBOARD TRAJECTORY (Image 2: "SAME STAGE, DIFFERENT STORIES. ONE RITHMOS.")
     // Continuous physical trajectory through single concert stage space
     // =========================================================================
+    // 8-BEAT NARRATIVE TRAJECTORY
+    // Continuous physical trajectory through single concert stage space
+    // 01: Every band has a story.
+    // 02: Every story needs a stage.
+    // 03: Rithmos is the stage.
+    // 04: Every dream needs a moment.
+    // 05: Every moment needs a stage.
+    // 06: Rithmos is the stage.
+    // 07: Rithmos brand flashes.
+    // 08: Where bands rise (waveform zoom and unzoom).
+    // =========================================================================
     this.camPoints = [
-      new THREE.Vector3(0.0, 1.2, 34.0),     // 01 START (CROWD - far entrance over ocean of hands)
-      new THREE.Vector3(0.0, 0.0, 14.0),     // 02 MOVE TO VOCALISTS (Glide low over crowd toward stage front)
-      new THREE.Vector3(0.0, 0.0, 4.6),      // 03 VOCALISTS (Framing male & female vocalists with shared text in center)
-      new THREE.Vector3(-2.6, 0.0, -0.5),    // 04 MOVE TO GUITARIST (Pan & glide along stage apron to guitarist)
-      new THREE.Vector3(-4.2, 0.1, -3.2),    // 05 GUITARIST CU (Balanced framing: guitarist head, guitar & text fully visible)
-      new THREE.Vector3(3.6, 0.1, -3.4),     // 06 BASSIST CU (Elevated framing: full bassist on stage deck with navbar margin)
-      new THREE.Vector3(0.2, 0.5, -5.8),     // 07 DRUMMER (Cinematic balanced angle: drummer and text with generous framing)
-      new THREE.Vector3(4.8, 0.4, -5.4),     // 08 MOVE TO KEYBOARDIST (Smooth transit framing keyboardist head and keys)
-      new THREE.Vector3(5.4, 0.4, -4.8),     // 09 KEYS CU (Cinema framing: keyboardist head, hands & synth keys fully in frame)
-      new THREE.Vector3(0.0, 1.4, 16.5),     // 10 FULL BAND (Front arena eye-level: all band members together on stage)
-      new THREE.Vector3(0.0, 2.2, 18.5),     // 11 STAGE REVEAL (Intimate stadium overview: full stage, trusses, lighting & crowd)
-      new THREE.Vector3(0.0, 2.8, 14.0)      // 12 RITHMOS REVEAL (Hero push toward stage: band in front of radiant backstage logo)
+      new THREE.Vector3(0.0, 1.2, 34.0),     // 01 STORY (Crowd entrance overview)
+      new THREE.Vector3(0.0, 0.0, 4.6),      // 02 STAGE (Dual vocalists close-up: female left, male right, text center)
+      new THREE.Vector3(-4.0, 0.1, -3.0),    // 03 RITHMOS (Guitarist & Bassist framing)
+      new THREE.Vector3(0.2, 0.5, -5.8),     // 04 MOMENT (Drummer on elevated drum riser)
+      new THREE.Vector3(5.4, 0.4, -4.8),     // 05 STAGE (Keyboardist hands & synth framing)
+      new THREE.Vector3(0.0, 1.4, 16.5),     // 06 RITHMOS (Full Band stadium overview)
+      new THREE.Vector3(0.0, 2.2, 18.5),     // 07 FLASH (Stage arena reveal - Rithmos brand flashes!)
+      new THREE.Vector3(0.0, 2.8, 14.0)      // 08 RISE (Hero finale lock - Where bands rise animated waveform)
     ];
 
-    // 12-Shot Camera Look-at Target Spline (Smooth, monotonic elevation framing)
+    // 8-Beat Camera Look-at Target Spline (Smooth, monotonic elevation framing)
     this.targetPoints = [
-      new THREE.Vector3(0.0, -0.4, -2.5),    // 01 Looking ahead across crowd at glowing stage center
-      new THREE.Vector3(0.0, -0.4, -2.5),    // 02 Locking onto center stage lip
-      new THREE.Vector3(0.0, -0.3, -2.5),    // 03 Framing vocalists and shared center text
-      new THREE.Vector3(-4.5, -0.3, -6.5),   // 04 Looking towards guitarist
-      new THREE.Vector3(-4.8, -0.3, -7.5),   // 05 Balanced between guitarist head/chest and text
-      new THREE.Vector3(4.6, -0.3, -7.4),    // 06 Focused on bassist and text with comfortable margin
-      new THREE.Vector3(1.2, 0.8, -13.2),    // 07 Looking gently at drummer and text
-      new THREE.Vector3(7.4, 0.2, -9.2),     // 08 Gliding smoothly toward keyboardist upper body
-      new THREE.Vector3(7.2, 0.1, -9.0),     // 09 Balanced framing of keyboardist head, hands, keys, and text
-      new THREE.Vector3(0.0, 0.4, -8.0),     // 10 Level framing on center stage and band
-      new THREE.Vector3(0.0, 1.8, -10.0),    // 11 Balanced look across illuminated stage and arena
-      new THREE.Vector3(0.0, 6.2, -18.6)     // 12 Straight-on lock on radiant backstage RITHMOS screen
+      new THREE.Vector3(0.0, -0.4, -2.5),    // 01 Looking ahead across crowd at stage
+      new THREE.Vector3(0.0, -0.3, -2.5),    // 02 Framing dual vocalists and shared center text
+      new THREE.Vector3(-4.0, -0.2, -7.0),   // 03 Focused on guitarist and Rithmos billboard
+      new THREE.Vector3(1.4, 0.8, -13.2),    // 04 Looking toward drummer and moment billboard
+      new THREE.Vector3(7.6, 0.2, -9.0),     // 05 Framing keyboardist and stage billboard
+      new THREE.Vector3(0.0, 0.4, -8.0),     // 06 Level framing on full band and Rithmos billboard
+      new THREE.Vector3(0.0, 1.8, -10.0),    // 07 Overview of illuminated stage and flashing brand
+      new THREE.Vector3(0.0, 6.2, -18.6)     // 08 Straight-on lock on radiant RITHMOS and tagline
     ];
 
     this.camCurve = new THREE.CatmullRomCurve3(this.camPoints, false, 'centripetal');
@@ -85,18 +88,14 @@ export class CameraJourney {
 
   getFOV(p) {
     const keys = [
-      { p: 0.00, fov: 52 }, // 01 Crowd
-      { p: 0.09, fov: 48 }, // 02 Move to Vocalists
-      { p: 0.18, fov: 48 }, // 03 Dual Vocalists CU (Framing male & female vocalists with shared center text)
-      { p: 0.27, fov: 46 }, // 04 Move to Guitarist
-      { p: 0.36, fov: 46 }, // 05 Guitarist CU (widened to ensure head and guitar fully visible)
-      { p: 0.45, fov: 44 }, // 06 Bassist
-      { p: 0.55, fov: 45 }, // 07 Drummer
-      { p: 0.64, fov: 48 }, // 08 Move to Keys
-      { p: 0.73, fov: 52 }, // 09 Keys CU (wider to frame head, keys, and text properly)
-      { p: 0.82, fov: 54 }, // 10 Full Band
-      { p: 0.91, fov: 54 }, // 11 Stage Reveal
-      { p: 1.00, fov: 52 }  // 12 Backstage Finale
+      { p: 0.00, fov: 52 }, // 01 Story (Crowd)
+      { p: 0.14, fov: 48 }, // 02 Stage (Dual Vocalists)
+      { p: 0.28, fov: 46 }, // 03 Rithmos (Guitarist)
+      { p: 0.43, fov: 46 }, // 04 Moment (Drummer)
+      { p: 0.57, fov: 52 }, // 05 Stage (Keyboardist)
+      { p: 0.71, fov: 54 }, // 06 Rithmos (Full Band)
+      { p: 0.85, fov: 54 }, // 07 Flash (Stage Reveal)
+      { p: 1.00, fov: 52 }  // 08 Rise (Backstage Finale)
     ];
 
     if (p <= keys[0].p) return keys[0].fov;
@@ -240,20 +239,16 @@ export class CameraJourney {
       this.hudCamZ.textContent = `${camZ >= 0 ? '+' : ''}${camZ.toFixed(1)}`;
     }
 
-    // 12-Shot Storyboard thresholds
+    // 8-Beat Storyboard thresholds
     const shotThresholds = [
-      0.00, // 01 CROWD
-      0.09, // 02 MOVE TO VOCALIST
-      0.18, // 03 VOCALIST CU
-      0.27, // 04 MOVE TO GUITARIST
-      0.36, // 05 GUITARIST CU
-      0.45, // 06 BASSIST
-      0.55, // 07 DRUMMER
-      0.64, // 08 MOVE TO KEYS
-      0.73, // 09 KEYBOARDIST
-      0.82, // 10 FULL BAND
-      0.91, // 11 STAGE REVEAL
-      1.00  // 12 RITHMOS LOCK
+      0.00, // 01 STORY
+      0.14, // 02 STAGE
+      0.28, // 03 RITHMOS
+      0.43, // 04 MOMENT
+      0.57, // 05 STAGE
+      0.71, // 06 RITHMOS
+      0.85, // 07 FLASH
+      1.00  // 08 RISE
     ];
 
     let activeIdx = 0;
