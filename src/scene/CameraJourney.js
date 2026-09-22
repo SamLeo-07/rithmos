@@ -25,7 +25,7 @@ export class CameraJourney {
       new THREE.Vector3(5.4, 0.4, -4.8),     // 09 KEYS CU (Cinema framing: keyboardist head, hands & synth keys fully in frame)
       new THREE.Vector3(0.0, 1.4, 16.5),     // 10 FULL BAND (Front arena eye-level: all band members together on stage)
       new THREE.Vector3(0.0, 2.4, 18.5),     // 11 STAGE REVEAL (Intimate stadium overview: full stage, trusses, lighting & crowd)
-      new THREE.Vector3(0.0, 2.2, 13.0)      // 12 RITHMOS REVEAL (Hero push toward stage: band in front of radiant backstage logo)
+      new THREE.Vector3(0.0, 2.8, 14.0)      // 12 RITHMOS REVEAL (Hero push toward stage: band in front of radiant backstage logo)
     ];
 
     // 12-Shot Camera Look-at Target Spline
@@ -40,8 +40,8 @@ export class CameraJourney {
       new THREE.Vector3(7.4, 0.2, -9.2),     // 08 Gliding smoothly toward keyboardist upper body
       new THREE.Vector3(7.2, 0.2, -9.0),     // 09 Balanced framing of keyboardist head, hands, keys, and text
       new THREE.Vector3(0.0, 0.4, -8.0),     // 10 Level framing on center stage and band
-      new THREE.Vector3(0.0, 1.2, -10.0),    // 11 Balanced look across illuminated stage and arena
-      new THREE.Vector3(0.0, 4.2, -18.6)     // 12 Straight-on lock on radiant backstage RITHMOS screen
+      new THREE.Vector3(0.0, 1.8, -10.0),    // 11 Balanced look across illuminated stage and arena
+      new THREE.Vector3(0.0, 6.2, -18.6)     // 12 Straight-on lock on radiant backstage RITHMOS screen
     ];
 
     this.camCurve = new THREE.CatmullRomCurve3(this.camPoints, false, 'catmullrom', 0.5);
@@ -122,7 +122,9 @@ export class CameraJourney {
     // 2. Compute dynamic FOV (adapted for mobile portrait)
     let fov = this.getFOV(p);
     if (this.sm.aspect < 1.0) {
-      fov += 14; // Widen view angle for portrait viewport
+      // Widen view angle for portrait viewport; smoothly expand at arena & backstage finale so the full band, stage, and logo are framed with clean margins
+      const mobileBoost = 14 + (p >= 0.85 ? ((p - 0.85) / 0.15) * 8 : 0);
+      fov += mobileBoost;
     }
     if (Math.abs(camera.fov - fov) > 0.05) {
       camera.fov = fov;

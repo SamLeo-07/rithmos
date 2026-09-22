@@ -117,40 +117,40 @@ export class LayerCompositor {
     this.layers.venueArch.mesh.renderOrder = 1;
     this.scene.add(this.layers.venueArch.mesh);
 
-    // Giant LED Stage Banner Backdrop (Mounted on Backstage Arena Wall)
-    const bannerGeo = new THREE.PlaneGeometry(46, 23);
+    // Large Backstage LED Video Screen Wall (Curved Arena Display)
+    const bannerGeo = new THREE.PlaneGeometry(28, 15);
     const bannerMat = new THREE.MeshBasicMaterial({
-      color: 0x060103,
+      color: 0x050408,
       transparent: true,
       opacity: 0.96,
       depthWrite: false
     });
     this.bannerScreen = new THREE.Mesh(bannerGeo, bannerMat);
-    this.bannerScreen.position.set(0, 8.4, -18.8);
+    this.bannerScreen.position.set(0, 11.4, -18.8);
     this.bannerScreen.renderOrder = 2;
     this.scene.add(this.bannerScreen);
 
     // Authentic RITHMOS Stage Banner (Mounted on Backstage Screen behind performers)
-    this.layers.logo = this.createPlaneMesh('/assets/logo.png', 30, 15, {
+    this.layers.logo = this.createPlaneMesh('/assets/logo.png', 20.5, 10.0, {
       opacity: 0.0,
       transparent: true
     });
-    this.layers.logo.mesh.position.set(0, 8.4, -18.6);
+    this.layers.logo.mesh.position.set(0, 11.4, -18.6);
     this.layers.logo.mesh.renderOrder = 3;
     this.scene.add(this.layers.logo.mesh);
 
     // Backstage wash lighting
-    this.layers.lightingBack = this.createPlaneMesh('/assets/lighting.png', 48, 24, {
+    this.layers.lightingBack = this.createPlaneMesh('/assets/lighting.png', 38, 19, {
       blending: THREE.AdditiveBlending,
       opacity: 0.70
     });
-    this.layers.lightingBack.mesh.position.set(0, 8.4, -17.5);
+    this.layers.lightingBack.mesh.position.set(0, 11.4, -17.5);
     this.layers.lightingBack.mesh.renderOrder = 4;
     this.scene.add(this.layers.lightingBack.mesh);
 
     // Overhead Arena Truss Structure (Directly over the single stage)
     this.layers.truss = this.createPlaneMesh('/assets/truss-structure.png', 52, 26);
-    this.layers.truss.mesh.position.set(0, 7.6, -10.0);
+    this.layers.truss.mesh.position.set(0, 8.6, -10.0);
     this.layers.truss.mesh.renderOrder = 6;
     this.scene.add(this.layers.truss.mesh);
 
