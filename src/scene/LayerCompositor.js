@@ -179,17 +179,25 @@ export class LayerCompositor {
     this.scene.add(this.layers.drumPlatform.mesh);
 
     // =========================================================================
-    // 3. THE 5 BAND MEMBERS (Standing together on the SAME stage deck)
+    // 3. THE BAND MEMBERS (Standing together on the SAME stage deck)
     // All performers have renderOrder = 25 so stage deck NEVER renders over them!
     // =========================================================================
 
-    // Vocalist: Center front lip (Z = -2.5, X = 0.0)
+    // Male Vocalist: Front lip stage-left (Z = -2.5, X = +2.4)
     this.layers.vocalist = this.createPlaneMesh('/assets/vocalist.png', 2.51, 6.8);
-    this.layers.vocalist.mesh.position.set(0.0, -0.6, -2.5);
+    this.layers.vocalist.mesh.position.set(2.4, -0.6, -2.5);
     this.layers.vocalist.mesh.renderOrder = 25;
     this.scene.add(this.layers.vocalist.mesh);
-    this.layers.vocalist.grounding = this.addPerformerGrounding(0.0, -3.95, -2.5, 3.8, 2.0, 5.8, 3.2);
+    this.layers.vocalist.grounding = this.addPerformerGrounding(2.4, -3.95, -2.5, 3.8, 2.0, 5.8, 3.2);
     this.performers.vocalist = this.layers.vocalist;
+
+    // Female Co-Vocalist: Front lip stage-right (Z = -2.5, X = -2.4)
+    this.layers.coVocalist = this.createPlaneMesh('/assets/co-vocalist.png', 4.4, 6.6);
+    this.layers.coVocalist.mesh.position.set(-2.4, -0.65, -2.5);
+    this.layers.coVocalist.mesh.renderOrder = 25;
+    this.scene.add(this.layers.coVocalist.mesh);
+    this.layers.coVocalist.grounding = this.addPerformerGrounding(-2.4, -3.95, -2.5, 4.4, 2.2, 6.2, 3.4);
+    this.performers.coVocalist = this.layers.coVocalist;
 
     // Guitarist: Stage right mid-stage (Z = -7.5, X = -5.5)
     this.layers.guitarist = this.createPlaneMesh('/assets/guitarist.png', 9.0, 6.0);
@@ -389,16 +397,16 @@ export class LayerCompositor {
   }
 
   initTextBillboards() {
-    // 1. Vocalist Billboard (Shot 03: "EVERY BAND HAS A STORY.")
-    // Towering typography straight to camera, placed in open stage-right space clear of singer's body/face
+    // 1. Vocalists Billboard (Shot 03: "EVERY STORY NEEDS A STAGE.")
+    // Towering typography straight to camera, shared directly in the middle between male and female vocalists
     this.textBillboards.vocalist = this.createTextBillboard(
       [
-        { text: 'EVERY BAND', color: 'white', size: 210 },
-        { text: 'HAS A STORY.', color: 'red', size: 220 }
+        { text: 'EVERY STORY', color: 'white', size: 195 },
+        { text: 'NEEDS A STAGE.', color: 'red', size: 205 }
       ],
-      5.4, 4.4, 'center'
+      4.8, 3.8, 'center'
     );
-    this.textBillboards.vocalist.mesh.position.set(-2.8, -0.05, -2.4);
+    this.textBillboards.vocalist.mesh.position.set(0.0, -0.05, -2.35);
     this.textBillboards.vocalist.activeRange = [0.12, 0.16, 0.23, 0.27];
     this.scene.add(this.textBillboards.vocalist.mesh);
 

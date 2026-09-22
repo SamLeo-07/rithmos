@@ -15,15 +15,15 @@ export class CameraJourney {
     // =========================================================================
     this.camPoints = [
       new THREE.Vector3(0.0, 1.2, 34.0),     // 01 START (CROWD - far entrance over ocean of hands)
-      new THREE.Vector3(0.6, -0.4, 14.0),    // 02 MOVE TO VOCALIST (Glide low over crowd toward stage front)
-      new THREE.Vector3(1.3, -0.4, 3.2),     // 03 VOCALIST CU (Intimate close-up framing vocalist on right, text on left)
+      new THREE.Vector3(0.0, -0.3, 14.0),    // 02 MOVE TO VOCALISTS (Glide low over crowd toward stage front)
+      new THREE.Vector3(0.0, -0.25, 4.6),    // 03 VOCALISTS (Framing male & female vocalists with shared text in center)
       new THREE.Vector3(-2.6, -0.6, -0.5),   // 04 MOVE TO GUITARIST (Pan & glide along stage apron to guitarist)
       new THREE.Vector3(-4.2, 0.1, -3.2),    // 05 GUITARIST CU (Balanced framing: guitarist head, guitar & text fully visible)
       new THREE.Vector3(3.6, 0.0, -3.4),     // 06 BASSIST CU (Elevated framing: full bassist on stage deck with navbar margin)
       new THREE.Vector3(0.0, 0.4, -7.0),     // 07 DRUMMER (Upward dynamic angle: drummer center, text on right)
       new THREE.Vector3(4.8, 0.6, -5.4),     // 08 MOVE TO KEYBOARDIST (Smooth transit framing keyboardist head and keys)
       new THREE.Vector3(5.4, 0.4, -4.8),     // 09 KEYS CU (Cinema framing: keyboardist head, hands & synth keys fully in frame)
-      new THREE.Vector3(0.0, 1.4, 16.5),     // 10 FULL BAND (Front arena eye-level: all 5 members together on stage)
+      new THREE.Vector3(0.0, 1.4, 16.5),     // 10 FULL BAND (Front arena eye-level: all band members together on stage)
       new THREE.Vector3(0.0, 2.4, 18.5),     // 11 STAGE REVEAL (Intimate stadium overview: full stage, trusses, lighting & crowd)
       new THREE.Vector3(0.0, 2.2, 13.0)      // 12 RITHMOS REVEAL (Hero push toward stage: band in front of radiant backstage logo)
     ];
@@ -31,8 +31,8 @@ export class CameraJourney {
     // 12-Shot Camera Look-at Target Spline
     this.targetPoints = [
       new THREE.Vector3(0.0, -0.4, -2.5),    // 01 Looking ahead across crowd at glowing stage center
-      new THREE.Vector3(0.0, -0.6, -2.5),    // 02 Locking onto vocalist
-      new THREE.Vector3(-0.6, -0.5, -2.5),   // 03 Framing vocalist and floating text
+      new THREE.Vector3(0.0, -0.5, -2.5),    // 02 Locking onto center stage lip
+      new THREE.Vector3(0.0, -0.45, -2.5),   // 03 Framing vocalists and shared center text
       new THREE.Vector3(-4.5, -0.8, -6.5),   // 04 Looking towards guitarist
       new THREE.Vector3(-4.8, 0.0, -7.5),    // 05 Balanced between guitarist head/chest and text
       new THREE.Vector3(4.6, -0.4, -7.4),    // 06 Focused on bassist and text with comfortable margin
@@ -86,8 +86,8 @@ export class CameraJourney {
   getFOV(p) {
     const keys = [
       { p: 0.00, fov: 52 }, // 01 Crowd
-      { p: 0.09, fov: 48 }, // 02 Move to Vocalist
-      { p: 0.18, fov: 42 }, // 03 Vocalist CU
+      { p: 0.09, fov: 48 }, // 02 Move to Vocalists
+      { p: 0.18, fov: 48 }, // 03 Dual Vocalists CU (Framing male & female vocalists with shared center text)
       { p: 0.27, fov: 46 }, // 04 Move to Guitarist
       { p: 0.36, fov: 46 }, // 05 Guitarist CU (widened to ensure head and guitar fully visible)
       { p: 0.45, fov: 44 }, // 06 Bassist

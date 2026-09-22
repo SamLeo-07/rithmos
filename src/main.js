@@ -93,7 +93,7 @@ class RithmosApp {
     const heroStage = document.getElementById('hero-stage');
     // Person/Climax Story Stops:
     // 0.00: Crowd
-    // 0.18: Vocalist
+    // 0.18: Dual Vocalists (Male & Female Vocalists)
     // 0.36: Guitarist
     // 0.45: Bassist
     // 0.55: Drummer
