@@ -15,37 +15,37 @@ export class CameraJourney {
     // =========================================================================
     this.camPoints = [
       new THREE.Vector3(0.0, 1.2, 34.0),     // 01 START (CROWD - far entrance over ocean of hands)
-      new THREE.Vector3(0.0, -0.3, 14.0),    // 02 MOVE TO VOCALISTS (Glide low over crowd toward stage front)
-      new THREE.Vector3(0.0, -0.25, 4.6),    // 03 VOCALISTS (Framing male & female vocalists with shared text in center)
-      new THREE.Vector3(-2.6, -0.6, -0.5),   // 04 MOVE TO GUITARIST (Pan & glide along stage apron to guitarist)
+      new THREE.Vector3(0.0, 0.0, 14.0),     // 02 MOVE TO VOCALISTS (Glide low over crowd toward stage front)
+      new THREE.Vector3(0.0, 0.0, 4.6),      // 03 VOCALISTS (Framing male & female vocalists with shared text in center)
+      new THREE.Vector3(-2.6, 0.0, -0.5),    // 04 MOVE TO GUITARIST (Pan & glide along stage apron to guitarist)
       new THREE.Vector3(-4.2, 0.1, -3.2),    // 05 GUITARIST CU (Balanced framing: guitarist head, guitar & text fully visible)
-      new THREE.Vector3(3.6, 0.0, -3.4),     // 06 BASSIST CU (Elevated framing: full bassist on stage deck with navbar margin)
-      new THREE.Vector3(0.0, 0.4, -7.0),     // 07 DRUMMER (Upward dynamic angle: drummer center, text on right)
-      new THREE.Vector3(4.8, 0.6, -5.4),     // 08 MOVE TO KEYBOARDIST (Smooth transit framing keyboardist head and keys)
+      new THREE.Vector3(3.6, 0.1, -3.4),     // 06 BASSIST CU (Elevated framing: full bassist on stage deck with navbar margin)
+      new THREE.Vector3(0.2, 0.5, -5.8),     // 07 DRUMMER (Cinematic balanced angle: drummer and text with generous framing)
+      new THREE.Vector3(4.8, 0.4, -5.4),     // 08 MOVE TO KEYBOARDIST (Smooth transit framing keyboardist head and keys)
       new THREE.Vector3(5.4, 0.4, -4.8),     // 09 KEYS CU (Cinema framing: keyboardist head, hands & synth keys fully in frame)
       new THREE.Vector3(0.0, 1.4, 16.5),     // 10 FULL BAND (Front arena eye-level: all band members together on stage)
-      new THREE.Vector3(0.0, 2.4, 18.5),     // 11 STAGE REVEAL (Intimate stadium overview: full stage, trusses, lighting & crowd)
+      new THREE.Vector3(0.0, 2.2, 18.5),     // 11 STAGE REVEAL (Intimate stadium overview: full stage, trusses, lighting & crowd)
       new THREE.Vector3(0.0, 2.8, 14.0)      // 12 RITHMOS REVEAL (Hero push toward stage: band in front of radiant backstage logo)
     ];
 
-    // 12-Shot Camera Look-at Target Spline
+    // 12-Shot Camera Look-at Target Spline (Smooth, monotonic elevation framing)
     this.targetPoints = [
       new THREE.Vector3(0.0, -0.4, -2.5),    // 01 Looking ahead across crowd at glowing stage center
-      new THREE.Vector3(0.0, -0.5, -2.5),    // 02 Locking onto center stage lip
-      new THREE.Vector3(0.0, -0.45, -2.5),   // 03 Framing vocalists and shared center text
-      new THREE.Vector3(-4.5, -0.8, -6.5),   // 04 Looking towards guitarist
-      new THREE.Vector3(-4.8, 0.0, -7.5),    // 05 Balanced between guitarist head/chest and text
-      new THREE.Vector3(4.6, -0.4, -7.4),    // 06 Focused on bassist and text with comfortable margin
-      new THREE.Vector3(1.2, 1.4, -13.2),    // 07 Looking up at drummer and text
+      new THREE.Vector3(0.0, -0.4, -2.5),    // 02 Locking onto center stage lip
+      new THREE.Vector3(0.0, -0.3, -2.5),    // 03 Framing vocalists and shared center text
+      new THREE.Vector3(-4.5, -0.3, -6.5),   // 04 Looking towards guitarist
+      new THREE.Vector3(-4.8, -0.3, -7.5),   // 05 Balanced between guitarist head/chest and text
+      new THREE.Vector3(4.6, -0.3, -7.4),    // 06 Focused on bassist and text with comfortable margin
+      new THREE.Vector3(1.2, 0.8, -13.2),    // 07 Looking gently at drummer and text
       new THREE.Vector3(7.4, 0.2, -9.2),     // 08 Gliding smoothly toward keyboardist upper body
-      new THREE.Vector3(7.2, 0.2, -9.0),     // 09 Balanced framing of keyboardist head, hands, keys, and text
+      new THREE.Vector3(7.2, 0.1, -9.0),     // 09 Balanced framing of keyboardist head, hands, keys, and text
       new THREE.Vector3(0.0, 0.4, -8.0),     // 10 Level framing on center stage and band
       new THREE.Vector3(0.0, 1.8, -10.0),    // 11 Balanced look across illuminated stage and arena
       new THREE.Vector3(0.0, 6.2, -18.6)     // 12 Straight-on lock on radiant backstage RITHMOS screen
     ];
 
-    this.camCurve = new THREE.CatmullRomCurve3(this.camPoints, false, 'catmullrom', 0.5);
-    this.targetCurve = new THREE.CatmullRomCurve3(this.targetPoints, false, 'catmullrom', 0.5);
+    this.camCurve = new THREE.CatmullRomCurve3(this.camPoints, false, 'centripetal');
+    this.targetCurve = new THREE.CatmullRomCurve3(this.targetPoints, false, 'centripetal');
 
     // DOM scene & typography elements
     this.shot01 = document.getElementById('shot-01');
@@ -111,11 +111,11 @@ export class CameraJourney {
     return 50;
   }
 
-  update(scrollProgress, mouse) {
+  update(scrollProgress, mouse, delta = 0.016) {
     const p = THREE.MathUtils.clamp(scrollProgress, 0, 1);
     const camera = this.sm.camera;
 
-    // 1. Evaluate Catmull-Rom Position and LookAt Target (uniform t across control points)
+    // 1. Evaluate Catmull-Rom Position and LookAt Target (centripetal parameterization)
     const baseCamPos = this.camCurve.getPoint(p);
     const baseTarget = this.targetCurve.getPoint(p);
 
@@ -131,33 +131,40 @@ export class CameraJourney {
       camera.updateProjectionMatrix();
     }
 
-    // 3. Mouse Parallax (subtle cinematic sway)
-    const parallaxStrength = 0.45;
+    // 3. Gentle Mouse Parallax (calm, subtle sway without abrupt jerks)
+    const parallaxStrength = 0.30;
     const px = mouse ? mouse.x * parallaxStrength : 0;
-    const py = mouse ? mouse.y * (parallaxStrength * 0.4) : 0;
+    const py = mouse ? mouse.y * (parallaxStrength * 0.25) : 0;
 
-    camera.position.set(
+    const desiredCamPos = new THREE.Vector3(
       baseCamPos.x + px,
       baseCamPos.y + py,
       baseCamPos.z
     );
 
-    // 4. Subtle camera banking / roll into turns, strictly leveled for arena shots 10-12
-    const tangent = this.camCurve.getTangent(p);
-    let roll = -tangent.x * 0.04;
-    if (p >= 0.76) {
-      const levelFade = THREE.MathUtils.clamp(1.0 - (p - 0.76) / 0.06, 0.0, 1.0);
-      roll *= levelFade;
-    }
-    camera.up.set(Math.sin(roll), Math.cos(roll), 0);
-
-    camera.lookAt(
-      baseTarget.x + (mouse ? mouse.x * 0.2 : 0),
-      baseTarget.y + (mouse ? mouse.y * 0.15 : 0),
+    const desiredTarget = new THREE.Vector3(
+      baseTarget.x + (mouse ? mouse.x * 0.15 : 0),
+      baseTarget.y + (mouse ? mouse.y * 0.10 : 0),
       baseTarget.z
     );
 
-    // 5. Update typography overlays and HUD
+    // 4. Cinema Steadicam Smoothing: exponential lerp completely dampens any scroll step jitter
+    if (!this.currentCamPos) {
+      this.currentCamPos = desiredCamPos.clone();
+      this.currentTarget = desiredTarget.clone();
+    } else {
+      const smoothFactor = Math.min(1.0, Math.max(0.05, (delta || 0.016) * 12.0));
+      this.currentCamPos.lerp(desiredCamPos, smoothFactor);
+      this.currentTarget.lerp(desiredTarget, smoothFactor);
+    }
+
+    camera.position.copy(this.currentCamPos);
+
+    // 5. Strictly Level Horizon (Steadicam / Crane on Rails - zero banking roll or wobble)
+    camera.up.set(0, 1, 0);
+    camera.lookAt(this.currentTarget);
+
+    // 6. Update typography overlays and HUD
     this.updateTypography(p);
     this.updateHUD(p, camera.position.z);
   }

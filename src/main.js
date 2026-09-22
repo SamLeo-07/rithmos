@@ -146,55 +146,7 @@ class RithmosApp {
       }
     };
 
-    // Wheel Stepping (Discrete person-to-person progression)
-    window.addEventListener('wheel', (e) => {
-      const heroHeight = getHeroHeight();
-      const scrollY = window.scrollY;
-
-      // Active when within hero stage or right at the entry boundary from Section 02
-      if (scrollY < heroHeight - 15 || (scrollY <= heroHeight + 40 && e.deltaY < 0)) {
-        if (Math.abs(e.deltaY) < 14) return; // ignore subtle jitter
-
-        const now = performance.now();
-        if (now - lastStepTime < STEP_COOLDOWN) {
-          e.preventDefault();
-          return;
-        }
-
-        const handled = triggerStep(e.deltaY > 0 ? 1 : -1);
-        if (handled) {
-          e.preventDefault();
-        }
-      }
-    }, { passive: false });
-
-    // Touch Stepping (Mobile swipe gestures)
-    let touchStartY = 0;
-    window.addEventListener('touchstart', (e) => {
-      if (e.touches && e.touches.length > 0) {
-        touchStartY = e.touches[0].clientY;
-      }
-    }, { passive: true });
-
-    window.addEventListener('touchend', (e) => {
-      if (!e.changedTouches || e.changedTouches.length === 0) return;
-      const touchEndY = e.changedTouches[0].clientY;
-      const diffY = touchStartY - touchEndY; // > 0 is swipe up / scroll down
-
-      if (Math.abs(diffY) > 35) {
-        const heroHeight = getHeroHeight();
-        const scrollY = window.scrollY;
-
-        if (scrollY < heroHeight - 15 || (scrollY <= heroHeight + 40 && diffY < 0)) {
-          const now = performance.now();
-          if (now - lastStepTime < STEP_COOLDOWN) return;
-
-          triggerStep(diffY > 0 ? 1 : -1);
-        }
-      }
-    }, { passive: true });
-
-    // Keyboard Stepping (Arrow keys & Page keys)
+    // Keyboard Stepping (Arrow keys & Page keys for accessible discrete navigation)
     window.addEventListener('keydown', (e) => {
       const heroHeight = getHeroHeight();
       const scrollY = window.scrollY;
@@ -540,7 +492,7 @@ class RithmosApp {
       this.sceneManager.updateMouseParallax(0.06);
 
       // Update camera trajectory and kinetic typography first so camera is in fresh position
-      this.cameraJourney.update(this.scrollProgress, this.sceneManager.mouse);
+      this.cameraJourney.update(this.scrollProgress, this.sceneManager.mouse, delta);
 
       // Update layers with camera reference
       this.layerCompositor.update(seconds, this.scrollProgress, this.sceneManager.camera);
