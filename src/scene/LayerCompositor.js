@@ -408,7 +408,7 @@ export class LayerCompositor {
   initTaglineWaveform() {
     const canvas = document.createElement('canvas');
     canvas.width = 1800;
-    canvas.height = 240;
+    canvas.height = 360;
     this.taglineCanvas = canvas;
     this.taglineCtx = canvas.getContext('2d');
 
@@ -417,7 +417,7 @@ export class LayerCompositor {
     this.taglineTexture.minFilter = THREE.LinearFilter;
     this.taglineTexture.magFilter = THREE.LinearFilter;
 
-    const geo = new THREE.PlaneGeometry(19.2, 2.56);
+    const geo = new THREE.PlaneGeometry(19.2, 3.84);
     const mat = new THREE.MeshBasicMaterial({
       map: this.taglineTexture,
       transparent: true,
@@ -428,7 +428,7 @@ export class LayerCompositor {
     });
 
     this.taglineMesh = new THREE.Mesh(geo, mat);
-    this.taglineMesh.position.set(0, 4.6, -18.5);
+    this.taglineMesh.position.set(0, 4.2, -18.5);
     this.taglineMesh.renderOrder = 5;
     this.scene.add(this.taglineMesh);
     this.layers.taglineWave = { mesh: this.taglineMesh, mat };
@@ -478,24 +478,24 @@ export class LayerCompositor {
       return;
     }
 
-    // Animation Timing: One-shot progression (WHERE -> BANDS -> RISE) plus interactive scroll scrub!
+    // Animation Timing: One-shot sequential slap/drop entry plus interactive scroll scrub!
     const elapsed = this.taglineAnimStartTime !== null ? (time - this.taglineAnimStartTime) : 999.0;
-    const ANIM_DURATION = 2.4; // seconds for complete one-shot wave
+    const ANIM_DURATION = 1.8; // seconds for complete one-shot drop sequence
     const isTimeAnimating = elapsed >= 0 && elapsed < ANIM_DURATION;
 
-    // Dynamic scroll scrub progress (0.86 to 1.00 normalized into 0.0 -> 1.0)
-    const normScroll = THREE.MathUtils.clamp((scrollProgress - 0.86) / 0.14, 0.0, 1.0);
+    // Dynamic scroll scrub progress (0.88 to 1.00 normalized into 0.0 -> 1.0)
+    const normScroll = THREE.MathUtils.clamp((scrollProgress - 0.88) / 0.12, 0.0, 1.0);
 
-    // Layout coordinates centered on 1800x240 canvas (authentic widths from logo.png)
+    // Layout coordinates centered on 1800x360 canvas (authentic widths from logo.png)
     // Left bar (198x68), gap 24, where (344x68), gap 58, bands (339x68), gap 57, rise (243x68), gap 15, right bar (200x68)
     const startX = 161;
-    const baseY = 86;
-    const centerY = 120;
+    const baseY = 166;
+    const centerY = 200;
 
     // 1. Equalizer audio wave line beneath tagline: ripples forward & backward per scroll
-    const isWaveActive = isTimeAnimating || (scrollProgress >= 0.86);
+    const isWaveActive = isTimeAnimating || (scrollProgress >= 0.88);
     if (isWaveActive) {
-      const waveRemaining = isTimeAnimating ? Math.max(0.0, 1.0 - elapsed / 2.2) : 0.65;
+      const waveRemaining = isTimeAnimating ? Math.max(0.0, 1.0 - elapsed / 1.6) : 0.65;
       ctx.lineWidth = 3;
       ctx.strokeStyle = `rgba(255, 30, 60, ${0.45 * waveRemaining})`;
       ctx.beginPath();
@@ -518,42 +518,75 @@ export class LayerCompositor {
     ctx.drawImage(sprites.barLeft, startX, baseY, 198, 68);
     ctx.restore();
 
-    // 3. Three Words: WHERE, BANDS, RISE with ripple travelling forward and backward per scroll
-    const wordConfigs = [
-      { img: sprites.where, w: 344, h: 68, cx: 383 + 172, scrollPeak: 0.20, tPeak: 0.45 },
-      { img: sprites.bands, w: 339, h: 68, cx: 785 + 169.5, scrollPeak: 0.55, tPeak: 1.05 },
-      { img: sprites.rise, w: 243, h: 68, cx: 1181 + 121.5, scrollPeak: 0.88, tPeak: 1.65 }
+    // 3. Three Words: WHERE, BANDS, RISE with authentic SLAP / DROP impact animation
+    const wordSlapConfigs = [
+      { img: sprites.where, w: 344, h: 68, cx: 383 + 172, sStart: 0.02, sEnd: 0.30, tStart: 0.00, tEnd: 0.32 },
+      { img: sprites.bands, w: 339, h: 68, cx: 785 + 169.5, sStart: 0.34, sEnd: 0.62, tStart: 0.32, tEnd: 0.64 },
+      { img: sprites.rise, w: 243, h: 68, cx: 1181 + 121.5, sStart: 0.66, sEnd: 0.94, tStart: 0.64, tEnd: 0.96 }
     ];
 
-    const pulseTimeWidth = 0.42;
-    const pulseScrollWidth = 0.28;
+    wordSlapConfigs.forEach(cfg => {
+      // 1. Scroll-driven progression
+      const scrollU = (normScroll - cfg.sStart) / (cfg.sEnd - cfg.sStart);
+      // 2. Time-driven progression (plays when entering or resting in Beat 08)
+      const timeU = isTimeAnimating ? (elapsed - cfg.tStart) / (cfg.tEnd - cfg.tStart) : -1.0;
 
-    wordConfigs.forEach(cfg => {
-      let timeSpike = 0.0;
-      if (isTimeAnimating) {
-        const diff = Math.abs(elapsed - cfg.tPeak) / pulseTimeWidth;
-        if (diff < 1.0) {
-          timeSpike = Math.pow(Math.cos(diff * (Math.PI / 2)), 2.0);
-        }
+      // Effective phase: combination of interactive scroll position and entry playback
+      const u = THREE.MathUtils.clamp(Math.max(scrollU, timeU), 0.0, 1.0);
+
+      let dropY = 0.0;
+      let scaleX = 1.0;
+      let scaleY = 1.0;
+      let op = 1.0;
+      let glow = 0.0;
+
+      if (u <= 0.0) {
+        // Suspended above, not yet dropped
+        dropY = -120.0;
+        scaleX = 2.2;
+        scaleY = 2.2;
+        op = 0.0;
+      } else if (u < 0.68) {
+        // Accelerating downward slap / drop
+        const fall = u / 0.68;
+        const fallEase = Math.pow(fall, 2.8);
+        dropY = -120.0 * (1.0 - fallEase);
+        scaleX = 2.2 - 1.2 * fallEase;
+        scaleY = 2.2 - 1.2 * fallEase;
+        op = Math.min(1.0, fall * 2.5);
+      } else if (u < 0.76) {
+        // THE IMPACT SLAP: word hits baseline with horizontal squash and bright red flash!
+        dropY = 0.0;
+        scaleX = 1.28;
+        scaleY = 0.76;
+        op = 1.0;
+        glow = 1.0;
+      } else if (u < 1.0) {
+        // Rebound settle bounce
+        const b = (u - 0.76) / 0.24;
+        const bounce = Math.sin(b * Math.PI) * Math.exp(-b * 3.2);
+        dropY = -14.0 * bounce;
+        scaleX = 1.0 + 0.16 * bounce;
+        scaleY = 1.0 - 0.12 * bounce;
+        op = 1.0;
+        glow = (1.0 - b) * 0.8;
+      } else {
+        // Fully resting and locked
+        dropY = 0.0;
+        scaleX = 1.0;
+        scaleY = 1.0;
+        op = 1.0;
+        glow = 0.0;
       }
-
-      let scrollSpike = 0.0;
-      const diffScroll = Math.abs(normScroll - cfg.scrollPeak) / pulseScrollWidth;
-      if (diffScroll < 1.0) {
-        scrollSpike = Math.pow(Math.cos(diffScroll * (Math.PI / 2)), 2.0);
-      }
-
-      const spike = Math.max(timeSpike, scrollSpike);
-      const zoom = 1.0 + spike * 0.38;
-      const liftY = -spike * 16.0;
 
       ctx.save();
-      ctx.translate(cfg.cx, centerY + liftY);
-      ctx.scale(zoom, zoom);
+      ctx.translate(cfg.cx, centerY + dropY);
+      ctx.scale(scaleX, scaleY);
+      ctx.globalAlpha = op;
 
-      if (spike > 0.15) {
-        ctx.shadowColor = 'rgba(255, 28, 54, 0.95)';
-        ctx.shadowBlur = spike * 26;
+      if (glow > 0.05) {
+        ctx.shadowColor = 'rgba(255, 28, 54, 0.98)';
+        ctx.shadowBlur = glow * 36;
         ctx.shadowOffsetX = 0;
         ctx.shadowOffsetY = 0;
       } else {
@@ -632,11 +665,11 @@ export class LayerCompositor {
       [
         { text: 'BASS', color: 'red', size: 140 },
         { text: 'RITHMOS', color: 'white', size: 175 },
-        { text: 'IS THE STAGE.', color: 'red', size: 175 }
+        { text: 'IS THE STAGE.', color: 'red', size: 165 }
       ],
-      4.0, 3.2, 'center'
+      4.4, 3.4, 'center'
     );
-    this.textBillboards.bassist.mesh.position.set(12.2, 0.45, -7.2);
+    this.textBillboards.bassist.mesh.position.set(13.1, 0.15, -6.8);
     this.textBillboards.bassist.activeRange = [0.65, 0.69, 0.74, 0.78];
     this.scene.add(this.textBillboards.bassist.mesh);
   }
@@ -665,9 +698,9 @@ export class LayerCompositor {
     }
 
     // 3. Dynamic Backstage Screen, RITHMOS Brand & Animated Waveform Tagline
-    // 7TH SCROLL (0.78 <= p < 0.92): Steady illuminated RITHMOS brand (NO BLINKING / STROBE)
-    // 8TH SCROLL (p >= 0.92): Full steady brand with dynamic scroll-driven waveform tagline (front/back glide & wave zoom)
-    if (scrollProgress >= 0.78 && scrollProgress < 0.92) {
+    // 7TH SCROLL (0.78 <= p < 0.88): Steady illuminated RITHMOS brand (NO BLINKING / STROBE)
+    // 8TH SCROLL (p >= 0.88): Full steady brand with dynamic slap/drop tagline (front/back glide & slap impact)
+    if (scrollProgress >= 0.78 && scrollProgress < 0.88) {
       // Steady, solid illumination without any strobe or blinking
       if (this.layers.logo) {
         this.layers.logo.material.opacity = 1.0;
@@ -681,8 +714,8 @@ export class LayerCompositor {
       if (this.layers.taglineWave) {
         this.layers.taglineWave.mat.opacity = 0.0; // Tagline only activates on 8th scroll!
       }
-    } else if (scrollProgress >= 0.92) {
-      // 8TH SCROLL: Full illuminated brand with interactive scroll-responsive waveform tagline
+    } else if (scrollProgress >= 0.88) {
+      // 8TH SCROLL: Full illuminated brand with interactive slap/drop waveform tagline
       if (this.layers.logo) {
         this.layers.logo.material.opacity = 1.0;
       }
@@ -696,13 +729,13 @@ export class LayerCompositor {
         if (this.taglineAnimStartTime === null) {
           this.taglineAnimStartTime = time;
         }
-        const tagOp = Math.min((scrollProgress - 0.92) / 0.04, 1.0);
+        const tagOp = Math.min((scrollProgress - 0.88) / 0.03, 1.0);
         this.layers.taglineWave.mat.opacity = tagOp;
 
         // Interactive forward and backward movement per scroll
-        const normScroll = THREE.MathUtils.clamp((scrollProgress - 0.86) / 0.14, 0.0, 1.0);
+        const normScroll = THREE.MathUtils.clamp((scrollProgress - 0.88) / 0.12, 0.0, 1.0);
         this.taglineMesh.position.z = -18.5 + normScroll * 4.6;
-        this.taglineMesh.position.y = 4.6 + normScroll * 0.4;
+        this.taglineMesh.position.y = 4.2 + normScroll * 0.35;
 
         this.renderTaglineWaveform(time, scrollProgress);
       }
@@ -717,7 +750,7 @@ export class LayerCompositor {
       if (this.layers.taglineWave) {
         this.layers.taglineWave.mat.opacity = 0.0;
         this.taglineMesh.position.z = -18.5;
-        this.taglineMesh.position.y = 4.6;
+        this.taglineMesh.position.y = 4.2;
       }
     }
 
@@ -798,7 +831,7 @@ export class LayerCompositor {
           tb.mesh.lookAt(camera.position);
           const aspect = (typeof window !== 'undefined' && window.innerWidth) ? (window.innerWidth / window.innerHeight) : 1.6;
           if (aspect < 0.9) {
-            const mScale = Math.max(0.62, aspect / 0.88);
+            const mScale = Math.max(0.48, aspect / 0.92);
             tb.mesh.scale.set(mScale, mScale, 1.0);
           } else {
             tb.mesh.scale.set(1.0, 1.0, 1.0);

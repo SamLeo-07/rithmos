@@ -30,7 +30,7 @@ export class CameraJourney {
       new THREE.Vector3(-4.0, 0.1, -3.0),    // 03 RITHMOS (Guitarist framing)
       new THREE.Vector3(0.2, 0.5, -5.8),     // 04 MOMENT (Drummer on elevated drum riser)
       new THREE.Vector3(8.2, 0.5, -5.2),     // 05 KEYBOARD (Framing keyboardist and billboard directly from right wing)
-      new THREE.Vector3(11.0, 0.4, -4.0),    // 06 BASS (Bassist solo framing on right wing near stairs)
+      new THREE.Vector3(11.8, 0.4, -4.5),    // 06 BASS (Bassist framed on left, text positioned on his right side)
       new THREE.Vector3(0.0, 1.8, 17.5),     // 07 FLASH (Stage arena reveal - steady Rithmos brand)
       new THREE.Vector3(0.0, 2.2, 14.2)      // 08 RISE (Hero finale lock - Where bands rise animated waveform)
     ];
@@ -42,7 +42,7 @@ export class CameraJourney {
       new THREE.Vector3(-4.0, -0.2, -7.0),   // 03 Focused on guitarist and Rithmos billboard
       new THREE.Vector3(1.4, 0.8, -13.2),    // 04 Looking toward drummer and moment billboard
       new THREE.Vector3(9.2, 0.45, -8.8),    // 05 Centered directly on keyboardist and billboard
-      new THREE.Vector3(11.8, -0.1, -7.5),   // 06 Centered directly on bassist and bass billboard
+      new THREE.Vector3(12.4, 0.0, -7.2),    // 06 Balanced framing between bassist and right-side billboard
       new THREE.Vector3(0.0, 2.2, -18.6),    // 07 Overview of illuminated stage and steady brand
       new THREE.Vector3(0.0, 4.0, -18.6)     // 08 Straight-on lock on lowered RITHMOS and tagline
     ];
@@ -122,7 +122,7 @@ export class CameraJourney {
     let fov = this.getFOV(p);
     if (this.sm.aspect < 1.0) {
       // Widen view angle for portrait viewport; smoothly expand at arena & backstage finale so the full band, stage, and logo are framed with clean margins
-      const mobileBoost = 20 + (p >= 0.85 ? ((p - 0.85) / 0.15) * 10 : 0);
+      const mobileBoost = 25 + (p >= 0.85 ? ((p - 0.85) / 0.15) * 8 : 0);
       fov += mobileBoost;
     }
     if (Math.abs(camera.fov - fov) > 0.05) {
