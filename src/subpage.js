@@ -162,5 +162,92 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 700);
     });
   }
+
+  // Band Registration Form Handling (on /register)
+  const bandForm = document.getElementById('band-registration-form');
+  const bandSuccess = document.getElementById('band-form-success');
+  const bandSubmitBtn = document.getElementById('band-submit-btn');
+  const bandRefCode = document.getElementById('band-ref-code');
+
+  if (bandForm) {
+    bandForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (bandSubmitBtn) {
+        bandSubmitBtn.disabled = true;
+        bandSubmitBtn.innerHTML = '<span>Transmitting Band Dossier...</span>';
+      }
+
+      setTimeout(() => {
+        const randCode = 'RTH-2026-BND-' + Math.floor(1000 + Math.random() * 9000);
+        if (bandRefCode) {
+          bandRefCode.textContent = randCode;
+        }
+        if (bandSuccess) {
+          bandSuccess.style.display = 'block';
+          bandSuccess.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        bandForm.reset();
+        if (bandSubmitBtn) {
+          bandSubmitBtn.disabled = false;
+          bandSubmitBtn.innerHTML = '<span>SUBMIT BAND FOR AUDITION</span> <span class="btn-arrow">&rarr;</span>';
+        }
+      }, 800);
+    });
+  }
+
+  // Sponsor Inquiry Form Handling (on /sponsors)
+  const sponsorForm = document.getElementById('sponsor-inquiry-form');
+  const sponsorSuccess = document.getElementById('sponsor-form-success');
+  const sponsorSubmitBtn = document.getElementById('sponsor-submit-btn');
+  const sponsorRefCode = document.getElementById('sponsor-ref-code');
+
+  if (sponsorForm) {
+    sponsorForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (sponsorSubmitBtn) {
+        sponsorSubmitBtn.disabled = true;
+        sponsorSubmitBtn.innerHTML = '<span>Transmitting Prospectus Request...</span>';
+      }
+
+      setTimeout(() => {
+        const randCode = 'RTH-2026-SPN-' + Math.floor(1000 + Math.random() * 9000);
+        if (sponsorRefCode) {
+          sponsorRefCode.textContent = randCode;
+        }
+        if (sponsorSuccess) {
+          sponsorSuccess.style.display = 'block';
+          sponsorSuccess.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        sponsorForm.reset();
+        if (sponsorSubmitBtn) {
+          sponsorSubmitBtn.disabled = false;
+          sponsorSubmitBtn.innerHTML = '<span>TRANSMIT PROSPECTUS REQUEST</span> <span class="btn-arrow">&rarr;</span>';
+        }
+      }, 800);
+    });
+  }
+
+  // Direct PDF Deck Download Trigger (on /sponsors)
+  const downloadBtns = document.querySelectorAll('#quick-download-deck-btn, #direct-pdf-btn');
+  downloadBtns.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '<span>Downloading Prospectus PDF...</span>';
+      setTimeout(() => {
+        // Trigger simulated PDF download prompt
+        const link = document.createElement('a');
+        link.href = '/assets/logo.png';
+        link.download = 'RITHMOS-2026-Festival-Sponsorship-Prospectus.png';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        btn.innerHTML = '<span>✓ Prospectus Downloaded</span>';
+        setTimeout(() => {
+          btn.innerHTML = originalText;
+        }, 3000);
+      }, 600);
+    });
+  });
 });
 
