@@ -27,12 +27,12 @@ export class CameraJourney {
     this.camPoints = [
       new THREE.Vector3(0.0, 1.2, 34.0),     // 01 STORY (Crowd entrance overview)
       new THREE.Vector3(0.0, 0.0, 4.6),      // 02 STAGE (Dual vocalists close-up: female left, male right, text center)
-      new THREE.Vector3(-4.0, 0.1, -3.0),    // 03 RITHMOS (Guitarist & Bassist framing)
+      new THREE.Vector3(-4.0, 0.1, -3.0),    // 03 RITHMOS (Guitarist framing)
       new THREE.Vector3(0.2, 0.5, -5.8),     // 04 MOMENT (Drummer on elevated drum riser)
       new THREE.Vector3(8.2, 0.5, -5.2),     // 05 KEYBOARD (Framing keyboardist and billboard directly from right wing)
-      new THREE.Vector3(0.0, 1.4, 16.5),     // 06 RITHMOS (Full Band stadium overview)
-      new THREE.Vector3(0.0, 2.2, 18.5),     // 07 FLASH (Stage arena reveal - Rithmos brand flashes!)
-      new THREE.Vector3(0.0, 2.8, 14.0)      // 08 RISE (Hero finale lock - Where bands rise animated waveform)
+      new THREE.Vector3(11.0, 0.4, -4.0),    // 06 BASS (Bassist solo framing on right wing near stairs)
+      new THREE.Vector3(0.0, 1.8, 17.5),     // 07 FLASH (Stage arena reveal - steady Rithmos brand)
+      new THREE.Vector3(0.0, 2.2, 14.2)      // 08 RISE (Hero finale lock - Where bands rise animated waveform)
     ];
 
     // 8-Beat Camera Look-at Target Spline (Smooth, monotonic elevation framing)
@@ -42,9 +42,9 @@ export class CameraJourney {
       new THREE.Vector3(-4.0, -0.2, -7.0),   // 03 Focused on guitarist and Rithmos billboard
       new THREE.Vector3(1.4, 0.8, -13.2),    // 04 Looking toward drummer and moment billboard
       new THREE.Vector3(9.2, 0.45, -8.8),    // 05 Centered directly on keyboardist and billboard
-      new THREE.Vector3(0.0, 0.4, -8.0),     // 06 Level framing on full band and Rithmos billboard
-      new THREE.Vector3(0.0, 1.8, -10.0),    // 07 Overview of illuminated stage and flashing brand
-      new THREE.Vector3(0.0, 6.2, -18.6)     // 08 Straight-on lock on radiant RITHMOS and tagline
+      new THREE.Vector3(11.8, -0.1, -7.5),   // 06 Centered directly on bassist and bass billboard
+      new THREE.Vector3(0.0, 2.2, -18.6),    // 07 Overview of illuminated stage and steady brand
+      new THREE.Vector3(0.0, 4.0, -18.6)     // 08 Straight-on lock on lowered RITHMOS and tagline
     ];
 
     this.camCurve = new THREE.CatmullRomCurve3(this.camPoints, false, 'centripetal');
@@ -92,8 +92,8 @@ export class CameraJourney {
       { p: 0.14, fov: 48 }, // 02 Stage (Dual Vocalists)
       { p: 0.28, fov: 46 }, // 03 Rithmos (Guitarist)
       { p: 0.43, fov: 46 }, // 04 Moment (Drummer)
-      { p: 0.57, fov: 52 }, // 05 Stage (Keyboardist)
-      { p: 0.71, fov: 54 }, // 06 Rithmos (Full Band)
+      { p: 0.57, fov: 50 }, // 05 Stage (Keyboardist)
+      { p: 0.71, fov: 50 }, // 06 Bass (Bassist)
       { p: 0.85, fov: 54 }, // 07 Flash (Stage Reveal)
       { p: 1.00, fov: 52 }  // 08 Rise (Backstage Finale)
     ];
@@ -246,7 +246,7 @@ export class CameraJourney {
       0.28, // 03 RITHMOS
       0.43, // 04 MOMENT
       0.57, // 05 KEYBOARD
-      0.71, // 06 RITHMOS
+      0.71, // 06 BASS
       0.85, // 07 FLASH
       1.00  // 08 RISE
     ];

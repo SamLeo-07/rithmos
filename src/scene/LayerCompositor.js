@@ -126,7 +126,7 @@ export class LayerCompositor {
       depthWrite: false
     });
     this.bannerScreen = new THREE.Mesh(bannerGeo, bannerMat);
-    this.bannerScreen.position.set(0, 11.4, -18.8);
+    this.bannerScreen.position.set(0, 9.4, -18.8);
     this.bannerScreen.renderOrder = 2;
     this.scene.add(this.bannerScreen);
 
@@ -136,7 +136,7 @@ export class LayerCompositor {
       opacity: 0.0,
       transparent: true
     });
-    this.layers.logo.mesh.position.set(0, 11.8, -18.6);
+    this.layers.logo.mesh.position.set(0, 9.6, -18.6);
     this.layers.logo.mesh.renderOrder = 3;
     this.scene.add(this.layers.logo.mesh);
 
@@ -148,7 +148,7 @@ export class LayerCompositor {
       blending: THREE.AdditiveBlending,
       opacity: 0.70
     });
-    this.layers.lightingBack.mesh.position.set(0, 11.4, -17.5);
+    this.layers.lightingBack.mesh.position.set(0, 9.2, -17.5);
     this.layers.lightingBack.mesh.renderOrder = 4;
     this.scene.add(this.layers.lightingBack.mesh);
 
@@ -211,13 +211,13 @@ export class LayerCompositor {
     this.layers.guitarist.grounding = this.addPerformerGrounding(-5.5, -3.95, -7.5, 4.8, 2.6, 7.2, 4.2);
     this.performers.guitarist = this.layers.guitarist;
 
-    // Bassist: Mid-stage right (Z = -6.5, X = +3.6)
-    // Positioned cleanly on stage deck; renderOrder 25 ensures stage NEVER cuts off body or bass!
+    // Bassist: Stage right wing near stairs (Z = -7.5, X = +11.6)
+    // Positioned cleanly on stage deck platform to the right of keyboardist
     this.layers.bassist = this.createPlaneMesh('/assets/bassist.png', 8.7, 5.8);
-    this.layers.bassist.mesh.position.set(3.6, -1.3, -6.5);
+    this.layers.bassist.mesh.position.set(11.6, -1.1, -7.5);
     this.layers.bassist.mesh.renderOrder = 25;
     this.scene.add(this.layers.bassist.mesh);
-    this.layers.bassist.grounding = this.addPerformerGrounding(3.6, -3.95, -6.5, 4.8, 2.6, 7.2, 4.2);
+    this.layers.bassist.grounding = this.addPerformerGrounding(11.6, -3.95, -7.5, 4.8, 2.6, 7.2, 4.2);
     this.performers.bassist = this.layers.bassist;
 
     // Drummer: Center stage back on elevated drum riser (Z = -13.5, X = 0.0)
@@ -417,7 +417,7 @@ export class LayerCompositor {
     this.taglineTexture.minFilter = THREE.LinearFilter;
     this.taglineTexture.magFilter = THREE.LinearFilter;
 
-    const geo = new THREE.PlaneGeometry(16.0, 2.13);
+    const geo = new THREE.PlaneGeometry(19.2, 2.56);
     const mat = new THREE.MeshBasicMaterial({
       map: this.taglineTexture,
       transparent: true,
@@ -428,7 +428,7 @@ export class LayerCompositor {
     });
 
     this.taglineMesh = new THREE.Mesh(geo, mat);
-    this.taglineMesh.position.set(0, 6.85, -18.5);
+    this.taglineMesh.position.set(0, 4.6, -18.5);
     this.taglineMesh.renderOrder = 5;
     this.scene.add(this.taglineMesh);
     this.layers.taglineWave = { mesh: this.taglineMesh, mat };
@@ -448,7 +448,7 @@ export class LayerCompositor {
     const markLoaded = () => {
       this.taglineSprites.loadedCount++;
       if (this.taglineSprites.loadedCount === 5) {
-        this.renderTaglineWaveform(0);
+        this.renderTaglineWaveform(0, 1.0);
       }
     };
 
@@ -465,7 +465,7 @@ export class LayerCompositor {
     this.taglineSprites.barRight.src = '/assets/tagline/bar-right.png';
   }
 
-  renderTaglineWaveform(time) {
+  renderTaglineWaveform(time, scrollProgress = 1.0) {
     const ctx = this.taglineCtx;
     const w = this.taglineCanvas.width;
     const h = this.taglineCanvas.height;
@@ -478,10 +478,13 @@ export class LayerCompositor {
       return;
     }
 
-    // Animation Timing: One-shot progression (WHERE -> BANDS -> RISE), strictly NOT in a loop!
+    // Animation Timing: One-shot progression (WHERE -> BANDS -> RISE) plus interactive scroll scrub!
     const elapsed = this.taglineAnimStartTime !== null ? (time - this.taglineAnimStartTime) : 999.0;
     const ANIM_DURATION = 2.4; // seconds for complete one-shot wave
-    const isAnimating = elapsed >= 0 && elapsed < ANIM_DURATION;
+    const isTimeAnimating = elapsed >= 0 && elapsed < ANIM_DURATION;
+
+    // Dynamic scroll scrub progress (0.86 to 1.00 normalized into 0.0 -> 1.0)
+    const normScroll = THREE.MathUtils.clamp((scrollProgress - 0.86) / 0.14, 0.0, 1.0);
 
     // Layout coordinates centered on 1800x240 canvas (authentic widths from logo.png)
     // Left bar (198x68), gap 24, where (344x68), gap 58, bands (339x68), gap 57, rise (243x68), gap 15, right bar (200x68)
@@ -489,16 +492,17 @@ export class LayerCompositor {
     const baseY = 86;
     const centerY = 120;
 
-    // 1. Equalizer audio wave line beneath tagline: active only during one-shot wave
-    if (isAnimating) {
-      const waveRemaining = Math.max(0.0, 1.0 - elapsed / 2.2);
+    // 1. Equalizer audio wave line beneath tagline: ripples forward & backward per scroll
+    const isWaveActive = isTimeAnimating || (scrollProgress >= 0.86);
+    if (isWaveActive) {
+      const waveRemaining = isTimeAnimating ? Math.max(0.0, 1.0 - elapsed / 2.2) : 0.65;
       ctx.lineWidth = 3;
       ctx.strokeStyle = `rgba(255, 30, 60, ${0.45 * waveRemaining})`;
       ctx.beginPath();
       const waveY = centerY + 46;
       for (let x = startX; x <= startX + 1478; x += 12) {
         const normX = (x - startX) / 1478;
-        const phase = (elapsed * 6.0) - normX * Math.PI * 4.0;
+        const phase = (normScroll * Math.PI * 3.6) + (time * 1.8) - normX * Math.PI * 4.0;
         const waveAmp = Math.pow((Math.sin(phase) + 1.0) / 2.0, 3.0) * 16.0 * waveRemaining;
         const y = waveY - waveAmp;
         if (x === startX) ctx.moveTo(x, y);
@@ -514,26 +518,34 @@ export class LayerCompositor {
     ctx.drawImage(sprites.barLeft, startX, baseY, 198, 68);
     ctx.restore();
 
-    // 3. Three Words: WHERE, BANDS, RISE with sequential one-shot wave peak
+    // 3. Three Words: WHERE, BANDS, RISE with ripple travelling forward and backward per scroll
     const wordConfigs = [
-      { img: sprites.where, w: 344, h: 68, cx: 383 + 172, tPeak: 0.45 },
-      { img: sprites.bands, w: 339, h: 68, cx: 785 + 169.5, tPeak: 1.05 },
-      { img: sprites.rise, w: 243, h: 68, cx: 1181 + 121.5, tPeak: 1.65 }
+      { img: sprites.where, w: 344, h: 68, cx: 383 + 172, scrollPeak: 0.20, tPeak: 0.45 },
+      { img: sprites.bands, w: 339, h: 68, cx: 785 + 169.5, scrollPeak: 0.55, tPeak: 1.05 },
+      { img: sprites.rise, w: 243, h: 68, cx: 1181 + 121.5, scrollPeak: 0.88, tPeak: 1.65 }
     ];
 
-    const pulseWidth = 0.42; // half-width of zoom peak in seconds
+    const pulseTimeWidth = 0.42;
+    const pulseScrollWidth = 0.28;
 
     wordConfigs.forEach(cfg => {
-      let spike = 0.0;
-      if (isAnimating) {
-        const diff = Math.abs(elapsed - cfg.tPeak) / pulseWidth;
+      let timeSpike = 0.0;
+      if (isTimeAnimating) {
+        const diff = Math.abs(elapsed - cfg.tPeak) / pulseTimeWidth;
         if (diff < 1.0) {
-          spike = Math.pow(Math.cos(diff * (Math.PI / 2)), 2.0);
+          timeSpike = Math.pow(Math.cos(diff * (Math.PI / 2)), 2.0);
         }
       }
 
-      const zoom = 1.0 + spike * 0.35;
-      const liftY = -spike * 15.0;
+      let scrollSpike = 0.0;
+      const diffScroll = Math.abs(normScroll - cfg.scrollPeak) / pulseScrollWidth;
+      if (diffScroll < 1.0) {
+        scrollSpike = Math.pow(Math.cos(diffScroll * (Math.PI / 2)), 2.0);
+      }
+
+      const spike = Math.max(timeSpike, scrollSpike);
+      const zoom = 1.0 + spike * 0.38;
+      const liftY = -spike * 16.0;
 
       ctx.save();
       ctx.translate(cfg.cx, centerY + liftY);
@@ -615,17 +627,18 @@ export class LayerCompositor {
     this.textBillboards.keyboardist.activeRange = [0.51, 0.55, 0.60, 0.64];
     this.scene.add(this.textBillboards.keyboardist.mesh);
 
-    // Beat 6: Full Band (06 RITHMOS: "RITHMOS IS THE STAGE.")
-    this.textBillboards.fullBand = this.createTextBillboard(
+    // Beat 6: Bassist (06 BASS: "BASS", "RITHMOS", "IS THE STAGE.")
+    this.textBillboards.bassist = this.createTextBillboard(
       [
-        { text: 'RITHMOS', color: 'red', size: 340, spacing: 32 },
-        { text: 'IS THE STAGE.', color: 'white', size: 340 }
+        { text: 'BASS', color: 'red', size: 140 },
+        { text: 'RITHMOS', color: 'white', size: 175 },
+        { text: 'IS THE STAGE.', color: 'red', size: 175 }
       ],
-      17.5, 7.0, 'center'
+      4.0, 3.2, 'center'
     );
-    this.textBillboards.fullBand.mesh.position.set(0.0, 3.8, -5.5);
-    this.textBillboards.fullBand.activeRange = [0.65, 0.69, 0.74, 0.78];
-    this.scene.add(this.textBillboards.fullBand.mesh);
+    this.textBillboards.bassist.mesh.position.set(12.2, 0.45, -7.2);
+    this.textBillboards.bassist.activeRange = [0.65, 0.69, 0.74, 0.78];
+    this.scene.add(this.textBillboards.bassist.mesh);
   }
 
   update(time, scrollProgress, camera) {
@@ -652,33 +665,29 @@ export class LayerCompositor {
     }
 
     // 3. Dynamic Backstage Screen, RITHMOS Brand & Animated Waveform Tagline
-    // 7TH SCROLL (0.78 <= p < 0.92): RITHMOS brand flashes with rapid concert strobe energy!
-    // 8TH SCROLL (p >= 0.92): Full steady brand with traveling waveform tagline zoom/unzoom!
+    // 7TH SCROLL (0.78 <= p < 0.92): Steady illuminated RITHMOS brand (NO BLINKING / STROBE)
+    // 8TH SCROLL (p >= 0.92): Full steady brand with dynamic scroll-driven waveform tagline (front/back glide & wave zoom)
     if (scrollProgress >= 0.78 && scrollProgress < 0.92) {
-      // 16Hz energetic concert strobe flashes
-      const strobePhase = Math.sin(time * 32.0);
-      const isStrobe = strobePhase > 0.15;
-      const flashOpacity = isStrobe ? 1.0 : 0.22;
-
+      // Steady, solid illumination without any strobe or blinking
       if (this.layers.logo) {
-        this.layers.logo.material.opacity = flashOpacity;
+        this.layers.logo.material.opacity = 1.0;
       }
       if (this.layers.lightingBack) {
-        this.layers.lightingBack.material.opacity = isStrobe ? 1.0 : 0.25;
+        this.layers.lightingBack.material.opacity = 0.85;
       }
       if (this.bannerScreen) {
-        this.bannerScreen.material.opacity = isStrobe ? 0.98 : 0.35;
+        this.bannerScreen.material.opacity = 0.96;
       }
       if (this.layers.taglineWave) {
         this.layers.taglineWave.mat.opacity = 0.0; // Tagline only activates on 8th scroll!
       }
     } else if (scrollProgress >= 0.92) {
-      // 8TH SCROLL: Full illuminated brand with animated waveform tagline
+      // 8TH SCROLL: Full illuminated brand with interactive scroll-responsive waveform tagline
       if (this.layers.logo) {
         this.layers.logo.material.opacity = 1.0;
       }
       if (this.layers.lightingBack) {
-        this.layers.lightingBack.material.opacity = 0.85 + 0.15 * Math.sin(time * 2.0);
+        this.layers.lightingBack.material.opacity = 0.85;
       }
       if (this.bannerScreen) {
         this.bannerScreen.material.opacity = 0.96;
@@ -689,7 +698,13 @@ export class LayerCompositor {
         }
         const tagOp = Math.min((scrollProgress - 0.92) / 0.04, 1.0);
         this.layers.taglineWave.mat.opacity = tagOp;
-        this.renderTaglineWaveform(time);
+
+        // Interactive forward and backward movement per scroll
+        const normScroll = THREE.MathUtils.clamp((scrollProgress - 0.86) / 0.14, 0.0, 1.0);
+        this.taglineMesh.position.z = -18.5 + normScroll * 4.6;
+        this.taglineMesh.position.y = 4.6 + normScroll * 0.4;
+
+        this.renderTaglineWaveform(time, scrollProgress);
       }
     } else {
       this.taglineAnimStartTime = null;
@@ -701,6 +716,8 @@ export class LayerCompositor {
       }
       if (this.layers.taglineWave) {
         this.layers.taglineWave.mat.opacity = 0.0;
+        this.taglineMesh.position.z = -18.5;
+        this.taglineMesh.position.y = 4.6;
       }
     }
 
@@ -743,29 +760,16 @@ export class LayerCompositor {
           behindFade = THREE.MathUtils.clamp((forwardDist - (-1.5)) / 2.1, 0.0, 1.0);
         }
 
-        // Bassist shot fade: Gracefully fade out bassist during Drum-to-Keys transit (Shot 08)
-        // and Keys CU (Shot 09) so bassist's back never blocks the camera line of sight.
-        let bassistShotFade = 1.0;
-        if (key === 'bassist' && scrollProgress >= 0.56 && scrollProgress <= 0.78) {
-          if (scrollProgress < 0.62) {
-            bassistShotFade = 1.0 - (scrollProgress - 0.56) / 0.06;
-          } else if (scrollProgress > 0.74) {
-            bassistShotFade = (scrollProgress - 0.74) / 0.04;
-          } else {
-            bassistShotFade = 0.0;
-          }
-        }
-
-        // Proximity illumination from stage spotlights
+        // Proximity illumination from stage spotlights (Bassist is always 100% visible on right wing)
         const dist = cameraPos.distanceTo(perf.mesh.position);
         const proximity = THREE.MathUtils.clamp(1.0 - (dist - 3.0) / 12.0, 0.0, 1.0);
-        const totalOpacity = (0.88 + proximity * 0.12) * behindFade * bassistShotFade;
+        const totalOpacity = (0.88 + proximity * 0.12) * behindFade;
         perf.material.opacity = totalOpacity;
 
         // Ground contact shadow and spotlight pool synchronization
         if (perf.grounding) {
-          perf.grounding.shadowMat.opacity = 0.85 * behindFade * bassistShotFade;
-          perf.grounding.poolMat.opacity = (0.55 + proximity * 0.25) * behindFade * bassistShotFade;
+          perf.grounding.shadowMat.opacity = 0.85 * behindFade;
+          perf.grounding.poolMat.opacity = (0.55 + proximity * 0.25) * behindFade;
         }
       });
 
