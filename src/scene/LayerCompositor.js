@@ -211,13 +211,13 @@ export class LayerCompositor {
     this.layers.guitarist.grounding = this.addPerformerGrounding(-5.5, -3.95, -7.5, 4.8, 2.6, 7.2, 4.2);
     this.performers.guitarist = this.layers.guitarist;
 
-    // Bassist: Stage left mid-stage (Z = -7.5, X = +5.5)
+    // Bassist: Mid-stage right (Z = -6.5, X = +3.6)
     // Positioned cleanly on stage deck; renderOrder 25 ensures stage NEVER cuts off body or bass!
     this.layers.bassist = this.createPlaneMesh('/assets/bassist.png', 8.7, 5.8);
-    this.layers.bassist.mesh.position.set(5.5, -1.3, -7.5);
+    this.layers.bassist.mesh.position.set(3.6, -1.3, -6.5);
     this.layers.bassist.mesh.renderOrder = 25;
     this.scene.add(this.layers.bassist.mesh);
-    this.layers.bassist.grounding = this.addPerformerGrounding(5.5, -3.95, -7.5, 4.8, 2.6, 7.2, 4.2);
+    this.layers.bassist.grounding = this.addPerformerGrounding(3.6, -3.95, -6.5, 4.8, 2.6, 7.2, 4.2);
     this.performers.bassist = this.layers.bassist;
 
     // Drummer: Center stage back on elevated drum riser (Z = -13.5, X = 0.0)
@@ -228,13 +228,13 @@ export class LayerCompositor {
     this.layers.drummer.grounding = this.addPerformerGrounding(0.0, -1.75, -13.5, 7.5, 3.8, 10.0, 5.2);
     this.performers.drummer = this.layers.drummer;
 
-    // Keyboardist: Stage left (Z = -9.2, X = +7.8)
-    // Positioned on stage deck; renderOrder 25 and forward position ensure fog and stage NEVER cover him!
+    // Keyboardist: Stage left outer wing (Z = -8.8, X = +8.4)
+    // Positioned on stage deck; dedicated riser wing ensures zero overlap with bassist!
     this.layers.keyboardist = this.createPlaneMesh('/assets/keyboardist.png', 9.0, 6.0);
-    this.layers.keyboardist.mesh.position.set(7.8, -0.9, -9.2);
+    this.layers.keyboardist.mesh.position.set(8.4, -0.9, -8.8);
     this.layers.keyboardist.mesh.renderOrder = 25;
     this.scene.add(this.layers.keyboardist.mesh);
-    this.layers.keyboardist.grounding = this.addPerformerGrounding(7.8, -3.95, -9.2, 5.2, 2.8, 7.8, 4.5);
+    this.layers.keyboardist.grounding = this.addPerformerGrounding(8.4, -3.95, -8.8, 5.2, 2.8, 7.8, 4.5);
     this.performers.keyboardist = this.layers.keyboardist;
 
     // =========================================================================
@@ -401,8 +401,9 @@ export class LayerCompositor {
   }
 
   // =========================================================================
-  // 5. ANIMATED WAVEFORM TAGLINE: "WHERE BANDS RISE"
-  // Dynamic audio-waveform traveling from "Where" -> "Bands" -> "Rise" with zoom & unzoom
+  // 5. AUTHENTIC TAGLINE WAVEFORM: "WHERE BANDS RISE" FROM LOGO.PNG
+  // Uses authentic cropped letter sprites directly from logo.png
+  // One-shot audio wave travels Where -> Bands -> Rise (zoom & unzoom) - NOT in a loop!
   // =========================================================================
   initTaglineWaveform() {
     const canvas = document.createElement('canvas');
@@ -431,82 +432,135 @@ export class LayerCompositor {
     this.taglineMesh.renderOrder = 5;
     this.scene.add(this.taglineMesh);
     this.layers.taglineWave = { mesh: this.taglineMesh, mat };
+
+    this.taglineAnimStartTime = null;
+
+    // Load authentic image sprites extracted directly from logo.png
+    this.taglineSprites = {
+      barLeft: new Image(),
+      where: new Image(),
+      bands: new Image(),
+      rise: new Image(),
+      barRight: new Image(),
+      loadedCount: 0
+    };
+
+    const markLoaded = () => {
+      this.taglineSprites.loadedCount++;
+      if (this.taglineSprites.loadedCount === 5) {
+        this.renderTaglineWaveform(0);
+      }
+    };
+
+    this.taglineSprites.barLeft.onload = markLoaded;
+    this.taglineSprites.where.onload = markLoaded;
+    this.taglineSprites.bands.onload = markLoaded;
+    this.taglineSprites.rise.onload = markLoaded;
+    this.taglineSprites.barRight.onload = markLoaded;
+
+    this.taglineSprites.barLeft.src = '/assets/tagline/bar-left.png';
+    this.taglineSprites.where.src = '/assets/tagline/word-where.png';
+    this.taglineSprites.bands.src = '/assets/tagline/word-bands.png';
+    this.taglineSprites.rise.src = '/assets/tagline/word-rise.png';
+    this.taglineSprites.barRight.src = '/assets/tagline/bar-right.png';
   }
 
   renderTaglineWaveform(time) {
     const ctx = this.taglineCtx;
     const w = this.taglineCanvas.width;
     const h = this.taglineCanvas.height;
+    const sprites = this.taglineSprites;
 
     ctx.clearRect(0, 0, w, h);
 
-    const centerY = h / 2 + 8;
-    const words = ['WHERE', 'BANDS', 'RISE'];
-    const wordSpacings = [w * 0.28, w * 0.50, w * 0.72];
-
-    // Left and right accent bars
-    ctx.fillStyle = 'rgba(255, 28, 54, 0.85)';
-    ctx.fillRect(w * 0.06, centerY - 4, w * 0.14, 8);
-    ctx.fillRect(w * 0.80, centerY - 4, w * 0.14, 8);
-
-    // Audio Equalizer Waveform line beneath the words
-    ctx.lineWidth = 3;
-    ctx.strokeStyle = 'rgba(255, 30, 60, 0.45)';
-    ctx.beginPath();
-    const waveY = centerY + 42;
-    for (let x = w * 0.06; x <= w * 0.94; x += 12) {
-      const normX = (x - w * 0.06) / (w * 0.88);
-      const phase = time * 6.5 - normX * Math.PI * 4.0;
-      const waveAmp = Math.pow((Math.sin(phase) + 1.0) / 2.0, 3.0) * 16.0;
-      const y = waveY - waveAmp;
-      if (x === w * 0.06) ctx.moveTo(x, y);
-      else ctx.lineTo(x, y);
+    // If sprites haven't finished loading yet, skip until ready
+    if (!sprites || sprites.loadedCount < 5) {
+      return;
     }
-    ctx.stroke();
 
-    // Render each word with traveling wave zoom and unzoom
-    words.forEach((word, idx) => {
-      const wordCenter = wordSpacings[idx];
-      const normPos = idx / (words.length - 1); // 0 (Where), 0.5 (Bands), 1.0 (Rise)
+    // Animation Timing: One-shot progression (WHERE -> BANDS -> RISE), strictly NOT in a loop!
+    const elapsed = this.taglineAnimStartTime !== null ? (time - this.taglineAnimStartTime) : 999.0;
+    const ANIM_DURATION = 2.4; // seconds for complete one-shot wave
+    const isAnimating = elapsed >= 0 && elapsed < ANIM_DURATION;
 
-      // Soundwave traveling from Where -> Bands -> Rise
-      const wavePhase = time * 4.5 - normPos * Math.PI * 2.2;
-      const waveVal = (Math.sin(wavePhase) + 1.0) / 2.0; // 0 to 1
-      const waveSpike = Math.pow(waveVal, 3.5); // Sharp audio peak
+    // Layout coordinates centered on 1800x240 canvas (authentic widths from logo.png)
+    // Left bar (198x68), gap 24, where (344x68), gap 58, bands (339x68), gap 57, rise (243x68), gap 15, right bar (200x68)
+    const startX = 161;
+    const baseY = 86;
+    const centerY = 120;
 
-      // Zoom and Unzoom: scale from 1.0 to 1.38
-      const zoom = 1.0 + waveSpike * 0.38;
-      const liftY = -waveSpike * 14.0;
+    // 1. Equalizer audio wave line beneath tagline: active only during one-shot wave
+    if (isAnimating) {
+      const waveRemaining = Math.max(0.0, 1.0 - elapsed / 2.2);
+      ctx.lineWidth = 3;
+      ctx.strokeStyle = `rgba(255, 30, 60, ${0.45 * waveRemaining})`;
+      ctx.beginPath();
+      const waveY = centerY + 46;
+      for (let x = startX; x <= startX + 1478; x += 12) {
+        const normX = (x - startX) / 1478;
+        const phase = (elapsed * 6.0) - normX * Math.PI * 4.0;
+        const waveAmp = Math.pow((Math.sin(phase) + 1.0) / 2.0, 3.0) * 16.0 * waveRemaining;
+        const y = waveY - waveAmp;
+        if (x === startX) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+    }
+
+    // 2. Draw Left Needle Accent Bar
+    ctx.save();
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
+    ctx.shadowBlur = 8;
+    ctx.drawImage(sprites.barLeft, startX, baseY, 198, 68);
+    ctx.restore();
+
+    // 3. Three Words: WHERE, BANDS, RISE with sequential one-shot wave peak
+    const wordConfigs = [
+      { img: sprites.where, w: 344, h: 68, cx: 383 + 172, tPeak: 0.45 },
+      { img: sprites.bands, w: 339, h: 68, cx: 785 + 169.5, tPeak: 1.05 },
+      { img: sprites.rise, w: 243, h: 68, cx: 1181 + 121.5, tPeak: 1.65 }
+    ];
+
+    const pulseWidth = 0.42; // half-width of zoom peak in seconds
+
+    wordConfigs.forEach(cfg => {
+      let spike = 0.0;
+      if (isAnimating) {
+        const diff = Math.abs(elapsed - cfg.tPeak) / pulseWidth;
+        if (diff < 1.0) {
+          spike = Math.pow(Math.cos(diff * (Math.PI / 2)), 2.0);
+        }
+      }
+
+      const zoom = 1.0 + spike * 0.35;
+      const liftY = -spike * 15.0;
 
       ctx.save();
-      ctx.translate(wordCenter, centerY + liftY);
+      ctx.translate(cfg.cx, centerY + liftY);
       ctx.scale(zoom, zoom);
 
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.font = `900 76px "Alderwood", "Anton", "Bebas Neue", Impact, sans-serif`;
-
-      // Glow & under-stroke when zoomed
-      ctx.shadowColor = waveSpike > 0.3 ? 'rgba(255, 28, 54, 0.95)' : 'rgba(0, 0, 0, 0.9)';
-      ctx.shadowBlur = waveSpike > 0.3 ? 24 : 12;
-      ctx.shadowOffsetX = 0;
-      ctx.shadowOffsetY = waveSpike > 0.3 ? 0 : 6;
-
-      ctx.strokeStyle = '#050204';
-      ctx.lineWidth = 14;
-      ctx.lineJoin = 'round';
-      ctx.strokeText(word, 0, 0);
-
-      // Gradient / color change across zoom
-      if (waveSpike > 0.35) {
-        ctx.fillStyle = '#ff223e'; // Vibrant crimson at wave peak
+      if (spike > 0.15) {
+        ctx.shadowColor = 'rgba(255, 28, 54, 0.95)';
+        ctx.shadowBlur = spike * 26;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
       } else {
-        ctx.fillStyle = '#f5f5fa'; // Metallic crisp white at rest
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.85)';
+        ctx.shadowBlur = 8;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 4;
       }
-      ctx.fillText(word, 0, 0);
 
+      ctx.drawImage(cfg.img, -cfg.w / 2, -cfg.h / 2, cfg.w, cfg.h);
       ctx.restore();
     });
+
+    // 4. Draw Right Needle Accent Bar
+    ctx.save();
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
+    ctx.shadowBlur = 8;
+    ctx.drawImage(sprites.barRight, startX + 1278, baseY, 200, 68);
+    ctx.restore();
 
     this.taglineTexture.needsUpdate = true;
   }
@@ -548,15 +602,16 @@ export class LayerCompositor {
     this.textBillboards.drummer.activeRange = [0.37, 0.41, 0.46, 0.50];
     this.scene.add(this.textBillboards.drummer.mesh);
 
-    // Beat 5: Keyboardist (05 STAGE: "EVERY MOMENT NEEDS A STAGE.")
+    // Beat 5: Keyboardist (05 KEYBOARD: "KEYBOARD", "EVERY MOMENT", "NEEDS A STAGE.")
     this.textBillboards.keyboardist = this.createTextBillboard(
       [
-        { text: 'EVERY MOMENT', color: 'white', size: 175 },
-        { text: 'NEEDS A STAGE.', color: 'red', size: 175 }
+        { text: 'KEYBOARD', color: 'red', size: 140 },
+        { text: 'EVERY MOMENT', color: 'white', size: 160 },
+        { text: 'NEEDS A STAGE.', color: 'red', size: 160 }
       ],
-      4.2, 3.4, 'center'
+      3.8, 3.2, 'center'
     );
-    this.textBillboards.keyboardist.mesh.position.set(8.4, 0.35, -8.5);
+    this.textBillboards.keyboardist.mesh.position.set(9.8, 0.45, -8.5);
     this.textBillboards.keyboardist.activeRange = [0.51, 0.55, 0.60, 0.64];
     this.scene.add(this.textBillboards.keyboardist.mesh);
 
@@ -629,11 +684,15 @@ export class LayerCompositor {
         this.bannerScreen.material.opacity = 0.96;
       }
       if (this.layers.taglineWave) {
+        if (this.taglineAnimStartTime === null) {
+          this.taglineAnimStartTime = time;
+        }
         const tagOp = Math.min((scrollProgress - 0.92) / 0.04, 1.0);
         this.layers.taglineWave.mat.opacity = tagOp;
         this.renderTaglineWaveform(time);
       }
     } else {
+      this.taglineAnimStartTime = null;
       if (this.layers.logo) {
         this.layers.logo.material.opacity = 0.0;
       }
@@ -733,6 +792,13 @@ export class LayerCompositor {
         // so text is perpendicular to line of sight and NEVER tilts backwards or faces upwards!
         if (camera && camera.position) {
           tb.mesh.lookAt(camera.position);
+          const aspect = (typeof window !== 'undefined' && window.innerWidth) ? (window.innerWidth / window.innerHeight) : 1.6;
+          if (aspect < 0.9) {
+            const mScale = Math.max(0.62, aspect / 0.88);
+            tb.mesh.scale.set(mScale, mScale, 1.0);
+          } else {
+            tb.mesh.scale.set(1.0, 1.0, 1.0);
+          }
         }
       });
     }

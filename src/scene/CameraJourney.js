@@ -29,7 +29,7 @@ export class CameraJourney {
       new THREE.Vector3(0.0, 0.0, 4.6),      // 02 STAGE (Dual vocalists close-up: female left, male right, text center)
       new THREE.Vector3(-4.0, 0.1, -3.0),    // 03 RITHMOS (Guitarist & Bassist framing)
       new THREE.Vector3(0.2, 0.5, -5.8),     // 04 MOMENT (Drummer on elevated drum riser)
-      new THREE.Vector3(5.4, 0.4, -4.8),     // 05 STAGE (Keyboardist hands & synth framing)
+      new THREE.Vector3(8.2, 0.5, -5.2),     // 05 KEYBOARD (Framing keyboardist and billboard directly from right wing)
       new THREE.Vector3(0.0, 1.4, 16.5),     // 06 RITHMOS (Full Band stadium overview)
       new THREE.Vector3(0.0, 2.2, 18.5),     // 07 FLASH (Stage arena reveal - Rithmos brand flashes!)
       new THREE.Vector3(0.0, 2.8, 14.0)      // 08 RISE (Hero finale lock - Where bands rise animated waveform)
@@ -41,7 +41,7 @@ export class CameraJourney {
       new THREE.Vector3(0.0, -0.3, -2.5),    // 02 Framing dual vocalists and shared center text
       new THREE.Vector3(-4.0, -0.2, -7.0),   // 03 Focused on guitarist and Rithmos billboard
       new THREE.Vector3(1.4, 0.8, -13.2),    // 04 Looking toward drummer and moment billboard
-      new THREE.Vector3(7.6, 0.2, -9.0),     // 05 Framing keyboardist and stage billboard
+      new THREE.Vector3(9.2, 0.45, -8.8),    // 05 Centered directly on keyboardist and billboard
       new THREE.Vector3(0.0, 0.4, -8.0),     // 06 Level framing on full band and Rithmos billboard
       new THREE.Vector3(0.0, 1.8, -10.0),    // 07 Overview of illuminated stage and flashing brand
       new THREE.Vector3(0.0, 6.2, -18.6)     // 08 Straight-on lock on radiant RITHMOS and tagline
@@ -122,7 +122,7 @@ export class CameraJourney {
     let fov = this.getFOV(p);
     if (this.sm.aspect < 1.0) {
       // Widen view angle for portrait viewport; smoothly expand at arena & backstage finale so the full band, stage, and logo are framed with clean margins
-      const mobileBoost = 14 + (p >= 0.85 ? ((p - 0.85) / 0.15) * 8 : 0);
+      const mobileBoost = 20 + (p >= 0.85 ? ((p - 0.85) / 0.15) * 10 : 0);
       fov += mobileBoost;
     }
     if (Math.abs(camera.fov - fov) > 0.05) {
@@ -245,7 +245,7 @@ export class CameraJourney {
       0.14, // 02 STAGE
       0.28, // 03 RITHMOS
       0.43, // 04 MOMENT
-      0.57, // 05 STAGE
+      0.57, // 05 KEYBOARD
       0.71, // 06 RITHMOS
       0.85, // 07 FLASH
       1.00  // 08 RISE
