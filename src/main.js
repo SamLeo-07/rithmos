@@ -28,8 +28,8 @@ class RithmosApp {
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 0.9,
-      touchMultiplier: 1.5
+      wheelMultiplier: 1.25,
+      touchMultiplier: 1.6
     });
 
     this.scrollProgress = 0;

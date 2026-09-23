@@ -10,7 +10,8 @@
   background-color: #060508;
   color: #ffffff;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  overflow-x: hidden;
+  overflow-x: visible;
+  overflow-y: visible;
   line-height: 1.6;
 }
 
