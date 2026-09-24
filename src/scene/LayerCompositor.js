@@ -528,8 +528,17 @@ export class LayerCompositor {
     wordSlapConfigs.forEach(cfg => {
       // 1. Scroll-driven progression
       const scrollU = (normScroll - cfg.sStart) / (cfg.sEnd - cfg.sStart);
-      // 2. Time-driven progression (plays when entering or resting in Beat 08)
-      const timeU = isTimeAnimating ? (elapsed - cfg.tStart) / (cfg.tEnd - cfg.tStart) : -1.0;
+      // 2. Time-driven progression (plays upon entering Beat 08; once elapsed passes tEnd, locks at 1.0)
+      let timeU = -1.0;
+      if (this.taglineAnimStartTime !== null) {
+        if (elapsed >= cfg.tEnd) {
+          timeU = 1.0;
+        } else if (elapsed >= cfg.tStart) {
+          timeU = (elapsed - cfg.tStart) / (cfg.tEnd - cfg.tStart);
+        } else {
+          timeU = 0.0;
+        }
+      }
 
       // Effective phase: combination of interactive scroll position and entry playback
       const u = THREE.MathUtils.clamp(Math.max(scrollU, timeU), 0.0, 1.0);
@@ -647,29 +656,27 @@ export class LayerCompositor {
     this.textBillboards.drummer.activeRange = [0.37, 0.41, 0.46, 0.50];
     this.scene.add(this.textBillboards.drummer.mesh);
 
-    // Beat 5: Keyboardist (05 KEYBOARD: "KEYBOARD", "EVERY MOMENT", "NEEDS A STAGE.")
+    // Beat 5: Keyboardist (05 KEYBOARD: "EVERY MOMENT", "NEEDS A STAGE.")
     this.textBillboards.keyboardist = this.createTextBillboard(
       [
-        { text: 'KEYBOARD', color: 'red', size: 140 },
-        { text: 'EVERY MOMENT', color: 'white', size: 160 },
-        { text: 'NEEDS A STAGE.', color: 'red', size: 160 }
+        { text: 'EVERY MOMENT', color: 'white', size: 180 },
+        { text: 'NEEDS A STAGE.', color: 'red', size: 180 }
       ],
-      3.8, 3.2, 'center'
+      4.4, 3.2, 'center'
     );
     this.textBillboards.keyboardist.mesh.position.set(9.8, 0.45, -8.5);
     this.textBillboards.keyboardist.activeRange = [0.51, 0.55, 0.60, 0.64];
     this.scene.add(this.textBillboards.keyboardist.mesh);
 
-    // Beat 6: Bassist (06 BASS: "BASS", "RITHMOS", "IS THE STAGE.")
+    // Beat 6: Bassist (06 BASS: "RITHMOS", "IS THE STAGE.")
     this.textBillboards.bassist = this.createTextBillboard(
       [
-        { text: 'BASS', color: 'red', size: 140 },
-        { text: 'RITHMOS', color: 'white', size: 175 },
-        { text: 'IS THE STAGE.', color: 'red', size: 165 }
+        { text: 'RITHMOS', color: 'red', size: 210 },
+        { text: 'IS THE STAGE.', color: 'white', size: 175 }
       ],
       4.4, 3.4, 'center'
     );
-    this.textBillboards.bassist.mesh.position.set(13.1, 0.15, -6.8);
+    this.textBillboards.bassist.mesh.position.set(12.7, 0.15, -6.8);
     this.textBillboards.bassist.activeRange = [0.65, 0.69, 0.74, 0.78];
     this.scene.add(this.textBillboards.bassist.mesh);
   }
@@ -699,8 +706,9 @@ export class LayerCompositor {
 
     // 3. Dynamic Backstage Screen, RITHMOS Brand & Animated Waveform Tagline
     // 7TH SCROLL (0.78 <= p < 0.88): Steady illuminated RITHMOS brand (NO BLINKING / STROBE)
-    // 8TH SCROLL (p >= 0.88): Full steady brand with dynamic slap/drop tagline (front/back glide & slap impact)
+    // 8TH SCROLL (p >= 0.88): Brand & dynamic slap/drop tagline with concert lights flickering after animation
     if (scrollProgress >= 0.78 && scrollProgress < 0.88) {
+      this.taglineAnimStartTime = null;
       // Steady, solid illumination without any strobe or blinking
       if (this.layers.logo) {
         this.layers.logo.material.opacity = 1.0;
@@ -715,16 +723,6 @@ export class LayerCompositor {
         this.layers.taglineWave.mat.opacity = 0.0; // Tagline only activates on 8th scroll!
       }
     } else if (scrollProgress >= 0.88) {
-      // 8TH SCROLL: Full illuminated brand with interactive slap/drop waveform tagline
-      if (this.layers.logo) {
-        this.layers.logo.material.opacity = 1.0;
-      }
-      if (this.layers.lightingBack) {
-        this.layers.lightingBack.material.opacity = 0.85;
-      }
-      if (this.bannerScreen) {
-        this.bannerScreen.material.opacity = 0.96;
-      }
       if (this.layers.taglineWave) {
         if (this.taglineAnimStartTime === null) {
           this.taglineAnimStartTime = time;
@@ -738,6 +736,41 @@ export class LayerCompositor {
         this.taglineMesh.position.y = 4.2 + normScroll * 0.35;
 
         this.renderTaglineWaveform(time, scrollProgress);
+      }
+
+      // 8TH SCROLL FINALE: Flickering lights ignited on logo AFTER the animation settles
+      const elapsed = this.taglineAnimStartTime !== null ? (time - this.taglineAnimStartTime) : 999.0;
+      const normScroll = THREE.MathUtils.clamp((scrollProgress - 0.88) / 0.12, 0.0, 1.0);
+      const isAnimComplete = (elapsed >= 1.75) || (normScroll >= 0.95);
+
+      if (isAnimComplete) {
+        // Multi-frequency rock concert lighting flicker & strobe on logo after animation
+        const f1 = Math.sin(time * 26.0);
+        const f2 = Math.sin(time * 42.0);
+        const f3 = Math.cos(time * 11.0);
+        const isStrobe = (f1 * 0.6 + f2 * 0.4 + f3 * 0.2) > 0.12;
+        const flashOpacity = isStrobe ? 1.0 : 0.32;
+
+        if (this.layers.logo) {
+          this.layers.logo.material.opacity = flashOpacity;
+        }
+        if (this.layers.lightingBack) {
+          this.layers.lightingBack.material.opacity = isStrobe ? 1.0 : 0.25;
+        }
+        if (this.bannerScreen) {
+          this.bannerScreen.material.opacity = isStrobe ? 0.98 : 0.45;
+        }
+      } else {
+        // Steady, solid illumination while words are slapping down
+        if (this.layers.logo) {
+          this.layers.logo.material.opacity = 1.0;
+        }
+        if (this.layers.lightingBack) {
+          this.layers.lightingBack.material.opacity = 0.85;
+        }
+        if (this.bannerScreen) {
+          this.bannerScreen.material.opacity = 0.96;
+        }
       }
     } else {
       this.taglineAnimStartTime = null;

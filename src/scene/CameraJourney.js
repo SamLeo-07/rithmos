@@ -42,7 +42,7 @@ export class CameraJourney {
       new THREE.Vector3(-4.0, -0.2, -7.0),   // 03 Focused on guitarist and Rithmos billboard
       new THREE.Vector3(1.4, 0.8, -13.2),    // 04 Looking toward drummer and moment billboard
       new THREE.Vector3(9.2, 0.45, -8.8),    // 05 Centered directly on keyboardist and billboard
-      new THREE.Vector3(12.4, 0.0, -7.2),    // 06 Balanced framing between bassist and right-side billboard
+      new THREE.Vector3(12.2, 0.0, -7.2),    // 06 Balanced framing between bassist and right-side billboard
       new THREE.Vector3(0.0, 2.2, -18.6),    // 07 Overview of illuminated stage and steady brand
       new THREE.Vector3(0.0, 4.0, -18.6)     // 08 Straight-on lock on lowered RITHMOS and tagline
     ];
@@ -121,8 +121,9 @@ export class CameraJourney {
     // 2. Compute dynamic FOV (adapted for mobile portrait)
     let fov = this.getFOV(p);
     if (this.sm.aspect < 1.0) {
-      // Widen view angle for portrait viewport; smoothly expand at arena & backstage finale so the full band, stage, and logo are framed with clean margins
-      const mobileBoost = 25 + (p >= 0.85 ? ((p - 0.85) / 0.15) * 8 : 0);
+      // Widen view angle for portrait viewport; smoothly expand for wing close-ups and arena/backstage finale
+      const bassBoost = (p >= 0.63 && p <= 0.79) ? 22 * Math.sin(((p - 0.63) / 0.16) * Math.PI) : 0;
+      const mobileBoost = 25 + bassBoost + (p >= 0.85 ? ((p - 0.85) / 0.15) * 8 : 0);
       fov += mobileBoost;
     }
     if (Math.abs(camera.fov - fov) > 0.05) {
